@@ -9,12 +9,12 @@ export const Content = styled.div`
   padding-left: 36px;
   margin: 64px 48px 32px 64px;
   display: flex;
-  /* align-items: flex-start; */
   gap: 18px;
+  width: 100%;
+  /* align-items: flex-start; */
   /* grid-template-areas: "trailInfo trailInfo"
                       ".  playListExerciciesContainer";
   grid-template-columns: 60% 1fr; */
-  width: 100%;
 `;
 
 export const TrailInfo = styled.div`
