@@ -1,9 +1,9 @@
 import { Switch } from 'react-router-dom';
 import { RouterCustom } from './routerCustom';
 
-import { UserDashboard } from '../pages/UserDashboard';
-import { UserTrail } from '../pages/UserTrail';
-import { UserPlaylist } from '../pages/UserPlaylist';
+import { UserDashboard } from '../pages/user/UserDashboard';
+import { UserTrail } from '../pages/user/UserTrail';
+import { UserPlaylist } from '../pages/user/UserPlaylist';
 
 export function Routes() {
   return (

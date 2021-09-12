@@ -9,8 +9,8 @@ import {
   IoIosArrowForward,
 } from 'react-icons/all';
 
-import { SideBar } from '../../components/SideBar';
-import { ProgressBar } from '../../components/ProgressBar';
+import { SideBar } from '../../../components/SideBar';
+import { ProgressBar } from '../../../components/ProgressBar';
 
 import {
   Container,
@@ -28,7 +28,7 @@ import {
   OtherTrail,
 } from './styles';
 
-import euImg from '../../assets/images/eu.jpg';
+import euImg from '../../../assets/images/eu.jpg';
 
 const jsImg =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
