@@ -1,10 +1,16 @@
-import { BiListPlus } from 'react-icons/bi';
-import { FaUserFriends } from 'react-icons/fa';
-import { IoIosArrowRoundForward } from 'react-icons/io';
-import { MdComputer, MdOndemandVideo, MdPlaylistPlay } from 'react-icons/md';
-import { VscDebugBreakpointData } from 'react-icons/vsc';
+import { 
+  BiListPlus, 
+  MdComputer, 
+  MdOndemandVideo, 
+  MdPlaylistPlay, 
+  FaUserFriends, 
+  IoIosArrowRoundForward, 
+  VscDebugBreakpointData 
+} from 'react-icons/all';
+
 import { ProgressBar } from '../../components/ProgressBar';
 import { SideBar } from '../../components/SideBar';
+
 import { 
   Container,
   Content,
