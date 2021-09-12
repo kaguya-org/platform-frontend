@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -134,7 +135,7 @@ export const PlayListAndExercicie = styled.section`
   }
 `;
 
-export const PlayList = styled.div`
+export const PlayList = styled(Link)`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -145,6 +146,12 @@ export const PlayList = styled.div`
   padding: 32px;
 
   border-radius: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 2px -2px 1px var(--second-color);
+  }
 
   aside {
     display: flex;

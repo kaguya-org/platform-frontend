@@ -61,7 +61,7 @@ export function UserTrail() {
         </TrailInfo>
         <PlayListAndExerciciesContainer>
           <PlayListAndExercicie>
-            <PlayList>
+            <PlayList to="/javascript/id">
               <aside>
                 <div>
                   <h2>Conhecendo o Styled-components</h2>
@@ -94,7 +94,7 @@ export function UserTrail() {
             </Exercicie>
           </PlayListAndExercicie>
           <PlayListAndExercicie>
-            <PlayList>
+            <PlayList to="/javascript/id">
               <aside>
                 <div>
                   <h2>Conhecendo o Styled-components</h2>
@@ -127,7 +127,7 @@ export function UserTrail() {
             </Exercicie>
           </PlayListAndExercicie>
           <PlayListAndExercicie>
-            <PlayList>
+            <PlayList to="/javascript/id">
               <aside>
                 <div>
                   <h2>Conhecendo o Styled-components</h2>
