@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -72,7 +73,6 @@ export const AllTrailsContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 32px;
   
   flex: 1;
   width: 100%;
@@ -80,23 +80,70 @@ export const AllTrailsContainer = styled.section`
   background: var(--second-background);
   border-radius: 8px;
 
+  padding-bottom: 32px;
+
+  h1 {
+    font-size: 36px;
+    padding: 32px 0 0 32px;
+  }
 `;
 
 export const Trails = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 22px;
+  overflow: auto;
 
+  padding: 0 16px 0 32px;
 `;
 
-export const Trail = styled.div`
+export const Trail = styled(Link)`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #262832;
+  padding: 16px;
+  border-radius: 8px;
+
+  cursor: pointer;
   
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+
   > div.trail_container {
+    max-width: 90%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    img {
+      width: 86px;
+      height: 86px;
+      margin-right: 12px;
+      border-radius: 8px;
+    }
 
     div {
+      h3 {
+        margin-bottom: 8px;
+      }
       p {
         word-break: break-all;
+        color: #c4c4c4;
       }
+    }
+  }
+
+  > svg {
+    flex: 1;
+    width: 36px;
+    height: 36px;
+    
+    path {
+      color: #c4c4c4;
     }
   }
 `;

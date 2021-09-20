@@ -42,12 +42,22 @@ export function AdminCreateTrail() {
         <AllTrailsContainer>
           <h1>Todas as trilhas</h1>
           <Trails>
-            <Trail>
+            <Trail to="/javascript">
               <div className="trail_container">
-                <img src="" alt="" />
+                <img src="https://w7.pngwing.com/pngs/452/495/png-transparent-react-javascript-angularjs-ionic-github-text-logo-symmetry-thumbnail.png" alt="" />
                 <div>
-                  <h3>Javascript</h3>
-                  <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                  <h3>React Js</h3>
+                  <p>Aqui você aprenderá sobre tudo do react, desde a criação de componentes à criar seus próprios hooks.</p>
+                </div>
+              </div>
+              <IoIosArrowForward />
+            </Trail>
+            <Trail to="/javascript">
+              <div className="trail_container">
+                <img src="https://w7.pngwing.com/pngs/266/560/png-transparent-python-computer-icons-programmer-javascript-programming-language-python-logo-angle-text-logo.png" alt="" />
+                <div>
+                  <h3>Python</h3>
+                  <p>Entendendo todo o mundo de python. Criando controle de dados e muito mais.</p>
                 </div>
               </div>
               <IoIosArrowForward />
