@@ -5,23 +5,27 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
   name: string;
   inputType?: 'input' | 'textarea';
   title?: string;
+  defaultValue?: any;
+  className?: string;
 };
 
-export function Input({name, title, inputType}: InputProps) {
+export function Input({name, title, inputType, defaultValue, className}: InputProps) {
   return (
-    <Container htmlFor={name} className="labelInput">
+    <Container htmlFor={name} className={`labelInput ${className}`}>
       {inputType === 'textarea' ? (
         <textarea 
           id={name} 
           name={name}
-          placeholder=" " 
+          placeholder=" "
+          defaultValue={defaultValue} 
         ></textarea>
       ) : (
         <input 
           id={name} 
           type="text" 
           name={name}
-          placeholder=" " 
+          placeholder=" "
+          defaultValue={defaultValue} 
         />
       )}
       {title && <span>{title}</span>}
