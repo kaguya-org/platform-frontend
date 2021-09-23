@@ -21,7 +21,7 @@ export const Container = styled.label`
       padding-top: 6px;
       width: 100%;
 
-      background: #262832;
+      background: none;
       border: none;
       border-radius: 8px;
       outline: none;
