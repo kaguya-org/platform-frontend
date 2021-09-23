@@ -282,22 +282,12 @@ export const LastClasseSection = styled.section`
       margin-top: 16px;
 
       > button {
-        background: #242731;
-
-        cursor: pointer;
         box-shadow: 3px 3px 0 var(--third-color),
           -3px -3px 0 var(--second-color);
         padding: 16px;
-        border-radius: 6px;
 
-        display: flex;
-        place-items: center;
         gap: 12px;
 
-        transition: all 0.2s;
-        &:hover {
-          filter: brightness(110%);
-        }
         svg {
           path {
             color: var(--primary-color);
@@ -343,12 +333,7 @@ export const ComunitySection = styled.section`
 
       button {
         padding: 12px 24px;
-        border-radius: 6px;
         font-size: 16px;
-
-        display: flex;
-        align-items: center;
-        gap: 8px;
 
         transition: all 0.2s;
 
@@ -450,30 +435,19 @@ export const OtherTrail = styled.div`
     justify-content: space-between;
     width: 100%;
     margin-bottom: 12px;
+
     img {
       width: 72px;
       height: 72px;
       border-radius: 8px;
     }
   }
+  
   button {
     background: var(--third-color);
     width: 100%;
-    padding: 12px 16px;
-    text-align: center;
-
-    border-radius: 8px;
-
-    color: var(--text-color);
-    font-size: 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
 
     margin-top: 16px;
-    transition: all 0.2s;
 
     svg {
       width: 18px;

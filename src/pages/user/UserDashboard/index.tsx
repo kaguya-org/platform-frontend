@@ -29,6 +29,7 @@ import {
 } from './styles';
 
 import euImg from '../../../assets/images/eu.jpg';
+import { Button } from '../../../components/HtmlPartials/Button';
 
 const jsImg =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
@@ -115,9 +116,9 @@ export function UserDashboard(): JSX.Element {
                   <img src={jsImg} alt="a" />
                 </div>
                 <span>
-                  <button type="button">
+                  <Button>
                     <FaPlay /> Entendendo váriaveis
-                  </button>
+                  </Button>
                   <h2>Styled-components</h2>
                 </span>
               </aside>
@@ -132,12 +133,12 @@ export function UserDashboard(): JSX.Element {
                   nihil illum hic!
                 </p>
                 <div>
-                  <button type="button" className="button-discord">
+                  <Button className="button-discord">
                     <FaDiscord /> Discord
-                  </button>
-                  <button type="button" className="button-contribute">
+                  </Button>
+                  <Button className="button-contribute">
                     <BiDollarCircle /> Contribuir
-                  </button>
+                  </Button>
                 </div>
               </aside>
             </ComunitySection>
@@ -154,28 +155,7 @@ export function UserDashboard(): JSX.Element {
                   <img src={jsImg} alt="Js" />
                 </header>
                 <span>Styled-components</span>
-                <button type="button"><BsPlus /> Detalhes</button>
-              </OtherTrail>
-              <OtherTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                </header>
-                <span>Styled-components</span>
-                <button type="button"><BsPlus /> Detalhes</button>
-              </OtherTrail>
-              <OtherTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                </header>
-                <span>Styled-components</span>
-                <button type="button"><BsPlus /> Detalhes</button>
-              </OtherTrail>
-              <OtherTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                </header>
-                <span>Styled-components</span>
-                <button type="button"><BsPlus /> Detalhes</button>
+                <Button><BsPlus /> Detalhes</Button>
               </OtherTrail>
             </OtherTrailsContainer>
           </OtherTrailsSection>

@@ -12,6 +12,7 @@ import {
   Trails,
   Trail
 } from './styles';
+import { Button } from '../../../components/HtmlPartials/Button';
 
 export function AdminCreateTrail() {
 
@@ -36,13 +37,13 @@ export function AdminCreateTrail() {
                 inputType="textarea"
               />
             </div>
-            <button>Criar</button>
+            <Button>Criar</Button>
           </form>
         </FormContainer>
         <AllTrailsContainer>
           <h1>Todas as trilhas</h1>
           <Trails>
-            <Trail to="/javascript">
+            <Trail to="/admin/trail/javascript">
               <div className="trail_container">
                 <img src="https://w7.pngwing.com/pngs/452/495/png-transparent-react-javascript-angularjs-ionic-github-text-logo-symmetry-thumbnail.png" alt="" />
                 <div>
@@ -52,7 +53,7 @@ export function AdminCreateTrail() {
               </div>
               <IoIosArrowForward />
             </Trail>
-            <Trail to="/javascript">
+            <Trail to="/admin/trail/javascript">
               <div className="trail_container">
                 <img src="https://w7.pngwing.com/pngs/266/560/png-transparent-python-computer-icons-programmer-javascript-programming-language-python-logo-angle-text-logo.png" alt="" />
                 <div>
