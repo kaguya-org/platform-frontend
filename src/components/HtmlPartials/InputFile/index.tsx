@@ -3,12 +3,13 @@ import { AiFillCamera } from 'react-icons/all';
 import { ContainerFile } from './styles';
 
 type InputFileProps = {
-  name?: string;
+  name: string;
+  defaultValue?: any;
 }
 
-export function InputFile({name}: InputFileProps) {
+export function InputFile({name, defaultValue}: InputFileProps) {
   const [selectedFile, setSelectedFile] = useState<File>()
-  const [filePreview, setFilePreview] = useState<string | undefined>('')
+  const [filePreview, setFilePreview] = useState<string | undefined>(defaultValue || '')
 
   useEffect(() => {
     if (!selectedFile) {
