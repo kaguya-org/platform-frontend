@@ -8,6 +8,7 @@ import { UserPlaylist } from '../pages/user/UserPlaylist';
 
 // Admin routes
 import { AdminCreateTrail } from '../pages/admin/AdminCreateTrail';
+import { AdminTrail } from '../pages/admin/AdminTrail';
 
 export function Routes() {
   return (
@@ -16,7 +17,8 @@ export function Routes() {
       <RouterCustom path="/admin" exact>
 
       </RouterCustom>
-        <RouterCustom path="/admin/trail/create" component={AdminCreateTrail} />
+        <RouterCustom path="/admin/trail/create" exact component={AdminCreateTrail} />
+        <RouterCustom path="/admin/trail/:trail_name" component={AdminTrail} />
       {/* User */}
       <RouterCustom path="/dashboard" exact component={UserDashboard} />
       <RouterCustom path="/:trail_name" exact component={UserTrail} />
