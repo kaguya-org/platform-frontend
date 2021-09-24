@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
-import { IoIosArrowDown } from 'react-icons/io';
-import { BoxProgressBarStep } from '../../../components/BoxProgressBarStep';
-import { SideBar } from '../../../components/SideBar';
+import { 
+  AiFillDislike, 
+  AiFillLike, 
+  AiOutlineDislike, 
+  AiOutlineLike, 
+  IoIosArrowDown 
+} from 'react-icons/all';
+
+import { BoxProgressBarStep } from 'components/BoxProgressBarStep';
+import { SideBar } from 'components/SideBar';
+
 import {
   Container,
   Content,

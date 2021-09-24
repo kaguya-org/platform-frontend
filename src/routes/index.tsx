@@ -2,13 +2,13 @@ import { Switch } from 'react-router-dom';
 import { RouterCustom } from './routerCustom';
 
 // User routes
-import { UserDashboard } from '../pages/user/UserDashboard';
-import { UserTrail } from '../pages/user/UserTrail';
-import { UserPlaylist } from '../pages/user/UserPlaylist';
+import { UserDashboard } from 'pages/user/UserDashboard';
+import { UserTrail } from 'pages/user/UserTrail';
+import { UserPlaylist } from 'pages/user/UserPlaylist';
 
 // Admin routes
-import { AdminCreateTrail } from '../pages/admin/AdminCreateTrail';
-import { AdminTrail } from '../pages/admin/AdminTrail';
+import { AdminCreateTrail } from 'pages/admin/AdminCreateTrail';
+import { AdminTrail } from 'pages/admin/AdminTrail';
 
 export function Routes() {
   return (

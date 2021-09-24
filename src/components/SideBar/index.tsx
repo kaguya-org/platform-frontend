@@ -10,10 +10,16 @@ import {
   BsArrowLeft,
   RiLogoutCircleRLine,
 } from 'react-icons/all';
-import { Container, Content, ClosedSideBar, OpenSideBar } from './styles';
 
-import euImg from '../../assets/images/eu.jpg';
-import logoImg from '../../assets/images/react.png';
+import { 
+  Container, 
+  Content, 
+  ClosedSideBar, 
+  OpenSideBar 
+} from './styles';
+
+import euImg from 'assets/images/eu.jpg';
+import logoImg from 'assets/images/react.png';
 
 export function SideBar(): JSX.Element {
   const [sideBar, setSideBar] = useState(false);
