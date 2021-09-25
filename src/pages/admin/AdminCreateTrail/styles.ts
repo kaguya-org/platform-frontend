@@ -22,6 +22,7 @@ export const FormContainer = styled.section`
   width: 100%;
   max-width: 380px;
   padding: 32px;
+  height: min-content;
 
   background: var(--second-background);
   border-radius: 8px;
@@ -37,8 +38,6 @@ export const FormContainer = styled.section`
     > button {
       max-width: 200px;
       width: 100%;
-
-      box-shadow: -2px 2px 0 var(--third-color);
     }
   }
 
@@ -60,21 +59,18 @@ export const AllTrailsContainer = styled.section`
   background: var(--second-background);
   border-radius: 8px;
 
-  padding-bottom: 32px;
+  padding: 32px;
 
   h1 {
     font-size: 36px;
-    padding: 32px 0 0 32px;
   }
 `;
 
 export const Trails = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 22px;
+  margin-top: 24px;
   overflow: auto;
-
-  padding: 0 16px 0 32px;
 `;
 
 export const Trail = styled(Link)`
@@ -82,10 +78,9 @@ export const Trail = styled(Link)`
   align-items: center;
   justify-content: center;
   background: #262832;
+  margin-right: 16px;
   padding: 16px;
   border-radius: 8px;
-
-  cursor: pointer;
   
   &:not(:first-child) {
     margin-top: 16px;
