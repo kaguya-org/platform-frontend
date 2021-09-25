@@ -53,16 +53,6 @@ export function AdminCreateTrail() {
               </div>
               <IoIosArrowForward />
             </Trail>
-            <Trail to="/admin/trail/javascript">
-              <div className="trail_container">
-                <img src="https://w7.pngwing.com/pngs/266/560/png-transparent-python-computer-icons-programmer-javascript-programming-language-python-logo-angle-text-logo.png" alt="" />
-                <div>
-                  <h3>Python</h3>
-                  <p>Entendendo todo o mundo de python. Criando controle de dados e muito mais.</p>
-                </div>
-              </div>
-              <IoIosArrowForward />
-            </Trail>
           </Trails>
         </AllTrailsContainer>
       </Content>
