@@ -1,15 +1,16 @@
-import styled from 'styled-components';
-import { Input } from '../../../components/HtmlPartials/Input';
+import { Link } from 'react-router-dom';
+import styled, { css, keyframes } from 'styled-components';
+import { Input } from 'components/HtmlPartials/Input';
 
 export const Container = styled.div`
   display: flex;
   height: 100%;
+  width: 100%;
 `;
 
-export const Content = styled.div`
+export const Content = styled.main`
   display: flex;
   gap: 18px;
-  height: min-content;
 
   width: 100%;
   margin: 64px;
@@ -22,6 +23,7 @@ export const FormContainer = styled.section`
   width: 100%;
   padding: 32px;
   max-width: 480px;
+  height: min-content;
 
   background: var(--second-background);
   border-radius: 8px;
@@ -31,7 +33,7 @@ export const FormContainer = styled.section`
     flex-direction: column;
     width: 100%;
 
-    > div {
+    > div:first-child {
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -109,6 +111,7 @@ export const FormContainer = styled.section`
 
       gap: 8px;
       max-width: 350px;
+      
       > button:first-child {
         background: #242731;
   
@@ -120,7 +123,6 @@ export const FormContainer = styled.section`
         align-items: center;
         justify-content: center;
         gap: 8px;
-        box-shadow: -2px 2px 0 var(--third-color);
   
         font-size: 14px;
         letter-spacing: 0.9px;
@@ -128,6 +130,7 @@ export const FormContainer = styled.section`
         transition: all 0.2s;
         &:hover {
           filter: brightness(110%);
+          box-shadow: 0 2px 0 var(--third-color);
         }
         svg {
           width: 22px;
@@ -184,7 +187,201 @@ export const InputTrailName = styled(Input)`
 `;
 
 export const InputTrailDescription = styled(Input)`
-
-margin: 16px 0 32px;
-
+  margin: 16px 0 32px;
 `;
+
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const AllPlaylistTrailContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  width: 100%;
+  padding: 32px;
+
+  background: var(--second-background);
+  border-radius: 8px;
+
+ > div:first-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 32px;
+    }
+
+    button {
+      margin-right: 16px;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &:hover {
+        svg path {
+          transition: all 0.2s;
+          color: var(--third-color);
+        }
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+
+      &.save_playlists_button {
+        font-weight: 600;
+        font-size: 16px;
+
+        transition: all 0.2s;
+        svg {
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+
+        &:hover {
+          color: var(--third-color);
+        }
+      }
+    }
+  }
+
+  > span {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    margin-left: 24px;
+
+    animation: ${appearFromLeft} 0.4s;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      
+      circle, line {
+        color: #CCBB13;
+      }
+    }
+
+    p {
+      color: #c4c4c4;
+      max-width: 480px;
+      font-size: 14px;
+    }
+  }
+
+  > button {
+    margin: 32px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 64px;
+      height: 64px;
+
+      line {
+        color: #262832;
+      }
+    }
+  }
+`;
+
+export const Playlists = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+  overflow: auto;
+  margin-top: 16px;
+`;
+
+const PlaylistStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  
+  background: #262832;
+
+  padding: 16px;
+  margin-right: 16px;
+  border-radius: 8px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
+
+  div.playlist_container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 90%;
+    width: 100%;
+    
+    span {
+      max-width: 48px;
+      width: 100%;
+      height: 48px;
+      background: var(--third-background);
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 500;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      h3 {
+        font-family: var(--second-font);
+      }
+
+      p {
+        margin-top: 8px;
+        word-break: break-word;
+        color: #c4c4c4;
+      }
+    }
+  }
+
+  > svg {
+    max-width: 36px;
+    width: 100%;
+    height: 36px;
+    
+    path {
+      color: #c4c4c4;
+    }
+  }
+`;
+
+export const Playlist = styled(Link)`
+  ${PlaylistStyle};
+`;
+
+export const Draggable = styled.button`
+  ${PlaylistStyle};
+  font-size: initial;
+`

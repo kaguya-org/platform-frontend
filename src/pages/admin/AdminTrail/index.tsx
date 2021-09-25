@@ -1,26 +1,47 @@
 import { useState } from 'react';
-import {AiFillEdit} from 'react-icons/all';
 
-import { AdminSideBar } from '../../../components/AdminSideBar';
-import { Input } from '../../../components/HtmlPartials/Input';
-import { InputFile } from '../../../components/HtmlPartials/InputFile';
+import {
+  AiFillEdit, 
+  FiAlertCircle, 
+  IoIosArrowForward,
+  BsCheckCircle,
+  FiPlus,
+  HiMenuAlt4
+} from 'react-icons/all';
+
+import { AdminSideBar } from 'components/AdminSideBar';
+import { InputFile } from 'components/HtmlPartials/InputFile';
+
 import {
   Container,
   Content,
   FormContainer,
   InputTrailName,
-  InputTrailDescription
+  InputTrailDescription,
+  AllPlaylistTrailContainer,
+  Playlists,
+  Playlist,
+  Draggable
 } from './styles';
 
 export function AdminTrail() {
-  const [openEditForm, setOpenEditForm] = useState(false);
+  const [openTrailInfoEditForm, setOpenTrailInfoEditForm] = useState(false);
+  const [openPlaylistsDraggable, setOpenPlaylistsDraggable] = useState(false);
 
-  function handleOpenEditForm() {
-    setOpenEditForm(true);
+  function handleTrailInfoOpenEditForm() {
+    setOpenTrailInfoEditForm(true);
   }
 
-  function handleCloseEditForm() {
-    setOpenEditForm(false);
+  function handleTrailInfoCloseEditForm() {
+    setOpenTrailInfoEditForm(false);
+  }
+
+  function handlePlaylistsDraggableOpen() {
+    setOpenPlaylistsDraggable(true);
+  }
+
+  function handlePlaylistsDraggableClose() {
+    setOpenPlaylistsDraggable(false);
   }
 
   return (
@@ -30,7 +51,7 @@ export function AdminTrail() {
         <FormContainer>
           <form>
             <div>
-              {openEditForm ? (
+              {openTrailInfoEditForm ? (
                 <InputTrailName 
                   name="trail_name"
                   defaultValue="Javascript"
@@ -38,20 +59,20 @@ export function AdminTrail() {
               ) : (
                 <>
                   <h1>Javascript</h1>
-                  <button onClick={handleOpenEditForm}>
+                  <button onClick={handleTrailInfoOpenEditForm}>
                     <AiFillEdit />
                   </button>
                 </>
               )}
             </div>
             <aside>
-              {openEditForm ? (
+              {openTrailInfoEditForm ? (
                 <InputFile 
                 name="trail_file"
                 defaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png"
                 />
               ) : (
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png" alt="a" />
               )}
               
               <div className="created_updated_values">
@@ -60,7 +81,7 @@ export function AdminTrail() {
               </div>
             </aside>
             <span className="line"></span>
-            {openEditForm ? (
+            {openTrailInfoEditForm ? (
               <>
                 <InputTrailDescription
                   name="trail_description"
@@ -71,7 +92,7 @@ export function AdminTrail() {
     
                 <div className="control_buttons">
                   <button type="submit">Confirmar</button>
-                  <button onClick={handleCloseEditForm}>Cancelar</button>
+                  <button onClick={handleTrailInfoCloseEditForm}>Cancelar</button>
                 </div>
               </>
             ) : (
@@ -79,29 +100,56 @@ export function AdminTrail() {
             )}
           </form>
         </FormContainer>
-        {/* <AllPlaylistsContainer>
-          <h1>Todas as playlists</h1>
+        <AllPlaylistTrailContainer>
+          <div>
+            <h1>Todas as playlists</h1>
+            {openPlaylistsDraggable ? (
+              <button 
+                className="save_playlists_button"
+                onClick={handlePlaylistsDraggableClose}
+              >
+                <BsCheckCircle />
+                Salvar
+              </button>
+            ) : (
+              <button onClick={handlePlaylistsDraggableOpen}>
+                <AiFillEdit />
+              </button>
+            )}
+          </div>
+          {openPlaylistsDraggable && (
+            <span>
+              <FiAlertCircle />
+              <p>Arraste os cards para cima ou para baixo para modificar a ordem das playlists.</p>
+            </span>
+          )}
           <Playlists>
-            <Playlist to="/admin/playlist/1">
-              <div className="playlist_container">
-                <div>
-                  <h3>React Js</h3>
-                  <p>Aqui você aprenderá sobre tudo do react, desde a criação de componentes à criar seus próprios hooks.</p>
+            {openPlaylistsDraggable ? (
+              <Draggable >
+                <div className="playlist_container">
+                  <span>1</span>
+                  <div>
+                    <h3>Introdução ao javascript</h3>
+                    <p>Entendo o inicio de javascript, porque usar e outras coisas.</p>
+                  </div>
                 </div>
-              </div>
-              <IoIosArrowForward />
-            </Playlist>
-            <Playlist to="/admin/playlist/1">
-              <div className="playlist_container">
-                <div>
-                  <h3>Python</h3>
-                  <p>Entendendo todo o mundo de python. Criando controle de dados e muito mais.</p>
+                <HiMenuAlt4 /> 
+              </Draggable>
+            ) : (
+              <Playlist to="/admin/trail/javascript">
+                <div className="playlist_container">
+                  <span>1</span>
+                  <div>
+                    <h3>Introdução ao javascript</h3>
+                    <p>Entendo o inicio de javascript, porque usar e outras coisas.</p>
+                  </div>
                 </div>
-              </div>
-              <IoIosArrowForward />
-            </Playlist>
+                <IoIosArrowForward />
+              </Playlist>
+            )}
           </Playlists>
-        </AllPlaylistsContainer> */}
+          <button title="Nova playlist"><FiPlus /></button>
+        </AllPlaylistTrailContainer>
       </Content>
     </Container>
   );
