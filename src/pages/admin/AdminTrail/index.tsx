@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 
 import {
   AiFillEdit, 
@@ -21,10 +22,38 @@ import {
   AllPlaylistTrailContainer,
   Playlists,
   Playlist,
-  Draggable
+  PlaylistDraggable
 } from './styles';
+import { PlaylistContainer } from './Partials/PlaylistContainer';
 
 export function AdminTrail() {
+  const [state, setState] = useState([
+    {
+      id: 'd12039ujdad',
+      name: 'miranha',
+      description: 'description'
+    },
+    {
+      id: '12dasdf234513',
+      name: 'batman 2',
+      description: 'description 2'
+    },
+    {
+      id: '2314dfadfa241rdsa',
+      name: 'neymar 3',
+      description: 'description 3'
+    },
+    {
+      id: '2314dfdssadfa241rdsa',
+      name: 'hulk',
+      description: 'description 3dsadasdas'
+    },
+    {
+      id: '2314dfaddddsdfa241rdsa',
+      name: 'maisa',
+      description: 'description 3dsadas'
+    }
+  ])
   const [openTrailInfoEditForm, setOpenTrailInfoEditForm] = useState(false);
   const [openPlaylistsDraggable, setOpenPlaylistsDraggable] = useState(false);
 
@@ -43,6 +72,21 @@ export function AdminTrail() {
   function handlePlaylistsDraggableClose() {
     setOpenPlaylistsDraggable(false);
   }
+
+  const savePlaylists = useCallback(() => {
+    console.log(state);
+    handlePlaylistsDraggableClose();
+  }, [state]);
+
+  const dragEndSetData = useCallback((params: DropResult) => {
+    const srcIndex = params.source.index;
+    const destinationIndex = params.destination?.index;
+    console.log(params);
+    if (destinationIndex) {
+      state.splice(destinationIndex, 0, state.splice(srcIndex, 1)[0]);
+      setState(state);
+    }
+  }, [state]);
 
   return (
     <Container>
@@ -106,7 +150,7 @@ export function AdminTrail() {
             {openPlaylistsDraggable ? (
               <button 
                 className="save_playlists_button"
-                onClick={handlePlaylistsDraggableClose}
+                onClick={savePlaylists}
               >
                 <BsCheckCircle />
                 Salvar
@@ -123,32 +167,76 @@ export function AdminTrail() {
               <p>Arraste os cards para cima ou para baixo para modificar a ordem das playlists.</p>
             </span>
           )}
-          <Playlists>
-            {openPlaylistsDraggable ? (
-              <Draggable >
-                <div className="playlist_container">
-                  <span>1</span>
-                  <div>
-                    <h3>Introdução ao javascript</h3>
-                    <p>Entendo o inicio de javascript, porque usar e outras coisas.</p>
-                  </div>
-                </div>
-                <HiMenuAlt4 /> 
-              </Draggable>
-            ) : (
-              <Playlist to="/admin/trail/javascript">
-                <div className="playlist_container">
-                  <span>1</span>
-                  <div>
-                    <h3>Introdução ao javascript</h3>
-                    <p>Entendo o inicio de javascript, porque usar e outras coisas.</p>
-                  </div>
-                </div>
-                <IoIosArrowForward />
-              </Playlist>
-            )}
-          </Playlists>
-          <button title="Nova playlist"><FiPlus /></button>
+
+          {openPlaylistsDraggable ? (
+            <DragDropContext
+              onDragEnd={(params) => {
+                dragEndSetData(params);
+              }}
+            >
+              <Droppable droppableId="droppable-1">
+                {(provided, _) => (
+                  <Playlists 
+                    ref={provided.innerRef} 
+                    {...provided.droppableProps}
+                  >
+                    {state.map((playlist, index) => (
+                      <Draggable
+                        key={playlist.id}
+                        draggableId={`droppable-`+ playlist.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <PlaylistDraggable 
+                            ref={provided.innerRef}
+                            {...provided.dragHandleProps}
+                            {...provided.draggableProps}
+                            style={{
+                              ...provided.draggableProps.style,
+                              boxShadow: snapshot.isDragging
+                                ? "0 0 .4rem #666"
+                                : "none",
+                            }}
+                          >
+                            <PlaylistContainer
+                              isDraggable
+                              data={{
+                                id: playlist.id,
+                                title: playlist.name,
+                                description: playlist.description,
+                                index: index
+                              }}
+                            /> 
+                          </PlaylistDraggable>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </Playlists>
+                )}
+              </Droppable>
+            </DragDropContext>
+          ) : (
+            <Playlists>
+              {state.map((playlist, index) => (
+                <Playlist key={playlist.id} to="/admin/trail/javascript">
+                  <PlaylistContainer 
+                    data={{
+                      id: playlist.id,
+                      title: playlist.name,
+                      description: playlist.description,
+                      index: index
+                    }}
+                  />
+                </Playlist>
+              ))}
+            </Playlists>
+          )}
+          <button title="Nova playlist" onClick={() => setState([...state, {
+            description: 'tt',
+            id: String(Date.now()),
+            name: 'dasdas'
+            }])}><FiPlus /></button>
         </AllPlaylistTrailContainer>
       </Content>
     </Container>

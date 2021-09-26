@@ -327,61 +327,13 @@ const PlaylistStyle = css`
   &:not(:first-child) {
     margin-top: 16px;
   }
-
-  div.playlist_container {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    max-width: 90%;
-    width: 100%;
-    
-    span {
-      max-width: 48px;
-      width: 100%;
-      height: 48px;
-      background: var(--third-background);
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-weight: 500;
-    }
-
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-
-      h3 {
-        font-family: var(--second-font);
-      }
-
-      p {
-        margin-top: 8px;
-        word-break: break-word;
-        color: #c4c4c4;
-      }
-    }
-  }
-
-  > svg {
-    max-width: 36px;
-    width: 100%;
-    height: 36px;
-    
-    path {
-      color: #c4c4c4;
-    }
-  }
 `;
 
 export const Playlist = styled(Link)`
   ${PlaylistStyle};
 `;
 
-export const Draggable = styled.button`
+export const PlaylistDraggable = styled.div`
   ${PlaylistStyle};
   font-size: initial;
 `
