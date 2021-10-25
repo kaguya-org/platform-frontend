@@ -7,8 +7,8 @@ import {
   IoIosArrowDown 
 } from 'react-icons/all';
 
-import { BoxProgressBarStep } from 'components/BoxProgressBarStep';
-import { SideBar } from 'components/SideBar';
+import { BoxProgressBarStep } from '../../../components/BoxProgressBarStep';
+import { SideBar } from '../../../components/SideBar';
 
 import {
   Container,

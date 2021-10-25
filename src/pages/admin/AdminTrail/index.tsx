@@ -10,8 +10,8 @@ import {
   HiMenuAlt4
 } from 'react-icons/all';
 
-import { AdminSideBar } from 'components/AdminSideBar';
-import { InputFile } from 'components/HtmlPartials/InputFile';
+import { AdminSideBar } from '../../../components/AdminSideBar';
+import { InputFile } from '../../../components/HtmlPartials/InputFile';
 
 import {
   Container,

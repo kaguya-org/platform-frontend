@@ -1,6 +1,6 @@
-import { Header } from 'components/Header';
-import { Button } from 'components/HtmlPartials/Button';
-import { Input } from 'components/HtmlPartials/Input';
+import { Header } from '../../components/Header';
+import { Button } from '../../components/HtmlPartials/Button';
+import { Input } from '../../components/HtmlPartials/Input';
 import { FaLock, FaUser } from 'react-icons/all';
 import { Link } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
-import { Input } from 'components/HtmlPartials/Input';
+import { Input } from '../../../components/HtmlPartials/Input';
 
 export const Container = styled.div`
   display: flex;
@@ -303,6 +303,14 @@ export const AllPlaylistTrailContainer = styled.section`
     }
   }
 `;
+
+export const PlaylistsStyles = {
+  display: 'flex',
+  'flex-direction': 'column',
+  
+  overflow: 'auto',
+  'margin-top': '16px',
+};
 
 export const Playlists = styled.div`
   display: flex;

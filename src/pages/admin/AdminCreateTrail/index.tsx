@@ -1,9 +1,9 @@
 import { IoIosArrowForward } from 'react-icons/all';
 
-import { AdminSideBar } from 'components/AdminSideBar';
-import { InputFile } from 'components/HtmlPartials/InputFile';
-import { Input } from 'components/HtmlPartials/Input';
-import { Button } from 'components/HtmlPartials/Button';
+import { AdminSideBar } from '../../../components/AdminSideBar';
+import { InputFile } from '../../../components/HtmlPartials/InputFile';
+import { Input } from '../../../components/HtmlPartials/Input';
+import { Button } from '../../../components/HtmlPartials/Button';
 
 import { 
   Container,

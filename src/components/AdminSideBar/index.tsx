@@ -13,8 +13,8 @@ import {
   Content
 } from './styles';
 
-import euImg from 'assets/images/eu.jpg';
-import logoImg from 'assets/images/react.png';
+import euImg from '../../assets/images/eu.jpg';
+import logoImg from '../../assets/images/react.png';
 
 export function AdminSideBar() {
   return (

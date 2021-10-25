@@ -3,10 +3,24 @@ import styled from 'styled-components';
 export const Container = styled.label`
   &.labelInput {
     background: #262832;
-    position: relative;
     padding: 16px;
     cursor: text;
     border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 16px;
+      color: #c4c4c4;
+
+      path, line, circle {
+        color: #c4c4c4;
+      }
+    }
 
     &:not(:first-child) {
       margin-top: 12px;
@@ -28,10 +42,7 @@ export const Container = styled.label`
       
       letter-spacing: 0.7px;
     }
-      
-    input {
-    }
-      
+
     textarea {
       height: 100px;
       appearance: none;
@@ -41,12 +52,11 @@ export const Container = styled.label`
     input + span,
     textarea + span {
       position: absolute;
-      top: 18px;
+      top: 4px;
       left: 0;
       transition: all 0.2s;
       color: #c4c4c4;
 
-      padding-left: 16px;
       font-size: 14px;
     }
 
@@ -54,8 +64,14 @@ export const Container = styled.label`
     input:not(:placeholder-shown) + span,
     textarea:focus + span,
     textarea:not(:placeholder-shown) + span {
-      top: 2px;
+      top: -14px;
       font-size: 12px;
     }
   }
+`;
+
+export const Content = styled.span`
+  position: relative;
+
+  flex: 1;
 `;
