@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import { Tooltip } from '../../Tooltip';
-
 type ContainerProps = {
   isError: boolean;
 }
@@ -49,7 +47,6 @@ export const Container = styled.label<ContainerProps>`
 
       background: none;
       border: none;
-      border-radius: 8px;
       outline: none;
       color: #c4c4c4;
       
