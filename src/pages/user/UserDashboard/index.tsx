@@ -9,9 +9,11 @@ import {
   IoIosArrowForward,
 } from 'react-icons/all';
 
-import { SideBar } from '../../../components/SideBar';
-import { ProgressBar } from '../../../components/ProgressBar';
-import { Button } from '../../../components/HtmlPartials/Button';
+import { 
+  SideBar,
+  ProgressBar,
+  Button
+} from '../../../components';
 
 import {
   Container,

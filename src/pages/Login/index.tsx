@@ -4,9 +4,12 @@ import { FaLock, FaUser } from 'react-icons/all';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { Header } from '../../components/Header';
-import { Button } from '../../components/HtmlPartials/Button';
-import { Input } from '../../components/HtmlPartials/Input';
+import { 
+  Header, 
+  Button, 
+  Input,
+  Loading
+} from '../../components';
 
 import { LoginParams } from '../../services/apiParams';
 
@@ -19,7 +22,6 @@ import {
   FormTag
 } from './styles';
 import { useLoading } from '../../hooks/useLoading';
-import { Loading } from '../../components/Loading';
 
 export function Login() {
   const history = useHistory();

@@ -4,14 +4,14 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautif
 import {
   AiFillEdit, 
   FiAlertCircle, 
-  IoIosArrowForward,
   BsCheckCircle,
   FiPlus,
-  HiMenuAlt4
 } from 'react-icons/all';
 
-import { AdminSideBar } from '../../../components/AdminSideBar';
-import { InputFile } from '../../../components/HtmlPartials/InputFile';
+import {
+  AdminSideBar,
+  InputFile
+} from '../../../components';
 
 import {
   Container,
@@ -24,6 +24,7 @@ import {
   Playlist,
   PlaylistDraggable
 } from './styles';
+
 import { PlaylistContainer } from './Partials/PlaylistContainer';
 
 export function AdminTrail() {

@@ -8,8 +8,10 @@ import {
   VscDebugBreakpointData 
 } from 'react-icons/all';
 
-import { ProgressBar } from '../../../components/ProgressBar';
-import { SideBar } from '../../../components/SideBar';
+import {
+  ProgressBar,
+  SideBar
+} from '../../../components';
 
 import { 
   Container,
