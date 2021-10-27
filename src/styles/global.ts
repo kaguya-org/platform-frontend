@@ -37,7 +37,7 @@ export const GlobalStyle = createGlobalStyle`
     --semi-dark-second-color: #3B0522;
 
     --primary-background: #0D0E12;
-    --second-background: #16171C;
+    --second-background: #181A21;
     --third-background: #1B1D24;
 
     --primary-font-color: #fff;
@@ -56,5 +56,16 @@ export const GlobalStyle = createGlobalStyle`
     position: relative;
 
     background: var(--primary-background);
+  }
+  
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px #262832 inset !important;
+  }
+
+  input:-webkit-autofill {
+    -webkit-text-fill-color: var(--primary-font-color) !important;
   }
 `;
