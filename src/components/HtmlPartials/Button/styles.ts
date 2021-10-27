@@ -18,6 +18,15 @@ export const ContainerButton = styled.button`
 
   transition: all 0.2s;
 
+  &:disabled {
+    opacity: 0.6;
+    
+    &:hover {
+      cursor: no-drop;
+      filter: initial;
+    }
+  }
+
   &:hover {
     filter: brightness(110%);
   }
