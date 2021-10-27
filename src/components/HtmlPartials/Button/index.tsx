@@ -1,21 +1,19 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { 
   ContainerButton 
 } from './styles';
 
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  className?: string;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
   children?: ReactNode;
 }
 
-export function Button({className, children}: ButtonProps) {
+export function Button({children, ...rest}: ButtonProps) {
 
   return (
     <ContainerButton 
-      type="button" 
-      className={`${className}`}
+      {...rest}
     >
       {children}
     </ContainerButton>
