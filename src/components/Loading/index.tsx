@@ -8,13 +8,12 @@ type LoadingProps = {
     width: string;
     height: string;
   };
-  type: 'circle' | 'cubic'
+  type: 'circle'
 };
 
 export function Loading({type, ...rest}: LoadingProps) {
   const loadings = {
-    circle:  <CircleLoading {...rest}/>,
-    cubic: <CircleLoading  {...rest}/>,
+    circle: <CircleLoading {...rest}/>,
   }
 
   return (

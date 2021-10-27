@@ -8,8 +8,8 @@ type LoadingContainerProps = {
 };
 
 export const LoadingContainer = styled.div<LoadingContainerProps>`
-  width: ${({size}) => size?.width || '60px'};
-  height: ${({size}) => size?.height || '60px'};
+  width: ${({size}) => size?.width || '18px'};
+  height: ${({size}) => size?.height || '18px'};
 `;
 
 const circleLoadingKeyFrame = keyframes`
