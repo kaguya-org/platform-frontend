@@ -8,7 +8,6 @@ export const Container = styled.div`
 
   display: flex;
 
-  background: url(${backgroundImg}) no-repeat center center;
   background-size: 100%;
 `;
 
@@ -70,17 +69,6 @@ export const Welcome = styled.section`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-
-  img {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    object-fit: cover;
-
-    border: 4px solid var(--third-color);
-
-    padding: 4px;
-  }
 
   div {
     display: flex;

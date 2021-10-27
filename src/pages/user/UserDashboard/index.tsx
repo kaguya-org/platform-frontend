@@ -12,7 +12,8 @@ import {
 import { 
   SideBar,
   ProgressBar,
-  Button
+  Button,
+  UserPhoto
 } from '../../../components';
 
 import {
@@ -44,7 +45,12 @@ export function UserDashboard(): JSX.Element {
       <Content>
         <LeftContent>
           <Welcome>
-            <img src={euImg} alt="perfil" />
+            <UserPhoto 
+              imageUri={euImg} 
+              size={{
+                avatarSize: '128px',
+              }}
+            />
             <div>
               <h1>
                 Bem vindo de Volta,
