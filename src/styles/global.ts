@@ -44,6 +44,8 @@ export const GlobalStyle = createGlobalStyle`
 
     --shadow-black-color: rgba(0, 0, 0, 0.38);
 
+    --input-error-color: #c53030;
+
     --primary-font: 'Open Sans', sans-serif;
     --second-font: 'Roboto Condensed', sans-serif;
   }
