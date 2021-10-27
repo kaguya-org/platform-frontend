@@ -23,7 +23,7 @@ export const Container = styled.label<ContainerProps>`
       border: 2px solid var(--input-error-color);
     `};
 
-    svg:not(.svg_input_error) {
+    > svg {
       width: 16px;
       height: 16px;
       margin-right: 16px;
@@ -87,23 +87,4 @@ export const Content = styled.span`
   position: relative;
 
   flex: 1;
-`;
-
-export const InputError = styled(Tooltip)`
-  margin-left: 16px;
-
-  svg.svg_input_error {
-    color: var(--input-error-color);
-    path {
-      color: var(--input-error-color);
-    }
-  }
-  
-  span {
-    background: var(--input-error-color);
-    
-    &::before {
-      border-color: var(--input-error-color) transparent;
-    }
-  }
 `;
