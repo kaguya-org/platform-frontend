@@ -1,17 +1,29 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.label`
+import { Tooltip } from '../../Tooltip';
+
+type ContainerProps = {
+  isError: boolean;
+}
+
+export const Container = styled.label<ContainerProps>`
   &.labelInput {
     background: #262832;
     padding: 16px;
     cursor: text;
     border-radius: 8px;
+    
+    border: 2px solid transparent;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
 
-    svg {
+    ${props => props.isError && css`
+      border: 2px solid var(--input-error-color);
+    `};
+
+    svg:not(.svg_input_error) {
       width: 16px;
       height: 16px;
       margin-right: 16px;
@@ -39,6 +51,7 @@ export const Container = styled.label`
       border: none;
       border-radius: 8px;
       outline: none;
+      color: #c4c4c4;
       
       letter-spacing: 0.7px;
     }
@@ -74,4 +87,23 @@ export const Content = styled.span`
   position: relative;
 
   flex: 1;
+`;
+
+export const InputError = styled(Tooltip)`
+  margin-left: 16px;
+
+  svg.svg_input_error {
+    color: var(--input-error-color);
+    path {
+      color: var(--input-error-color);
+    }
+  }
+  
+  span {
+    background: var(--input-error-color);
+    
+    &::before {
+      border-color: var(--input-error-color) transparent;
+    }
+  }
 `;
