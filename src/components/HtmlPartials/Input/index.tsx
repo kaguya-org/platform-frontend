@@ -1,19 +1,22 @@
 import { HTMLAttributes, ReactElement, useRef, useEffect } from 'react';
 
-import { useField } from '@unform/core'
+import { useField } from '@unform/core';
 
 import { 
   Container,
   Content,
-  InputError
 } from './styles';
 
-interface InputProps extends HTMLAttributes<HTMLInputElement> {
+import { Tooltip } from '../../Tooltip';
+
+interface InputProps extends HTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   name: string;
   inputType?: 'input' | 'textarea';
   title?: string;
-  defaultValue?: any;
-  className?: string;
+  
+  containerProps?: {
+    className?: string;
+  };
 
   type?: string;
   icon?: ReactElement;
@@ -24,8 +27,8 @@ export function Input({
   type, 
   title, 
   inputType, 
-  className,
-  icon
+  icon,
+  ...rest
 }: InputProps) {
   const inputRef = useRef(null);
 
@@ -50,8 +53,9 @@ export function Input({
   return (
     <Container 
       htmlFor={name} 
-      className={`labelInput ${className}`}
+      className={`labelInput`}
       isError={!!error}
+      {...rest.containerProps}
     >
       {icon && inputType !== 'textarea' && icon }
       <Content>
@@ -62,6 +66,7 @@ export function Input({
             placeholder=" "
             defaultValue={defaultValue} 
             ref={inputRef}
+            {...rest}
           />
         ) : (
           <>
@@ -72,12 +77,18 @@ export function Input({
               placeholder=" "
               defaultValue={defaultValue} 
               ref={inputRef}
+              {...rest}
             />
           </>
         )}
         {title && <span>{title}</span>}
       </Content>
-      {error && <InputError title={error} />}
+      {error && (
+        <Tooltip 
+          title={error}
+          type="error"
+        />
+      )}
     </Container>
   )
 }
