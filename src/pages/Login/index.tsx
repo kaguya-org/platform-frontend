@@ -94,12 +94,7 @@ export function Login() {
               <button>Redefina agora</button>
             </span>
             </div>
-            <Button type="submit" disabled={loading.state} >
-              {loading.state 
-                ? <Loading type="circle"/> 
-                : 'Entrar'
-              }
-            </Button>
+            <Button type="submit" isLoading={loading.state} >Entrar</Button>
           </FormTag>
         </section>
       </Content>
