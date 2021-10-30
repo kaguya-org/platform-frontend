@@ -69,8 +69,13 @@ export const AllTrailsContainer = styled.section`
 export const Trails = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   margin-top: 24px;
   overflow: auto;
+  width: 100%;
+  height: 100%;
 `;
 
 export const Trail = styled(Link)`
