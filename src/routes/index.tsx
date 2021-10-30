@@ -20,20 +20,22 @@ export function Routes() {
   return (
     <Switch>
       {/* Admin */}
-      <RouterCustom path="/admin" exact />
-      <RouterCustom path="/admin/trail/create" exact component={AdminCreateTrail} />
-      <RouterCustom path="/admin/trail/:trail_name" exact component={AdminTrail} />
-      <RouterCustom path="/admin/trail/:trail_name/playlist" exact component={AdminPlaylist} />
+      {/* <RouterCustom path="/admin" exact /> */}
+
+      <RouterCustom path="/admin/trail/create" isAdmin exact component={AdminCreateTrail} />
+      <RouterCustom path="/admin/trail/:trail_id" isAdmin component={AdminTrail} />
+      <RouterCustom path="/admin/trail/:trail_id/playlist" isAdmin exact component={AdminPlaylist} />
+      
       {/* User */}
-      <RouterCustom path="/dashboard" exact component={UserDashboard} />
-      <RouterCustom path="/trail/:trail_name" exact component={UserTrail} />
-      <RouterCustom path="/trail/:trail_name/:playlist_id" exact component={UserPlaylist} />
+      <RouterCustom path="/dashboard" ifAuthenticated exact component={UserDashboard} />
+      <RouterCustom path="/trail/:trail_name" ifAuthenticated exact component={UserTrail} />
+      <RouterCustom path="/trail/:trail_name/:playlist_id" ifAuthenticated exact component={UserPlaylist} />
 
       {/* Global */}
       <RouterCustom path="/login" component={Login} />
       <RouterCustom path="/register" component={Register} />
       <RouterCustom path="/" component={Home} exact/>
-
+    
     </Switch>
   );
 };
