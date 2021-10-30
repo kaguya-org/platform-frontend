@@ -32,7 +32,7 @@ export function Input({
 }: InputProps) {
   const inputRef = useRef(null);
 
-  const { fieldName, defaultValue, registerField, error } = useField(name);
+  const { fieldName, defaultValue, registerField, error, clearError } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -66,6 +66,7 @@ export function Input({
             placeholder=" "
             defaultValue={defaultValue} 
             ref={inputRef}
+            onFocus={() => clearError()}
             {...rest}
           />
         ) : (
@@ -77,6 +78,7 @@ export function Input({
               placeholder=" "
               defaultValue={defaultValue} 
               ref={inputRef}
+              onFocus={() => clearError()}
               {...rest}
             />
           </>
