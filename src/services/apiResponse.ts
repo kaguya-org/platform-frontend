@@ -44,3 +44,53 @@ export type CreateUserResponse = {
 }
 
 // admin
+export type CreateTrailResponse = {
+  id: string,
+  name: string,
+  description: string,
+  avatar_url: null | string,
+  created_at: string,
+  updated_at: string;
+}
+
+export type UpdateTrailAvatarResponse = {
+  id: string,
+  name: string,
+  description: string,
+  avatar_url: null | string,
+  created_at: string,
+  updated_at: string;
+}
+
+export type ListAllTrailsResponse = {
+  id: string;
+  name: string;
+  description: string;
+  playlists: [];
+  user_trails: [];
+  avatar: string | null;
+  avatar_url: string | null;
+  created_at: string,
+  updated_at: string;
+};
+
+export type ListAllPlaylistsByTrailResponse = {
+  id: string;
+  name: string;
+  description: string;
+  trail_id: string;
+  avatar: string | null;
+  avatar_url: string | null;
+  created_at: string,
+  updated_at: string;
+};
+
+export type CreatePlaylistResponse = {
+  id: string;
+  name: string;
+  description: string;
+  trail_id: string;
+  avatar_url: string | null;
+  created_at: string,
+  updated_at: string;
+};
