@@ -14,7 +14,7 @@ export const Container = styled.label<ContainerProps>`
     border: 2px solid transparent;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
 
     ${props => props.isError && css`
