@@ -1,11 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const ContainerFile = styled.div`
+type ContainerProps = {
+  isError: boolean;
+};
+
+export const ContainerFile = styled.div<ContainerProps>`
   &.file {
     position: relative;
     width: 120px;
     height: 120px;
     border-radius: 8px;
+    border: 2px solid transparent;
+
+    ${({isError}) => (
+      isError && css`
+        border: 2px solid var(--input-error-color);
+      `
+    )};
     
     img, input[type="file"], label {
       width: 100%;
