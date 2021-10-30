@@ -3,15 +3,16 @@ import { BiErrorCircle } from 'react-icons/all';
 
 import { Container, TooltipType } from './styles';
 
+type ElementProps = React.HTMLAttributes<HTMLDivElement>;
+
 interface TooltipProps {
   title: string;
 
-  containerProps?: {
-    className?: string;
-  };
+  containerProps?: ElementProps;
 
   svgProps?: {
     className?: string;
+    style?: React.CSSProperties;
   };
 
   children?: ReactNode;
