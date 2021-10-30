@@ -5,8 +5,8 @@ import {
 
 type LoadingProps = {
   size?: {
-    width: string;
-    height: string;
+    width?: string;
+    height?: string;
   };
   type: 'circle'
 };

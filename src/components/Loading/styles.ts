@@ -2,8 +2,8 @@ import styled, { keyframes } from 'styled-components';
 
 type LoadingContainerProps = {
   size?: {
-    width: string;
-    height: string;
+    width?: string;
+    height?: string;
   };
 };
 
