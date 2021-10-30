@@ -1,20 +1,20 @@
 import { useState } from 'react';
 
-export function useLoading(start: boolean ) {
+export function useBoolean(start: boolean ) {
   const [state, setState] = useState(start);
 
-  function startLoading() {
+  function changeToTrue() {
     setState(true);
   }
 
-  function stopLoading() {
+  function changeToFalse() {
     setState(false);
   }
 
   return {
     state,
     setState,
-    startLoading,
-    stopLoading,
+    changeToTrue,
+    changeToFalse,
   };
 }

@@ -21,16 +21,16 @@ import {
   Content,
   FormTag
 } from './styles';
-import { useLoading } from '../../hooks/useLoading';
+import { useBoolean } from '../../hooks/useBoolean';
 
 export function Login() {
   const history = useHistory();
   const loginFormRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
-  const loading = useLoading(false);
+  const loading = useBoolean(false);
 
   async function handleSubmitLogin(data: LoginParams) {
-    loading.startLoading();
+    loading.changeToTrue();
 
     try {
       loginFormRef.current?.setErrors({});
@@ -46,12 +46,12 @@ export function Login() {
 
       await signIn(data);
 
-      loading.stopLoading();
+      loading.changeToFalse();
 
       history.push('/dashboard');
 
     } catch(error) {
-      loading.stopLoading();
+      loading.changeToFalse();
 
       if(error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);

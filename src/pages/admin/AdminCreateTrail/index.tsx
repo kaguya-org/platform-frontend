@@ -12,7 +12,7 @@ import {
   Button,
   Loading
 } from '../../../components';
-import { useLoading } from '../../../hooks/useLoading';
+import { useBoolean } from '../../../hooks/useBoolean';
 
 import { api } from '../../../services/api';
 import { CreateTrailParams } from '../../../services/apiParams';
@@ -34,13 +34,13 @@ export function AdminCreateTrail() {
   const history = useHistory();
   const createTrailFormRef = useRef<FormHandles>(null);
 
-  const createTrailLoading = useLoading(false);
-  const listAllTrailsLoading = useLoading(true);
+  const createTrailLoading = useBoolean(false);
+  const listAllTrailsLoading = useBoolean(true);
 
   const [listAllTrail, setListAllTrail] = useState<ListAllTrailsResponse[]>([]);
 
   async function handleCreateTrailSubmit(data: CreateTrailParams) {
-    createTrailLoading.startLoading();
+    createTrailLoading.changeToTrue();
 
     try {
       createTrailFormRef.current?.setErrors({});
@@ -74,14 +74,14 @@ export function AdminCreateTrail() {
         const { name } = updateAvatarResponse.data;
 
         if(updateAvatarResponse.data) {
-          createTrailLoading.stopLoading();
+          createTrailLoading.changeToFalse();
 
           history.push(`/admin/trail/${id}`);
           return;
         }
       }
     } catch(error) {
-      createTrailLoading.stopLoading();
+      createTrailLoading.changeToFalse();
 
       if(error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
@@ -100,10 +100,10 @@ export function AdminCreateTrail() {
   useEffect(() => {
     api.global.trail.listAll().then(response => {
       setListAllTrail(response.data);
-      listAllTrailsLoading.stopLoading();
+      listAllTrailsLoading.changeToFalse();
     }).catch(error => {
       console.log(error);
-      listAllTrailsLoading.stopLoading();
+      listAllTrailsLoading.changeToFalse();
     });
   }, []);
 
