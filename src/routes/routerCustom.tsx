@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { api } from '../services/api';
 
 type RouterCustomProps = RouteProps & {
   isPrivate?: boolean;
@@ -9,13 +10,20 @@ type RouterCustomProps = RouteProps & {
 };
 
 export function RouterCustom({isPrivate, ifAuthenticated, isAdmin, ...rest}: RouterCustomProps) {
-  const { token } = useAuth();
+  const { token, signOut } = useAuth();
+
+  useEffect(() => {
+    api.user.token.validate().then(response => {
+      if(!response.data.validated && isPrivate) {
+        signOut();
+        return
+      }
+    });
+  }, []);
   
-  useCallback(() => {
     if(isAdmin && !token || !token && ifAuthenticated) {
       return <Redirect to="/" />;
     }
-  }, [isAdmin, token, ifAuthenticated]);
 
   return (
     <Route {...rest} />
