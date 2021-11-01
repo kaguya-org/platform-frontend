@@ -22,14 +22,14 @@ export function Routes() {
       {/* Admin */}
       {/* <RouterCustom path="/admin" exact /> */}
 
-      <RouterCustom path="/admin/trail/create" isAdmin exact component={AdminCreateTrail} />
-      <RouterCustom path="/admin/trail/:trail_id" isAdmin exact component={AdminTrail} />
-      <RouterCustom path="/admin/trail/:trail_id/playlist" isAdmin exact component={AdminPlaylist} />
+      <RouterCustom path="/admin/trail/create" isAdmin isPrivate exact component={AdminCreateTrail} />
+      <RouterCustom path="/admin/trail/:trail_id" isAdmin isPrivate exact component={AdminTrail} />
+      <RouterCustom path="/admin/trail/:trail_id/playlist" isAdmin isPrivate exact component={AdminPlaylist} />
       
       {/* User */}
-      <RouterCustom path="/dashboard" ifAuthenticated exact component={UserDashboard} />
-      <RouterCustom path="/trail/:trail_name" ifAuthenticated exact component={UserTrail} />
-      <RouterCustom path="/trail/:trail_name/:playlist_id" ifAuthenticated exact component={UserPlaylist} />
+      <RouterCustom path="/dashboard" ifAuthenticated isPrivate exact component={UserDashboard} />
+      <RouterCustom path="/trail/:trail_name" ifAuthenticated isPrivate exact component={UserTrail} />
+      <RouterCustom path="/trail/:trail_name/:playlist_id" ifAuthenticated isPrivate exact component={UserPlaylist} />
 
       {/* Global */}
       <RouterCustom path="/login" component={Login} />
