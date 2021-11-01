@@ -1,6 +1,14 @@
 import { AxiosError } from 'axios';
 
 // global
+type Role = {
+  id: string;
+  name: string;
+  permission: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export type User = {
   id: string;
   name: string;
@@ -10,6 +18,7 @@ export type User = {
   enabled: boolean;
   created_at: string;
   updated_at: string;
+  role: Role;
 };
 
 export type ApiErrorResponse = AxiosError & {
