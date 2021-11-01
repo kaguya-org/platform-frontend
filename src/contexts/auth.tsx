@@ -33,8 +33,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     localStorage.setItem(slinkedToken, token);
 
-    baseApi.defaults.headers.common.Authorization = `Bearer ${token}`;
-
     setUser(user);
     setToken(token);
   }
@@ -50,7 +48,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [history]);
 
   useEffect(() => {
-    baseApi.interceptors.response.use(undefined, (error: AxiosError) => {
+    baseApi.interceptors.response.use((response) => {
+      return response;
+    }, (error: AxiosError) => {
       if(!error.response?.status && (error.response?.statusText === 'xhr' || 'preflight')) {
         // window.location.reload();
         // return false;
@@ -67,9 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return Promise.reject(error);
     });
 
-    baseApi.defaults.headers.common.authorization = `Bearer ${token}`;
-
-  }, [history, token, baseApi]);
+  }, [history, token, baseApi, signOut]);
 
 
   return (
