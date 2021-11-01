@@ -100,12 +100,13 @@ export function AdminCreateTrail() {
   useEffect(() => {
     api.global.trail.listAll().then(response => {
       setListAllTrail(response.data);
+
       listAllTrailsLoading.changeToFalse();
     }).catch(error => {
       console.log(error);
       listAllTrailsLoading.changeToFalse();
     });
-  }, []);
+  }, [api]);
 
   return (
     <Container>
@@ -134,8 +135,8 @@ export function AdminCreateTrail() {
         </FormContainer>
         <AllTrailsContainer>
           <h1>Todas as trilhas</h1>
-          <Trails>
-            {listAllTrailsLoading ? (
+          <Trails isLoading={listAllTrailsLoading.state}>
+            {listAllTrailsLoading.state ? (
               <Loading 
                 type="circle" 
                 size={{
