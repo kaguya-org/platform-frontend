@@ -9,14 +9,14 @@ import {
 
 import { Tooltip } from '../../Tooltip';
 
+type ContainerProps = HTMLAttributes<HTMLLabelElement>;
+
 interface InputProps extends HTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   name: string;
   inputType?: 'input' | 'textarea';
   title?: string;
   
-  containerProps?: {
-    className?: string;
-  };
+  containerProps?: ContainerProps;
 
   type?: string;
   icon?: ReactElement;
@@ -53,7 +53,7 @@ export function Input({
   return (
     <Container 
       htmlFor={name} 
-      className={`labelInput`}
+      className="labelInput"
       isError={!!error}
       {...rest.containerProps}
     >
