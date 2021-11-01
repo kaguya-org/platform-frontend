@@ -1,9 +1,7 @@
-import { AxiosError } from 'axios';
 import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { api, baseApi } from '../services/api';
+import { api } from '../services/api';
 import { LoginParams } from '../services/apiParams';
-import { User, LoginResponse } from '../services/apiResponse';
+import { User } from '../services/apiResponse';
 
 type AuthContextData = {
   user: User | null;
@@ -19,12 +17,11 @@ type AuthProviderProps = {
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const slinkedToken = '@slikend:token';
+  const slinkedToken = '@slinked:token';
   const getToken = localStorage.getItem(slinkedToken);
 
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState(getToken);
-  const history = useHistory();
 
   async function signIn(credentials: LoginParams): Promise<void> {
     const response = await api.authenticate.login(credentials);
@@ -37,38 +34,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setToken(token);
   }
 
-  const signOut = useCallback(() => {
-    history.push('/');
-
+  function signOut() {
     localStorage.removeItem(slinkedToken);
-    
+
     setUser(null);
+
+    window.location.href = '/';
     
     return;
-  }, [history]);
-
-  useEffect(() => {
-    baseApi.interceptors.response.use((response) => {
-      return response;
-    }, (error: AxiosError) => {
-      if(!error.response?.status && (error.response?.statusText === 'xhr' || 'preflight')) {
-        // window.location.reload();
-        // return false;
-        signOut();
-
-        return;
-      };
-
-      if(error.response?.status === 401 || error.response?.statusText === '401 Unauthorized') {
-        signOut();
-        return; 
-      }
-
-      return Promise.reject(error);
-    });
-
-  }, [history, token, baseApi, signOut]);
-
+  }
 
   return (
     <AuthContext.Provider
