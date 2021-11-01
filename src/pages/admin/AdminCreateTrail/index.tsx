@@ -110,57 +110,59 @@ export function AdminCreateTrail() {
 
   return (
     <Container>
-      <AdminSideBar />
-      <Content>
-        <FormContainer>
-          <h1>Criar trilha</h1>
-          
-          <Form onSubmit={handleCreateTrailSubmit} ref={createTrailFormRef}>
-            <InputFile 
-              name="avatar"
-            />
-            <div className="trail_inputs">
-              <Input 
-                name="name"
-                title="Nome da trilha"
-              />
-              <Input 
-                name="description"
-                title="Descrição"
-                inputType="textarea"
-              />
-            </div>
-            <Button type="submit" isLoading={createTrailLoading.state}>Criar</Button>
-          </Form>
-        </FormContainer>
-        <AllTrailsContainer>
-          <h1>Todas as trilhas</h1>
-          <Trails isLoading={listAllTrailsLoading.state}>
-            {listAllTrailsLoading.state ? (
-              <Loading 
-                type="circle" 
-                size={{
-                  height: '64px',
-                  width: '64px'
-                }} 
-              />
-            ) : (
-              listAllTrail.map(trail => (
-                <Trail to={`/admin/trail/${trail.id}`} >
-                  <div className="trail_container">
-                    <img src={trail.avatar_url ? trail.avatar_url : imgTest} alt={trail.name} />
-                    <div>
-                      <h3>{trail.name}</h3>
-                      <p>{trail.description}</p>
+      {listAllTrailsLoading.state ? (
+        <Loading 
+          type="circle" 
+          size={{
+            height: '64px',
+            width: '64px'
+          }} 
+        />
+      ) : (
+        <>
+          <AdminSideBar />
+          <Content>
+            <FormContainer>
+              <h1>Criar trilha</h1>
+              
+              <Form onSubmit={handleCreateTrailSubmit} ref={createTrailFormRef}>
+                <InputFile 
+                  name="avatar"
+                />
+                <div className="trail_inputs">
+                  <Input 
+                    name="name"
+                    title="Nome da trilha"
+                  />
+                  <Input 
+                    name="description"
+                    title="Descrição"
+                    inputType="textarea"
+                  />
+                </div>
+                <Button type="submit" isLoading={createTrailLoading.state}>Criar</Button>
+              </Form>
+            </FormContainer>
+            <AllTrailsContainer>
+              <h1>Todas as trilhas</h1>
+              <Trails isLoading={listAllTrailsLoading.state}>
+                {listAllTrail.map(trail => (
+                  <Trail to={`/admin/trail/${trail.id}`} >
+                    <div className="trail_container">
+                      <img src={trail.avatar_url ? trail.avatar_url : imgTest} alt={trail.name} />
+                      <div>
+                        <h3>{trail.name}</h3>
+                        <p>{trail.description}</p>
+                      </div>
                     </div>
-                  </div>
-                  <IoIosArrowForward />
-                </Trail>
-              ))
-            )}
-          </Trails>
-        </AllTrailsContainer>
-      </Content>
+                    <IoIosArrowForward />
+                  </Trail>
+                ))}
+              </Trails>
+            </AllTrailsContainer>
+          </Content>
+        </>
+      )}
     </Container>
   )
 }
