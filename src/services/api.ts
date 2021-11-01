@@ -7,7 +7,8 @@ import {
   CreateTrailParams,
   UpdateTrailParams,
   DeleteTrailParams,
-  CreatePlaylistParams
+  CreatePlaylistParams,
+  ListAllByTrailParams
 } from './apiParams';
 
 import {
@@ -18,10 +19,20 @@ import {
   ListAllTrailsResponse,
   ListAllPlaylistsByTrailResponse,
   CreatePlaylistResponse,
+  User,
 } from './apiResponse';
+
+let token = localStorage.getItem('@slikend:token');
+
+if(!token) {
+  token = '';
+} 
 
 export const baseApi = axios.create({
   baseURL: 'https://slinked-test.herokuapp.com',
+  headers: {
+    authorization: `Bearer ${token}`
+  }
 });
 
 const adminResource = '/sub-admins';
@@ -56,7 +67,10 @@ export const api = {
   user: {
     create: (data: CreateUserParams, config?: AxiosRequestConfig): Promise<AxiosResponse<CreateUserResponse>> => {
       return baseApi.post('/users', data, config);
-    }
+    },
+    getProfile: (): Promise<AxiosResponse<User>> => {
+      return baseApi.get('/profile');
+    },
   },
   admin: {
     createUser: (data: CreateUserByAdminParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
@@ -76,8 +90,8 @@ export const api = {
       },
     },
     playlist: {
-      listAllByTrail: (): Promise<AxiosResponse<ListAllPlaylistsByTrailResponse[]>> => {
-        return baseApi.get('/playlists/trail-list-all');
+      listAllByTrail: (data: ListAllByTrailParams): Promise<AxiosResponse<ListAllPlaylistsByTrailResponse[]>> => {
+        return baseApi.get(`/playlists/trail-list-all?trail_id=${data.trail_id}`);
       }
     }
   }
