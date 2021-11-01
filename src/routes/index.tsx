@@ -23,7 +23,7 @@ export function Routes() {
       {/* <RouterCustom path="/admin" exact /> */}
 
       <RouterCustom path="/admin/trail/create" isAdmin exact component={AdminCreateTrail} />
-      <RouterCustom path="/admin/trail/:trail_id" isAdmin component={AdminTrail} />
+      <RouterCustom path="/admin/trail/:trail_id" isAdmin exact component={AdminTrail} />
       <RouterCustom path="/admin/trail/:trail_id/playlist" isAdmin exact component={AdminPlaylist} />
       
       {/* User */}
