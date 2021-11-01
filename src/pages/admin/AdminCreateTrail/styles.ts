@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
@@ -66,11 +66,17 @@ export const AllTrailsContainer = styled.section`
   }
 `;
 
-export const Trails = styled.div`
+type TrailsProps = {
+  isLoading?: boolean;
+}
+
+export const Trails = styled.div<TrailsProps>`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${(props) => props.isLoading && css`
+    align-items: center;
+    justify-content: center;
+  `};
 
   margin-top: 24px;
   overflow: auto;
