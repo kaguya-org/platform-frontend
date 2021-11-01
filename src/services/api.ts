@@ -20,6 +20,7 @@ import {
   ListAllPlaylistsByTrailResponse,
   CreatePlaylistResponse,
   User,
+  TokenValidResponse,
 } from './apiResponse';
 
 let token = localStorage.getItem('@slikend:token');
@@ -71,6 +72,11 @@ export const api = {
     getProfile: (): Promise<AxiosResponse<User>> => {
       return baseApi.get('/profile');
     },
+    token: {
+      validate: (): Promise<AxiosResponse<TokenValidResponse>> => {
+        return baseApi.post('/users/tokens/validate-token');
+      }
+    }
   },
   admin: {
     createUser: (data: CreateUserByAdminParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {

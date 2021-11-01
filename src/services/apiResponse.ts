@@ -103,3 +103,7 @@ export type CreatePlaylistResponse = {
   created_at: string,
   updated_at: string;
 };
+
+export type TokenValidResponse = {
+  validated: boolean;
+}
