@@ -2,8 +2,16 @@ import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { Input } from '../../../components/HtmlPartials/Input';
 
-export const Container = styled.div`
+type ContainerProps = {
+  isLoading?: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
+  ${(props) => props.isLoading && css`
+    align-items: center;
+    justify-content: center;
+  `};
   height: 100%;
   width: 100%;
 `;
@@ -168,27 +176,26 @@ export const FormContainer = styled.section`
   }
 `;
 
-export const InputTrailName = styled(Input)`
-  &.labelInput {
-    background: none;
-    padding: 0;
+export const inputTrailName = {
+  container: {
+    background: 'none',
+    padding: 0,
+    
+    'border-bottom': '1px solid #353535',
+    'margin-bottom': '16px',
+    'border-radius': 0,
+  },
 
-    border-bottom: 1px solid #353535;
-    margin-bottom: 16px;
-    border-radius: 0;
+  input: {
+    'font-size': '32px',
+    'fontWeight': 700,
+    'font-family': 'var(--second-font)',
+  },
+};
 
-    input {
-      font-size: 32px;
-      font-weight: bold;
-
-      font-family: var(--second-font);
-    }
-  }
-`;
-
-export const InputTrailDescription = styled(Input)`
-  margin: 16px 0 32px;
-`;
+export const inputTrailDescription = {
+  margin: '16px 0 32px',
+}
 
 const appearFromLeft = keyframes`
   from {
