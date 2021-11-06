@@ -3,18 +3,15 @@ import {
   CircleLoading,
 } from './styles';
 
-type LoadingProps = {
-  size?: {
-    width?: string;
-    height?: string;
-  };
-  type: 'circle'
+export type LoadingProps = {
+  size?: string;
+  type?: 'circle'
 };
 
-export function Loading({type, ...rest}: LoadingProps) {
+export function Loading({type = 'circle', ...rest}: LoadingProps) {
   const loadings = {
     circle: <CircleLoading {...rest}/>,
-  }
+  };
 
   return (
     <LoadingContainer {...rest}>
