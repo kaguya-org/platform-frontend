@@ -43,13 +43,22 @@ export function Login() {
       await schema.validate(data, {
         abortEarly: false
       });
+      
+      const responseSignIn = await signIn(data);
 
-      await signIn(data);
+      const adminPermission = {
+        name: 'sub-admin',
+        permission: 1,
+      };
 
-      loading.changeToFalse();
+      const hasPermission = responseSignIn?.user?.user_roles.some((user_role) => adminPermission.permission >= user_role.role.permission);
 
-      history.push('/dashboard');
-
+      if(hasPermission) {
+        history.push('/admin/trail/create');
+      } else {
+        history.push('/dashboard');
+      }
+      
     } catch(error) {
       loading.changeToFalse();
 
@@ -62,7 +71,7 @@ export function Login() {
       }
 
       loginFormRef.current?.setErrors({
-        email: 'Cheque as credenciais'
+        email: 'E-mail ou senha incorreto'
       });
     }
   };
