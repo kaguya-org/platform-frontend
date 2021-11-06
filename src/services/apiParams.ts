@@ -54,3 +54,7 @@ export type CreatePlaylistParams = {
 export type ListAllByTrailParams = {
   trail_id: string;
 }
+
+export type AddTrailInUserParams = {
+  trail_id: string;
+}

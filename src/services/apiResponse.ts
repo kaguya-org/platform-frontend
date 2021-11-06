@@ -18,7 +18,9 @@ export type User = {
   enabled: boolean;
   created_at: string;
   updated_at: string;
-  role: Role;
+  user_roles: Array<{
+    role: Role;
+  }>;
 };
 
 export type ApiErrorResponse = AxiosError & {
@@ -33,7 +35,7 @@ export type ApiErrorResponse = AxiosError & {
 
 // auth
 export type LoginResponse = {
-  user: User,
+  user: User;
   token: string;
 }
 
@@ -106,4 +108,26 @@ export type CreatePlaylistResponse = {
 
 export type TokenValidResponse = {
   validated: boolean;
+}
+
+// export type ListAllRolesResponse = {
+//   id: string;
+//   name: string;
+//   permission: number;
+//   created_at: string;
+//   updated_at: string;
+// }
+
+export type ListAllTrailsFromUserResponse = {
+  trail: {
+    id: string;
+    name: string;
+    description: string;
+    avatar: string | null;
+    avatar_url: string | null;
+  },
+  trail_percentage_completed: number;
+  playlists_completed: number;
+  playlists_amount: number;
+  user: User;
 }

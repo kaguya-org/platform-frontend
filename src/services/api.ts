@@ -8,7 +8,8 @@ import {
   UpdateTrailParams,
   DeleteTrailParams,
   CreatePlaylistParams,
-  ListAllByTrailParams
+  ListAllByTrailParams,
+  AddTrailInUserParams
 } from './apiParams';
 
 import {
@@ -21,20 +22,18 @@ import {
   CreatePlaylistResponse,
   User,
   TokenValidResponse,
+  ListAllTrailsFromUserResponse
 } from './apiResponse';
 
-let token = localStorage.getItem('@slikend:token');
-
-if(!token) {
-  token = '';
-} 
+export const slinkedApiToken = '@slinked:token';
 
 export const baseApi = axios.create({
   baseURL: 'https://slinked-test.herokuapp.com',
-  headers: {
-    authorization: `Bearer ${token}`
-  }
 });
+
+let localStorageToken = localStorage.getItem(slinkedApiToken);
+
+baseApi.defaults.headers.common['Authorization'] = `Bearer ${localStorageToken}`;
 
 const adminResource = '/sub-admins';
 
@@ -57,7 +56,19 @@ const adminPlaylistApi = {
   create: (data: CreatePlaylistParams, config?: AxiosRequestConfig): Promise<AxiosResponse<CreatePlaylistResponse>> => {
     return baseApi.post(`${adminResource}/playlists`, data, config);
   }
-}
+};
+
+const userTrails = {
+  listAllTrailsFromUser: (): Promise<AxiosResponse<ListAllTrailsFromUserResponse[]>> => {
+    return baseApi.get('/user-trails/list-all');
+  },
+  addTrailInUser: (data: AddTrailInUserParams): Promise<AxiosResponse<ListAllTrailsFromUserResponse>> => {
+    return baseApi.post('/user-trails', data);
+  },
+  removeTrailInUser: (): Promise<void> => {
+    return baseApi.delete('/user-trails');
+  },
+};
 
 export const api = {
   authenticate: {
@@ -76,7 +87,10 @@ export const api = {
       validate: (): Promise<AxiosResponse<TokenValidResponse>> => {
         return baseApi.post('/users/tokens/validate-token');
       }
-    }
+    },
+    userTrails: {
+      ...userTrails
+    },
   },
   admin: {
     createUser: (data: CreateUserByAdminParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
@@ -99,6 +113,11 @@ export const api = {
       listAllByTrail: (data: ListAllByTrailParams): Promise<AxiosResponse<ListAllPlaylistsByTrailResponse[]>> => {
         return baseApi.get(`/playlists/trail-list-all?trail_id=${data.trail_id}`);
       }
+    },
+    roles: {
+      // listAll: (): Promise<AxiosResponse<ListAllRolesResponse[]>> => {
+      //   return baseApi.get('/roles/list-all');
+      // }
     }
   }
 };
