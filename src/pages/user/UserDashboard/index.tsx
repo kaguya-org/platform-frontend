@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   FaPlay,
@@ -6,14 +6,14 @@ import {
   BiDollarCircle,
   IoArrowRedoSharp,
   BsPlus,
-  IoIosArrowForward,
 } from 'react-icons/all';
 
 import { 
   SideBar,
   ProgressBar,
   Button,
-  UserPhoto
+  UserPhoto,
+  ContainerPage
 } from '../../../components';
 
 import {
@@ -33,14 +33,33 @@ import {
 } from './styles';
 
 import euImg from '../../../assets/images/eu.jpg';
+import { api } from '../../../services/api';
+import { ListAllTrailsFromUserResponse } from '../../../services/apiResponse';
+import { useBoolean } from '../../../hooks/useBoolean';
 
 const jsImg =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
 
 export function UserDashboard(): JSX.Element {
-  const [progressBar, setProgressBar] = useState(100);
+  const [allTrailsFromUser, setAllTrailsFromUser] = useState<ListAllTrailsFromUserResponse[]>([]);
+  
+  const loadingPage = useBoolean(true);
+  useEffect(() => {
+    api.user.userTrails.listAllTrailsFromUser().then(response => {
+      setAllTrailsFromUser(response.data);
+      loadingPage.changeToFalse();
+    });
+
+    return () => loadingPage.changeToFalse();
+  }, []);
+
   return (
-    <Container>
+    <ContainerPage 
+      isLoading={loadingPage.state}
+      loadingProps={{
+        size: '64px',
+      }}
+    >
       <SideBar />
       <Content>
         <LeftContent>
@@ -67,38 +86,17 @@ export function UserDashboard(): JSX.Element {
             </header>
 
             <MyTrailsContainer>
-              <MyTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                  <span>
+              {allTrailsFromUser.map(({trail, trail_percentage_completed}) => (
+                <MyTrail to={`/trail/${trail.id}`} key={trail.id}>
+                  <header>
+                    <img src={trail.avatar_url ? trail.avatar_url : jsImg} alt={trail.name} />
                     <IoArrowRedoSharp />
-                    Acessar
-                  </span>
-                </header>
-                <span>Javascript</span>
+                  </header>
+                  <span>{trail.name}</span>
 
-                <ProgressBar percent={68} />
-              </MyTrail>
-              <MyTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                  <button>
-                    <IoIosArrowForward />
-                  </button>
-                </header>
-                <span>Javascript</span>
-
-                <ProgressBar percent={progressBar} />
-              </MyTrail>
-              <MyTrail>
-                <header>
-                  <img src={jsImg} alt="Js" />
-                  <IoArrowRedoSharp />
-                </header>
-                <span>Javascript</span>
-
-                <ProgressBar percent={4} />
-              </MyTrail>
+                  <ProgressBar percent={trail_percentage_completed} />
+                </MyTrail>
+              ))}
             </MyTrailsContainer>
           </MyTrailsSection>
         </LeftContent>
@@ -169,6 +167,6 @@ export function UserDashboard(): JSX.Element {
           </OtherTrailsSection>
         </RightContent>
       </Content>
-    </Container>
+    </ContainerPage>
   );
 }
