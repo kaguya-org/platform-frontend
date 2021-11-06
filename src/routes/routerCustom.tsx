@@ -1,29 +1,56 @@
-import { useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { api } from '../services/api';
 
-type RouterCustomProps = RouteProps & {
+export type RouterCustomProps = RouteProps & {
   isPrivate?: boolean;
-  isAdmin?: boolean;
+  role?: {
+    name?: string;
+    permission: number;
+  };
   ifAuthenticated?: boolean;
+  ifLoggedNotEnter?: boolean;
 };
 
-export function RouterCustom({isPrivate, ifAuthenticated, isAdmin, ...rest}: RouterCustomProps) {
-  const { token, signOut } = useAuth();
+export function RouterCustom({
+  isPrivate, 
+  ifAuthenticated,
+  ifLoggedNotEnter,
+  role = {name: 'default', permission: 2}, 
+  ...rest
+}: RouterCustomProps) {
+  const { token, tokenIsValid, signOut, user } = useAuth();
 
-  useEffect(() => {
-    api.user.token.validate().then(response => {
-      if(!response.data.validated && isPrivate) {
-        signOut();
-        return
-      }
-    });
-  }, []);
+  const hasPermission = user?.user_roles.some((user_role) => role.permission >= user_role.role.permission);
+
+  const permissionPromise = Promise.resolve(hasPermission);
   
-    if(isAdmin && !token || !token && ifAuthenticated) {
-      return <Redirect to="/" />;
+  permissionPromise.then(response => {
+    if(!hasPermission && isPrivate) {
+      if(tokenIsValid && token) {
+        return <Redirect to="/dashboard" />;
+      }
+      
+      return <Redirect to="/" />
+    } 
+  });
+  
+  if(isPrivate && !(token || tokenIsValid)) {
+    signOut();
+    return <Redirect to="/login" />;
+  }
+
+  if(ifLoggedNotEnter && tokenIsValid && token) {
+    const hasPermissionToRedirect = user?.user_roles.some(user_role => {
+      user_role.role.permission <= 1
+    });
+
+    if(hasPermissionToRedirect) {
+      return <Redirect to="/admin/trail/create" />;
+    } else {
+      return <Redirect to="/dashboard" />;
     }
+  }
 
   return (
     <Route {...rest} />
