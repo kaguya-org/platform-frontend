@@ -1,15 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 
 type LoadingContainerProps = {
-  size?: {
-    width?: string;
-    height?: string;
-  };
+  size?: string | '18px';
 };
 
 export const LoadingContainer = styled.div<LoadingContainerProps>`
-  width: ${({size}) => size?.width || '18px'};
-  height: ${({size}) => size?.height || '18px'};
+  width: ${({size}) => size};
+  height: ${({size}) => size};
 `;
 
 const circleLoadingKeyFrame = keyframes`
