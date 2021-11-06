@@ -9,3 +9,4 @@ export { Button } from './HtmlPartials/Button';
 export { Input } from './HtmlPartials/Input';
 export { InputFile } from './HtmlPartials/InputFile';
 export { UserPhoto } from './UserPhoto';
+export { ContainerPage, ContentPage } from './ContainerPage';
