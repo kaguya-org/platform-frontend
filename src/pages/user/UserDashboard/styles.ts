@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import backgroundImg from '../../../assets/images/background.svg';
@@ -148,7 +149,7 @@ export const MyTrailsContainer = styled.div`
   gap: 16px;
 `;
 
-export const MyTrail = styled.div`
+export const MyTrail = styled(Link)`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
