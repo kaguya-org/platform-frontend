@@ -8,10 +8,7 @@ import {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   isLoading?: boolean;
-  loadingSize?: {
-    width?: string;
-    height?: string;
-  }
+  loadingSize?: string;
 }
 
 export function Button({children, isLoading, loadingSize, ...rest}: ButtonProps) {
