@@ -69,7 +69,7 @@ export function Routes() {
       
       {/* User */}
       <RouterCustom path="/profile" ifAuthenticated isPrivate exact component={UserProfile} />
-      <RouterCustom path="/dashboard" ifAuthenticated isPrivate  exact component={UserDashboard} />
+      <RouterCustom path="/dashboard" ifAuthenticated isPrivate exact component={UserDashboard} />
       <RouterCustom path="/trail/:trail_id" ifAuthenticated isPrivate exact component={UserTrail} />
       <RouterCustom path="/trail/:trail_id/:playlist_id" ifAuthenticated isPrivate exact component={UserPlaylist} />
 
