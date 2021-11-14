@@ -20,7 +20,6 @@ import { ListAllTrailsResponse } from '../../../services/apiResponse';
 import { getValidationErrors } from '../../../utils/getValidationErrors';
 
 import { 
-  Container,
   Content,
   FormContainer,
   AllTrailsContainer,
@@ -29,7 +28,7 @@ import {
 } from './styles';
 
 import imgTest from '../../../assets/images/react.png';
-import { ContainerPage, ContentPage } from '../../../components';
+import { ContainerPage } from '../../../components';
 
 export function AdminCreateTrail() {
   const history = useHistory();
@@ -118,7 +117,7 @@ export function AdminCreateTrail() {
       }}
     >
       <AdminSideBar />
-      <ContentPage>
+      <Content>
         <FormContainer>
           <h1>Criar trilha</h1>
           
@@ -158,7 +157,7 @@ export function AdminCreateTrail() {
             ))}
           </Trails>
         </AllTrailsContainer>
-      </ContentPage>
+      </Content>
     </ContainerPage>
   )
 }

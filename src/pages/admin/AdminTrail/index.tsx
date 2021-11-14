@@ -12,7 +12,6 @@ import {
 import {
   AdminSideBar,
   ContainerPage,
-  ContentPage,
   Input,
   InputFile,
 } from '../../../components';
@@ -102,7 +101,7 @@ export function AdminTrail() {
       }}
     >
       <AdminSideBar />
-      <ContentPage>
+      <Content>
         <FormContainer>
           <Form ref={updateTrailFormRef} onSubmit={handleUpdateTrailInfo}>
             <div>
@@ -259,7 +258,7 @@ export function AdminTrail() {
             <FiPlus />
           </button>
         </AllPlaylistTrailContainer>
-      </ContentPage>
+      </Content>
     </ContainerPage>
   );
 }
