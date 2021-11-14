@@ -4,6 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 
     list-style: none;
     text-decoration: none;
@@ -22,6 +23,10 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     cursor: pointer;
+  }
+
+  h1, h2 {
+    font-size: 2.4rem;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -51,9 +56,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, html, #root {
-    width: 100%;
-    height: 100%;
     position: relative;
+
+    font-size: 62.5%;
 
     background: var(--primary-background);
   }
