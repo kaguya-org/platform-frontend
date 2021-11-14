@@ -7,23 +7,30 @@ import {
 
 import AVATAR_DEFAULT from '../../assets/images/eu.jpg';
 
-type Props = {
+export type UserPhotoProps = {
   imageUri: string | undefined;
-  size?: {
-    containerSize?: string;
-    avatarSize?: string;
+  size: number;
+
+  containerProps?: {
+    style?: React.CSSProperties;
+  };
+  avatarProps?: {
+    style?: React.CSSProperties;
   };
 }
 
-export function UserPhoto({ imageUri, size }: Props){
+export function UserPhoto({
+  imageUri, 
+  size, 
+  avatarProps, 
+  containerProps,
+}: UserPhotoProps) {
 
   return (
     <Container
       style={
         {
-          width: size?.containerSize,
-          height: size?.containerSize,
-          borderRadius: '50%',
+          ...containerProps?.style
         }
       }
     >
@@ -31,9 +38,9 @@ export function UserPhoto({ imageUri, size }: Props){
         src={imageUri || AVATAR_DEFAULT} 
         style={
           {
-            width: size?.avatarSize,
-            height: size?.avatarSize,
-            borderRadius: '50%',
+            width: `${size}px`,
+            height: `${size}px`,
+            ...avatarProps?.style,
           }
         }
         />
