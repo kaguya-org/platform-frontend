@@ -1,5 +1,7 @@
+import { useBoolean } from '../hooks/useBoolean';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { api, baseApi, slinkedApiToken } from '../services/api';
 import { LoginParams } from '../services/apiParams';
 import { User, LoginResponse} from '../services/apiResponse';
@@ -7,7 +9,7 @@ import { User, LoginResponse} from '../services/apiResponse';
 type AuthContextData = {
   user: User | null;
   token: string | null;
-  tokenIsValid: boolean | undefined;
+  tokenIsValid: boolean;
 
   signIn(credentials: LoginParams): Promise<LoginResponse | undefined>;
   signOut(): void;
@@ -26,19 +28,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [tokenIsValid, setTokenIsValid] = useState(true);
 
+  const loading = useBoolean(true);
+
   useEffect(() => {
     const getToken = localStorage.getItem(slinkedApiToken);
     setToken(getToken);
-
-    const getUser = localStorage.getItem('user');
-
+    
     baseApi.defaults.headers.common['Authorization'] = `Bearer ${getToken}`;
 
     api.user.token.validate().then(response => {
       setTokenIsValid(response.data.validated);
+
+      if(!(response.data.validated || token)) {
+        setTokenIsValid(false);
+      }
     });
 
-    setUser(getUser ? JSON.parse(getUser) : null);
+    api.user.getProfile().then(response => {
+      setUser(response.data);
+    })
+
+    return () => loading.changeToFalse();
   }, []);
 
   async function signIn(credentials: LoginParams): Promise<LoginResponse | undefined> {
@@ -69,11 +79,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return responseModified || undefined;
   }
 
-  function signOut(redirect?: boolean) {
+  function signOut(redirect?: {
+    to?: string;
+  }) {
     localStorage.removeItem(slinkedApiToken);
 
     if(redirect) {
-      history.push('/login');
+      history.push(redirect.to || '/login');
     }
   }
 
