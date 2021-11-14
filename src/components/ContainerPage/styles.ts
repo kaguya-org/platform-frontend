@@ -13,11 +13,3 @@ export const Container = styled.div<ContainerProps>`
   height: 100%;
   width: 100%;
 `;
-
-export const Content = styled.main`
-  display: flex;
-  gap: 18px;
-
-  width: 100%;
-  margin: 64px;
-`;

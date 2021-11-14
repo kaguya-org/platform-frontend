@@ -3,18 +3,19 @@ import { LoadingProps } from '../Loading';
 
 import {
   Container,
-  Content
 } from './styles';
 
 type ContainerProps = {
   loadingProps?: LoadingProps;
   isLoading?: boolean;
   children?: React.ReactNode;
+
+  containerStyle?: React.CSSProperties;
 }
 
-export function ContainerPage({ loadingProps, isLoading, children }: ContainerProps) {
+export function ContainerPage({ loadingProps, isLoading, containerStyle, children }: ContainerProps) {
   return (
-    <Container>
+    <Container style={containerStyle}>
       {isLoading ? (
         <Loading {...loadingProps} />
       ): (
@@ -23,19 +24,5 @@ export function ContainerPage({ loadingProps, isLoading, children }: ContainerPr
         </>
       )}
     </Container>
-  );
-}
-
-type ContentProps = {
-  children?: React.ReactNode;
-}
-
-export function ContentPage({ children }: ContentProps) {
-  return (
-    <Content>
-      <>
-        {children}
-      </>
-    </Content>
   );
 }
