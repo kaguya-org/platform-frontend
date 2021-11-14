@@ -119,6 +119,7 @@ export type TokenValidResponse = {
 // }
 
 export type ListAllTrailsFromUserResponse = {
+  id: string;
   trail: {
     id: string;
     name: string;
@@ -130,4 +131,13 @@ export type ListAllTrailsFromUserResponse = {
   playlists_completed: number;
   playlists_amount: number;
   user: User;
+}
+
+export type ShowTrailResponse = {
+  id: string,
+  name: string,
+  description: string,
+  avatar_url: null | string,
+  created_at: string,
+  updated_at: string;
 }

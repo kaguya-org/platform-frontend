@@ -9,7 +9,9 @@ import {
   DeleteTrailParams,
   CreatePlaylistParams,
   ListAllByTrailParams,
-  AddTrailInUserParams
+  AddTrailInUserParams,
+  ShowTrailParams,
+  RemoveTrailInUserParams,
 } from './apiParams';
 
 import {
@@ -22,7 +24,8 @@ import {
   CreatePlaylistResponse,
   User,
   TokenValidResponse,
-  ListAllTrailsFromUserResponse
+  ListAllTrailsFromUserResponse,
+  ShowTrailResponse
 } from './apiResponse';
 
 export const slinkedApiToken = '@slinked:token';
@@ -65,8 +68,8 @@ const userTrails = {
   addTrailInUser: (data: AddTrailInUserParams): Promise<AxiosResponse<ListAllTrailsFromUserResponse>> => {
     return baseApi.post('/user-trails', data);
   },
-  removeTrailInUser: (): Promise<void> => {
-    return baseApi.delete('/user-trails');
+  removeTrailInUser: (data: RemoveTrailInUserParams): Promise<void> => {
+    return baseApi.delete(`/user-trails?user_trail_id=${data.user_trail_id}`);
   },
 };
 
@@ -107,6 +110,9 @@ export const api = {
     trail: {
       listAll: (): Promise<AxiosResponse<ListAllTrailsResponse[]>> => {
         return baseApi.get('/trails/list-all');
+      },
+      getInfo: (data: ShowTrailParams): Promise<AxiosResponse<ShowTrailResponse>> => {
+        return baseApi.get(`/trails/show?trail_id=${data.trail_id}`);
       },
     },
     playlist: {
