@@ -1,6 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { api } from '../services/api';
 
 export type RouterCustomProps = RouteProps & {
   isPrivate?: boolean;
@@ -21,21 +22,7 @@ export function RouterCustom({
 }: RouterCustomProps) {
   const { token, tokenIsValid, signOut, user } = useAuth();
 
-  const hasPermission = user?.user_roles.some((user_role) => role.permission >= user_role.role.permission);
-
-  const permissionPromise = Promise.resolve(hasPermission);
-  
-  permissionPromise.then(response => {
-    if(!hasPermission && isPrivate) {
-      if(tokenIsValid && token) {
-        return <Redirect to="/dashboard" />;
-      }
-      
-      return <Redirect to="/" />
-    } 
-  });
-  
-  if(isPrivate && !(token || tokenIsValid)) {
+  if(isPrivate && !tokenIsValid) {
     signOut();
     return <Redirect to="/login" />;
   }
@@ -51,6 +38,20 @@ export function RouterCustom({
       return <Redirect to="/dashboard" />;
     }
   }
+  
+  const hasPermission = user?.user_roles.some((user_role) => role.permission >= user_role.role.permission);
+
+  const permissionPromise = Promise.resolve(hasPermission);
+  
+  permissionPromise.then(response => {
+    if(!hasPermission && isPrivate) {
+      if(tokenIsValid && token) {
+        return <Redirect to="/dashboard" />;
+      }
+      
+      return <Redirect to="/" />
+    } 
+  });
 
   return (
     <Route {...rest} />
