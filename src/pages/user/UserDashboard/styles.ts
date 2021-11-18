@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { 
+  BACKGROUND, 
+  COLORS, 
+  FONTS, 
+  FONTS_COLORS,
+  UNIQUE_CASE_COLORS,
+} from '../../../theme';
 
 export const Content = styled.main`
   display: flex;
@@ -26,16 +33,6 @@ export const LeftContent = styled.div`
 
   max-width: 110rem;
 
-  div.line_separator {
-    width: 100%;
-    height: 2px;
-    background: 
-      -webkit-gradient(linear, 0 0, 100% 0, 
-      from(var(--second-background)), 
-      to(var(--second-background)), 
-      color-stop(50%, #353535));
-  }
-
   @media(max-width: 1100px) {
     margin: 0;
   } 
@@ -57,12 +54,11 @@ export const Welcome = styled.section`
     span {
       font-size: 1.6rem;
       font-weight: 500;
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
     }
 
     h1 {
       letter-spacing: 0.8px;
-      font-family: var(--second-font);
       margin-top: 0.8rem;
     }
   }
@@ -73,8 +69,13 @@ export const LastClasse = styled(Link)`
   padding: 3.2rem;
   border-radius: 0.8rem;
 
-  background: var(--second-background);
-  background: linear-gradient(90deg, var(--second-background) 0%, var(--second-background) 31%, rgba(101,67,99, 0.7) 100%);
+  background: ${BACKGROUND.SECONDARY};
+  background: 
+    linear-gradient(90deg, 
+      ${BACKGROUND.SECONDARY} 0%, 
+      ${BACKGROUND.SECONDARY} 31%, 
+      rgba(101,67,99, 0.7) 100%
+    );
 
   display: flex;
   align-items: center;
@@ -85,7 +86,7 @@ export const LastClasse = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 2px -2px 2px #c950c4;
+    box-shadow: 2px -2px 2px ${COLORS.QUARTENARY};
   }
 
   div.last_classe_information {
@@ -109,7 +110,7 @@ export const LastClasse = styled(Link)`
 
       span.trail_name {
         margin-top: 0.8rem;
-        color: #c4c4c4;
+        color: ${FONTS_COLORS.SECONDARY};
         letter-spacing: 0.8px;
         
         font-size: 1.4rem;
@@ -125,7 +126,7 @@ export const LastClasse = styled(Link)`
     font-size: 1.6rem;
 
     span {
-      background: #c950c4;
+      background: ${COLORS.QUARTENARY};
       border-radius: 50%;
       padding: 1.2rem;
 
@@ -181,16 +182,16 @@ export const MyTrailsSection = styled.section`
       font-size: 1.6rem;
       font-weight: 500;
 
-      color: #c4c4c4;
-      border-bottom: 0.1rem solid #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
+      border-bottom: 0.1rem solid ${FONTS_COLORS.SECONDARY};
 
       letter-spacing: 0.7px;
 
       transition: color 0.2s;
 
       &:hover {
-        color: var(--third-color);
-        border-bottom: 0.1rem solid var(--third-color);
+        color: ${COLORS.SECONDARY};
+        border-bottom: 0.1rem solid ${COLORS.SECONDARY};
       }
     }
   }
@@ -240,11 +241,11 @@ export const MyTrail = styled(Link)`
   justify-content: center;
   flex-direction: column;
 
-  background: var(--second-background);
+  background: ${BACKGROUND.SECONDARY};
   transition: 0.2s;
 
   border-radius: 0 0 0.8rem 0.8rem;
-  border-bottom: 0.1rem solid var(--second-color);
+  border-bottom: 0.1rem solid ${COLORS.PRIMARY};
 
   :hover {
     background: rgb(20, 20, 32);
@@ -268,7 +269,7 @@ export const MyTrail = styled(Link)`
 
     font-size: 2.4rem;
     font-weight: 600;
-    font-family: var(--second-font), sans-serif;
+    font-family: ${FONTS.SECONDARY}, sans-serif;
 
     max-width: 100%;
     margin: 1rem 0 2.4rem;
@@ -282,7 +283,7 @@ export const MyTrail = styled(Link)`
 `;
 
 export const ComunitySection = styled.a`
-  background: var(--second-background);
+  background: ${BACKGROUND.SECONDARY};
   
   cursor: pointer;
 
@@ -297,7 +298,7 @@ export const ComunitySection = styled.a`
   transition: all 0.2s;
 
   &:hover {
-    box-shadow: -2px -2px 2px #5381d3;
+    box-shadow: -2px -2px 2px ${UNIQUE_CASE_COLORS.DISCORD};
   }
 
   > svg {
@@ -307,7 +308,7 @@ export const ComunitySection = styled.a`
     margin-right: 1.6rem;
     
     path {
-      color: #5381d3;
+      color: ${UNIQUE_CASE_COLORS.DISCORD};
     }
   }
 
@@ -322,7 +323,7 @@ export const ComunitySection = styled.a`
 
     p {
       margin-top: 0.8rem;
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
 
       font-size: 1.6rem;
     }
@@ -363,7 +364,7 @@ export const ComunitySection = styled.a`
 `;
 
 export const RightContent = styled.section`
-  background: var(--third-background);
+  background: ${BACKGROUND.TERTIARY};
   width: 100%;
   height: 100vh;
 
@@ -417,7 +418,7 @@ export const OtherTrail = styled(Link)`
 
   padding: 1.6rem;
 
-  background: #0f0f11;
+  background: ${BACKGROUND.BLACK};
 
   border-radius: 0.8rem;
 
@@ -425,7 +426,7 @@ export const OtherTrail = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 2px -2px 2px #c950c4;
+    box-shadow: 2px -2px 2px ${COLORS.QUARTENARY};
   }
 
   &:not(:first-child) {
@@ -445,7 +446,7 @@ export const OtherTrail = styled(Link)`
 
     span {
       font-size: 1.6rem;
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
 
     }
   }
