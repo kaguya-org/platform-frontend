@@ -1,4 +1,4 @@
-export { Header } from './Header';
+export { Header } from './HtmlPartials/Header';
 export { Loading } from './Loading';
 export { ProgressBar } from './ProgressBar';
 export { SideBar } from './SideBar';

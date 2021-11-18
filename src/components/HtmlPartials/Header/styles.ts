@@ -1,10 +1,11 @@
 import styled, { keyframes } from 'styled-components';
+import { BACKGROUND, COLORS, FONTS_COLORS } from '../../../theme';
 
 export const Container = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  background: var(--third-background);
+  background: ${BACKGROUND.TERTIARY};
   width: 100%;
 `;
 
@@ -27,34 +28,35 @@ export const Content = styled.div`
   
   max-width: 1100px;
   width: 100%;
-  padding: 16px 0;
+  padding: 1.6rem 0;
   margin: 0 auto;
 
   nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 1.6rem;
 
     a {
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
       transition: all 0.2s;
       position: relative;
+      font-size: 1.4rem;
 
       &.login {
-        background: var(--second-color);
-        color: var(--primary-font-color);
-        padding: 8px 24px;
-        border-radius: 8px;
+        background: ${COLORS.PRIMARY};
+        color: ${FONTS_COLORS.PRIMARY};
+        padding: 0.8rem 2.4rem;
+        border-radius: 0.8rem;
         font-weight: 600;
         letter-spacing: 0.9px;
       }
 
       &:hover {
-        color: var(--second-color);
+        color: ${COLORS.PRIMARY};
 
         &.login {
-          color: var(--primary-font-color);
+          color: ${FONTS_COLORS.PRIMARY};
         }
 
         &.animation-none {          
@@ -67,10 +69,10 @@ export const Content = styled.div`
         &:before {
           content: '';
           position: absolute;
-          height: 2px;
-          background: var(--second-color);
+          height: 0.2rem;
+          background: ${COLORS.PRIMARY};
           left: 0;
-          bottom: -12px;
+          bottom: -1.2rem;
           width: 100%;
 
           animation: ${appearFromLeft} 0.4s;
