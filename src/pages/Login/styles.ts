@@ -1,29 +1,21 @@
 import styled from 'styled-components';
 
 import { Form } from '@unform/web';
-
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
+import { BACKGROUND, COLORS, FONTS_COLORS } from '../../theme';
 
 export const Content = styled.main`
   display: flex;
   flex-direction: column;
 
-  max-width: 460px;
+  max-width: 46.0rem;
   width: 100%;
   height: min-content;
   margin: 0 auto;
 
-  border-radius: 8px;
-  background: var(--second-background);
+  border-radius: 0.8rem;
+  background: ${BACKGROUND.SECONDARY};
 
-  > div:first-child {
+  nav.login_register_navigation {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -32,24 +24,25 @@ export const Content = styled.main`
     a, span {
       text-align: center;
       width: 100%;
-      padding: 16px;
+      padding: 1.6rem;
+
+      font-size: 1.6rem;
     }
 
     a {
-      color: var(--second-color);
-      border-bottom: 2px solid var(--second-color);
-      border-left: 2px solid var(--second-color);
-      border-radius: 8px;
-      background: var(--third-background);
+      color: ${COLORS.PRIMARY};
+      border-bottom: 2px solid ${COLORS.PRIMARY};
+      border-left: 2px solid ${COLORS.PRIMARY};
+      border-radius: 0.8rem;
+      background: ${BACKGROUND.TERTIARY};
     }
   }
 
   section {
-    padding: 32px;
+    padding: 3.2rem;
 
     h1 {
-      font-size: 24px;
-      margin-bottom: 24px;
+      margin-bottom: 2.4rem;
     }
   }
 `;
@@ -61,28 +54,28 @@ export const FormTag = styled(Form)`
     width: 100%;
 
     span.forgot_password {
-      color: #c4c4c4;
-      font-size: 14px;
+      color: ${FONTS_COLORS.SECONDARY};
+      font-size: 1.4rem;
 
-      margin: 8px 0 24px;
+      margin: 0.8rem 0 2.4rem;
 
       button {
-        color: #c4c4c4;
-        font-size: 14px;
-        margin-left: 2px;
+        color: ${FONTS_COLORS.SECONDARY};
+        font-size: 1.4rem;
+        margin-left: 0.2rem;
 
         text-decoration: underline;
         transition: all 0.2s;
 
         &:hover {
-          color: var(--second-color);
+          color: ${COLORS.PRIMARY};
         }
       }
     }
   }
 
   > button {
-    max-width: 200px;
+    max-width: 20.0rem;
     width: 100%;
   }
 `;
