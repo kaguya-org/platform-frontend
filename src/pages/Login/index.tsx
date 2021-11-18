@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { FormHandles } from '@unform/core';
-import { FaLock, FaUser } from 'react-icons/all';
+import { FaLock, MdEmail } from 'react-icons/all';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -8,7 +8,7 @@ import {
   Header, 
   Button, 
   Input,
-  Loading
+  ContainerPage,
 } from '../../components';
 
 import { LoginParams } from '../../services/apiParams';
@@ -17,7 +17,6 @@ import { getValidationErrors } from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/useAuth';
 
 import {
-  Container,
   Content,
   FormTag
 } from './styles';
@@ -77,13 +76,18 @@ export function Login() {
   };
   
   return (
-    <Container>
+    <ContainerPage 
+      containerStyle={{
+        alignItems: 'center',
+        height: '100vh'
+      }}
+    >
       <Header />
       <Content>
-        <div>
-          <span>Login</span>
-          <Link to="/register">Register</Link>
-        </div>
+        <nav className="login_register_navigation">
+          <span>Logar</span>
+          <Link to="/register">Registrar</Link>
+        </nav>
         <section>
           <h1>Logar na plataforma</h1>
           <FormTag ref={loginFormRef} onSubmit={handleSubmitLogin}>
@@ -91,7 +95,7 @@ export function Login() {
               <Input 
                 name="email" 
                 title="E-mail"
-                icon={<FaUser/>}
+                icon={<MdEmail/>}
               />
               <Input 
                 name="password" 
@@ -107,6 +111,6 @@ export function Login() {
           </FormTag>
         </section>
       </Content>
-    </Container>
+    </ContainerPage>
   );
 }
