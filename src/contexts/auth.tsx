@@ -3,8 +3,8 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { api, baseApi, slinkedApiToken } from '../services/api';
-import { LoginParams } from '../services/apiParams';
-import { User, LoginResponse} from '../services/apiResponse';
+import { LoginParams, RegisterUserParams } from '../services/apiParams';
+import { User, LoginResponse, RegisterUserResponse} from '../services/apiResponse';
 
 type AuthContextData = {
   user: User | null;
@@ -12,6 +12,7 @@ type AuthContextData = {
   tokenIsValid: boolean;
 
   signIn(credentials: LoginParams): Promise<LoginResponse | undefined>;
+  register(credentials: RegisterUserParams): Promise<RegisterUserResponse | undefined>;
   signOut(): void;
 }
 
@@ -79,6 +80,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return responseModified || undefined;
   }
 
+  async function register(credentials: RegisterUserParams): Promise<RegisterUserResponse | undefined> {
+    const response = await api.user.register(credentials);
+
+    // localStorage.setItem(slinkedApiToken, token);
+
+    // baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    // setToken(token);
+    setUser(response.data.user);
+    setTokenIsValid(true);
+
+    return response.data || undefined;
+  }
+
   function signOut(redirect?: {
     to?: string;
   }) {
@@ -91,7 +106,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{signIn, signOut, user, token, tokenIsValid}}
+      value={{signIn, register, signOut, user, token, tokenIsValid}}
     >
       {children}
     </AuthContext.Provider>
