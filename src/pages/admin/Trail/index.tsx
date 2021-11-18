@@ -41,7 +41,7 @@ type LocationParams = {
   trail_id: string;
 }
 
-export function AdminTrail() {
+export function Trail() {
   const updateTrailFormRef = useRef<FormHandles>(null);
 
   const history = useHistory();

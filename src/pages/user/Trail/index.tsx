@@ -38,7 +38,7 @@ type LocationParams = {
   trail_id: string;
 }
   
-export function UserTrail() {
+export function Trail() {
   const loadingPage = useBoolean(true);
   const loadingAddTrail = useBoolean(false);
   const loadingRemoveTrail = useBoolean(false);

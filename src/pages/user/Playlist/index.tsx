@@ -25,7 +25,7 @@ import {
   Classe
 } from './styles';
 
-export function UserPlaylist() {
+export function Playlist() {
   const [isLiked, setIsLiked] = useState(true);
   const [blockOpen, setBlockOpen] = useState(false);
 

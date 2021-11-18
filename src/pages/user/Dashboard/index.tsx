@@ -38,7 +38,7 @@ import { useAuth } from '../../../hooks/useAuth';
 const jsImg =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
 
-export function UserDashboard(): JSX.Element {
+export function Dashboard(): JSX.Element {
   const { user } = useAuth();
   const [allTrailsFromUser, setAllTrailsFromUser] = useState<ListAllTrailsFromUserResponse[]>([]);
   const [allTrails, setAllTrails] = useState<ListAllTrailsResponse[]>([]);
@@ -70,7 +70,7 @@ export function UserDashboard(): JSX.Element {
           <Welcome>
             <div>
               <span>
-                Olá, {user?.name.split(' ')[0]}
+                Olá, Tiago
               </span>
               <h1> Vamos estudar o que hoje? </h1>
             </div>
@@ -144,7 +144,7 @@ export function UserDashboard(): JSX.Element {
               <h1>Outras trilhas</h1>
               <OtherTrailsContainer>
                 {allTrails.map(trail => (
-                  <OtherTrail to={`/trail/${trail.id}`}>
+                  <OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
                     <img src={trail.avatar_url || jsImg} alt={trail.name} />
                     <div className="trail_information">
                       <h2 className="title">{trail.name}</h2>

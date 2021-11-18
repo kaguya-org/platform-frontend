@@ -2,16 +2,14 @@ import { Switch } from 'react-router-dom';
 import { RouterCustom, RouterCustomProps } from './routerCustom';
 
 // User routes
-import { UserDashboard } from '../pages/user/UserDashboard';
-import { UserTrail } from '../pages/user/UserTrail';
-import { UserPlaylist } from '../pages/user/UserPlaylist';
-import { UserProfile } from '../pages/user/UserProfile';
+import { Dashboard as UserDashboard } from '../pages/user/Dashboard';
+import { Trail as UserTrail } from '../pages/user/Trail';
+import { Playlist as UserPlaylist } from '../pages/user/Playlist';
 
 // Admin routes
-import { AdminCreateTrail } from '../pages/admin/AdminCreateTrail';
-import { AdminTrail } from '../pages/admin/AdminTrail';
-import { AdminPlaylist } from '../pages/admin/AdminPlaylist';
-import { AdminDashboard } from '../pages/admin/AdminDashboard';
+import { CreateTrail as AdminCreateTrail } from '../pages/admin/CreateTrail';
+import { Trail as AdminTrail } from '../pages/admin/Trail';
+import { Playlist as AdminPlaylist } from '../pages/admin/Playlist';
 
 // Global routes
 import { Login } from '../pages/Login';
@@ -32,11 +30,6 @@ export function Routes() {
     <Switch>
       {/* Admin */}
       <RouterCustom 
-        path="/admin"
-        {...adminRepeatProps}
-        component={AdminDashboard} 
-      />
-      <RouterCustom 
         path="/admin/trail/create"
         {...adminRepeatProps}
         component={AdminCreateTrail} 
@@ -52,23 +45,7 @@ export function Routes() {
         component={AdminPlaylist} 
       />
 
-       {/* <RouterCustom 
-        path="/admin" role={{
-          permission: 1,
-          name: 'sub-admin'
-        }}
-        exact
-        component={AdminDashboard}
-      >
-        <RouterCustom path="/trail">
-          <RouterCustom path="/create" component={AdminCreateTrail} />
-          <RouterCustom path="/:trail_id" component={AdminTrail} />
-          <RouterCustom path="/:playlist_id" component={AdminPlaylist} />
-        </RouterCustom>
-      </RouterCustom> */}
-      
       {/* User */}
-      <RouterCustom path="/profile" ifAuthenticated isPrivate exact component={UserProfile} />
       <RouterCustom path="/dashboard" ifAuthenticated isPrivate exact component={UserDashboard} />
       <RouterCustom path="/trail/:trail_id" ifAuthenticated isPrivate exact component={UserTrail} />
       <RouterCustom path="/trail/:trail_id/:playlist_id" ifAuthenticated isPrivate exact component={UserPlaylist} />

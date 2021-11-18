@@ -30,7 +30,7 @@ import {
 import imgTest from '../../../assets/images/react.png';
 import { ContainerPage } from '../../../components';
 
-export function AdminCreateTrail() {
+export function CreateTrail() {
   const history = useHistory();
   const createTrailFormRef = useRef<FormHandles>(null);
 
