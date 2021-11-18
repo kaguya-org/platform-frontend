@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { BACKGROUND, COLORS, FONTS_COLORS } from '../../../theme';
 
 type ContainerProps = {
   isError: boolean;
@@ -6,55 +7,55 @@ type ContainerProps = {
 
 export const Container = styled.label<ContainerProps>`
   &.labelInput {
-    background: #262832;
-    padding: 16px;
+    background: ${BACKGROUND.DEFAULT_INPUT};
+    padding: 1.6rem;
     cursor: text;
-    border-radius: 8px;
+    border-radius: 0.8rem;
     
-    border: 2px solid transparent;
+    border: 0.2rem solid transparent;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
 
     ${props => props.isError && css`
-      border: 2px solid var(--input-error-color);
+      border: 0.2rem solid ${COLORS.STATUS_ERROR};
     `};
 
     > svg {
-      width: 16px;
-      height: 16px;
-      margin-right: 16px;
-      color: #c4c4c4;
+      width: 1.6rem;
+      height: 1.6rem;
+      margin-right: 1.6rem;
+      color: ${FONTS_COLORS.SECONDARY};
 
       path, line, circle {
-        color: #c4c4c4;
+        color: ${FONTS_COLORS.SECONDARY};
       }
     }
 
     &:not(:first-child) {
-      margin-top: 12px;
+      margin-top: 1.2rem;
     }
 
     &:last-child {
-      margin-bottom: 22px;
+      margin-bottom: 2.4rem;
     }
 
     input, textarea {
-      font-size: 14px;
-      padding-top: 6px;
+      font-size: 1.4rem;
+      padding-top: 0.6rem;
       width: 100%;
 
       background: none;
       border: none;
       outline: none;
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
       
       letter-spacing: 0.7px;
     }
 
     textarea {
-      height: 100px;
+      height: 10rem;
       appearance: none;
       resize: none;
     }
@@ -62,20 +63,44 @@ export const Container = styled.label<ContainerProps>`
     input + span,
     textarea + span {
       position: absolute;
-      top: 4px;
+      top: 0.4rem;
       left: 0;
       transition: all 0.2s;
-      color: #c4c4c4;
+      color: ${FONTS_COLORS.SECONDARY};
 
-      font-size: 14px;
+      font-size: 1.4rem;
     }
 
     input:focus + span,
     input:not(:placeholder-shown) + span,
     textarea:focus + span,
     textarea:not(:placeholder-shown) + span {
-      top: -14px;
-      font-size: 12px;
+      top: -1.4rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  button.lock_unlock_password {
+    display: flex;
+    align-items: center;
+
+    margin-left: 1.6rem;
+
+    position: relative;
+    svg {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+
+    div.lock_unlock_tooltip {
+      position: absolute;
+      top: 0.6rem;
+      right: 1.2rem;
+    }
+
+    &:hover div.lock_unlock_tooltip span {
+      opacity: 1;
+      visibility: visible;
     }
   }
 `;
