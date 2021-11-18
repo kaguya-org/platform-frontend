@@ -40,7 +40,7 @@ export type LoginResponse = {
 }
 
 // user
-export type CreateUserResponse = {
+export type RegisterUserResponse = {
   user: User;
   platform_user_roles: Array<{
     id: string;

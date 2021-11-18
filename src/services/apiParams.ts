@@ -10,11 +10,13 @@ export type LoginParams = {
 };
 
 // user
-export type CreateUserParams = {
+export type RegisterUserParams = {
   email: string;
-  name: string;
+  name?: string;
   password: string;
-};
+  username: string;
+  role?: string;
+}
 
 // admin
 export type CreateUserByAdminParams = {

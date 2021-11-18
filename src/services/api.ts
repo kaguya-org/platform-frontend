@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { 
   LoginParams,
-  CreateUserParams,
   CreateUserByAdminParams,
   CreateTrailParams,
   UpdateTrailParams,
@@ -12,11 +11,12 @@ import {
   AddTrailInUserParams,
   ShowTrailParams,
   RemoveTrailInUserParams,
+  RegisterUserParams,
 } from './apiParams';
 
 import {
   LoginResponse,
-  CreateUserResponse,
+  RegisterUserResponse,
   CreateTrailResponse,
   UpdateTrailAvatarResponse,
   ListAllTrailsResponse,
@@ -41,23 +41,23 @@ baseApi.defaults.headers.common['Authorization'] = `Bearer ${localStorageToken}`
 const adminResource = '/sub-admins';
 
 const adminTrailApi = {
-  create: (data: CreateTrailParams, config?: AxiosRequestConfig): Promise<AxiosResponse<CreateTrailResponse>> => {
-    return baseApi.post(`${adminResource}/trails`, data, config);
+  create: (data: CreateTrailParams): Promise<AxiosResponse<CreateTrailResponse>> => {
+    return baseApi.post(`${adminResource}/trails`, data);
   },
-  update: (data: UpdateTrailParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
-    return baseApi.put(`${adminResource}/trails`, data, config);
+  update: (data: UpdateTrailParams): Promise<AxiosResponse> => {
+    return baseApi.put(`${adminResource}/trails`, data);
   },
-  updateAvatar: (data: FormData, config?: AxiosRequestConfig): Promise<AxiosResponse<UpdateTrailAvatarResponse>> => {
-    return baseApi.patch(`${adminResource}/trails/avatar`, data, config);
+  updateAvatar: (data: FormData): Promise<AxiosResponse<UpdateTrailAvatarResponse>> => {
+    return baseApi.patch(`${adminResource}/trails/avatar`, data);
   },
-  delete: (data: DeleteTrailParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
-    return baseApi.patch(`${adminResource}/trails?trail_id=${data.trail_id}`, config);
+  delete: (data: DeleteTrailParams): Promise<AxiosResponse> => {
+    return baseApi.patch(`${adminResource}/trails?trail_id=${data.trail_id}`);
   },
 };
 
 const adminPlaylistApi = {
-  create: (data: CreatePlaylistParams, config?: AxiosRequestConfig): Promise<AxiosResponse<CreatePlaylistResponse>> => {
-    return baseApi.post(`${adminResource}/playlists`, data, config);
+  create: (data: CreatePlaylistParams): Promise<AxiosResponse<CreatePlaylistResponse>> => {
+    return baseApi.post(`${adminResource}/playlists`, data);
   }
 };
 
@@ -75,13 +75,13 @@ const userTrails = {
 
 export const api = {
   authenticate: {
-    login: (data: LoginParams, config?: AxiosRequestConfig): Promise<AxiosResponse<LoginResponse>> => {
-      return baseApi.post('/sessions', data, config);
+    login: (data: LoginParams): Promise<AxiosResponse<LoginResponse>> => {
+      return baseApi.post('/sessions', data);
     }
   },
   user: {
-    create: (data: CreateUserParams, config?: AxiosRequestConfig): Promise<AxiosResponse<CreateUserResponse>> => {
-      return baseApi.post('/users', data, config);
+    register: (data: RegisterUserParams): Promise<AxiosResponse<RegisterUserResponse>> => {
+      return baseApi.post('/users', data);
     },
     getProfile: (): Promise<AxiosResponse<User>> => {
       return baseApi.get('/profile');
@@ -96,8 +96,8 @@ export const api = {
     },
   },
   admin: {
-    createUser: (data: CreateUserByAdminParams, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
-      return baseApi.post('/sub-admins/users', data, config);
+    createUser: (data: CreateUserByAdminParams): Promise<AxiosResponse> => {
+      return baseApi.post('/sub-admins/users', data);
     },
     trail: {
       ...adminTrailApi
@@ -124,6 +124,6 @@ export const api = {
       // listAll: (): Promise<AxiosResponse<ListAllRolesResponse[]>> => {
       //   return baseApi.get('/roles/list-all');
       // }
-    }
+    },
   }
 };
