@@ -1,4 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
+import { 
+  FONTS_COLORS,
+  FONTS,
+  BACKGROUND
+} from '../theme';
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -9,10 +14,10 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
     text-decoration: none;
 
-    font-family: var(--primary-font);
+    font-family: ${FONTS.PRIMARY}, sans-serif;
     letter-spacing: 0.8px;
 
-    color: var(--primary-font-color);
+    color: ${FONTS_COLORS.PRIMARY};
   }
 
   button {
@@ -30,7 +35,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--second-font);
+    font-family: ${FONTS.SECONDARY};
   }
 
   :root {
@@ -60,7 +65,7 @@ export const GlobalStyle = createGlobalStyle`
 
     font-size: 62.5%;
 
-    background: var(--primary-background);
+    background: ${BACKGROUND.PRIMARY};
   }
   
   input:-webkit-autofill,
@@ -71,6 +76,16 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input:-webkit-autofill {
-    -webkit-text-fill-color: var(--primary-font-color) !important;
+    -webkit-text-fill-color: ${FONTS_COLORS.SECONDARY};
+  }
+
+  div.line_separator {
+    width: 100%;
+    height: 2px;
+    background: 
+      -webkit-gradient(linear, 0 0, 100% 0, 
+      from(${BACKGROUND.SECONDARY}), 
+      to(${BACKGROUND.SECONDARY}), 
+      color-stop(50%, #353535));
   }
 `;
