@@ -8,6 +8,8 @@ import {
 } from './styles';
 
 import { Tooltip } from '../../Tooltip';
+import { useBoolean } from '../../../hooks/useBoolean';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 type ContainerProps = HTMLAttributes<HTMLLabelElement>;
 
@@ -18,7 +20,7 @@ interface InputProps extends HTMLAttributes<HTMLInputElement | HTMLTextAreaEleme
   
   containerProps?: ContainerProps;
 
-  type?: string;
+  type?: React.HTMLInputTypeAttribute;
   icon?: ReactElement;
 };
 
@@ -31,6 +33,7 @@ export function Input({
   ...rest
 }: InputProps) {
   const inputRef = useRef(null);
+  const passwordVisible = useBoolean(false);
 
   const { fieldName, defaultValue, registerField, error, clearError } = useField(name);
 
@@ -70,23 +73,54 @@ export function Input({
             {...rest}
           />
         ) : (
-          <>
-            <input 
-              id={name} 
-              type={type} 
-              name={name}
-              placeholder=" "
-              defaultValue={defaultValue} 
-              ref={inputRef}
-              onFocus={() => clearError()}
-              {...rest}
-            />
-          </>
+          <input 
+            id={name} 
+            type={passwordVisible.state ? 'text' : type}
+            name={name}
+            placeholder=" "
+            defaultValue={defaultValue} 
+            ref={inputRef}
+            onFocus={() => clearError()}
+            {...rest}
+          />
         )}
         {title && <span>{title}</span>}
       </Content>
+      {!error && type === 'password' && (
+        passwordVisible.state ? (
+          <button 
+            type="button"
+            className="lock_unlock_password"
+            onClick={() => passwordVisible.changeToFalse()}
+          >
+            <AiFillEye />
+            <Tooltip
+              containerProps={{
+                className: 'lock_unlock_tooltip'
+              }}
+              showIcon={false}
+              title="Esconder senha"
+            />
+          </button>
+          ) : (
+          <button 
+            type="button"
+            className="lock_unlock_password"
+            onClick={() => passwordVisible.changeToTrue()}
+            >
+            <AiFillEyeInvisible />
+            <Tooltip
+              containerProps={{
+                className: 'lock_unlock_tooltip'
+              }}
+              title="Ver senha"
+              showIcon={false}
+            />
+          </button>
+        )
+      )}
       {error && (
-        <Tooltip 
+        <Tooltip
           title={error}
           type="error"
         />
