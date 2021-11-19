@@ -5,10 +5,10 @@ import {
   AvatarImage
 } from './styles';
 
-import AVATAR_DEFAULT from '../../assets/images/eu.jpg';
+import AVATAR_DEFAULT from '../../assets/images/default_avatar.png';
 
 export type UserPhotoProps = {
-  imageUri: string | undefined;
+  imageUri: string | null | undefined;
   size: number;
 
   containerProps?: {
