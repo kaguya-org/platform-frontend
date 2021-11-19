@@ -7,17 +7,18 @@ export const COLORS = {
   STATUS_ERROR: '#c53030',
   STATUS_SUCCESS: '',
   STATUS_NORMAL: '',
+}
 
+export const GLOBAL_COLORS = {
+  BLACK: '#0F0F11',
   WHITE: '#FFF',
+  GRAY: '#C4C4C4',
 }
 
 export const BACKGROUND = {
   PRIMARY: '#0D0E12',
   SECONDARY: '#181A21',
   TERTIARY: '#1B1D24',
-
-  BLACK: '#0F0F11',
-  WHITE: '#FFF',
 
   DEFAULT_INPUT: '#262832',
 }
