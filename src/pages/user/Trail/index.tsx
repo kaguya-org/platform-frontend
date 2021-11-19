@@ -58,12 +58,11 @@ export function Trail() {
             setUserTrail(trailFinded);
           }
         });
-      } else {
-        api.global.trail.getInfo({trail_id}).then(response => {
-          setTrailInfo(response.data);
-        });
-        setUserTrail(undefined);
       }
+    });
+
+    api.global.trail.getInfo({trail_id}).then(response => {
+      setTrailInfo(response.data);
     });
   }
 
