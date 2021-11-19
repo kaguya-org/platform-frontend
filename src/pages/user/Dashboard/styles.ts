@@ -5,17 +5,18 @@ import {
   COLORS, 
   FONTS, 
   FONTS_COLORS,
+  GLOBAL_COLORS,
   UNIQUE_CASE_COLORS,
 } from '../../../theme';
 
 export const Content = styled.main`
   display: flex;
   justify-content: space-between;
-  gap: 18px;
+  gap: 1.8rem;
 
   width: 100%;
 
-  @media(max-width: 1110px) {
+  @media(max-width: 1540px) {
     flex-direction: column;
     align-items: center;
 
@@ -26,15 +27,12 @@ export const Content = styled.main`
 export const LeftContent = styled.div`
   width: 100%;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
   margin: 6.4rem;
 
   max-width: 110rem;
 
-  @media(max-width: 1100px) {
-    margin: 0;
+  @media(max-width: 1540px) {
+    margin: 0 0 3.2rem 0;
   } 
 `;
 
@@ -42,14 +40,13 @@ export const Welcome = styled.section`
   border-radius: 0.8rem;
 
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
 
   div {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
     flex-direction: column;
+
+    max-width: max-content;
+    width: 100%;
 
     span {
       font-size: 1.6rem;
@@ -60,6 +57,12 @@ export const Welcome = styled.section`
     h1 {
       letter-spacing: 0.8px;
       margin-top: 0.8rem;
+    }
+  }
+
+  @media(min-width: 1540px) {
+    header.profile {
+      display: none;
     }
   }
 `;
@@ -370,35 +373,25 @@ export const RightContent = styled.section`
 
   max-width: 56rem;
 
-  @media(max-width: 1100px) {
-    max-width: none;
-    height: min-content;
+  @media(max-width: 1540px) {
+    height: max-content;
+    max-width: 110rem;
   } 
 `;
 
 export const RightInternalContent = styled.div`
   padding: 3.2rem;
 
-  header.profile {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.6rem;
-      
-      span {
-        font-size: 1.6rem;
-      }
+  @media(max-width: 1540px) {
+    header.profile {
+      display: none;
     }
   }
 `;
 
 export const OtherTrailsSection = styled.section`
   margin-top: 3.2rem;
+  position: relative;
 
   h1 {
     margin-bottom: 1.6rem;
@@ -408,8 +401,18 @@ export const OtherTrailsSection = styled.section`
 export const OtherTrailsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  
+  max-height: 62.0rem;
+  overflow: auto;
+  position: relative;
 
   padding-bottom: 3.2rem;
+
+  @media(max-width: 1540px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
 `;
 
 export const OtherTrail = styled(Link)`
@@ -418,7 +421,7 @@ export const OtherTrail = styled(Link)`
 
   padding: 1.6rem;
 
-  background: ${BACKGROUND.BLACK};
+  background: ${GLOBAL_COLORS.BLACK};
 
   border-radius: 0.8rem;
 
@@ -464,6 +467,41 @@ export const OtherTrail = styled(Link)`
       span {
         font-size: 1.4rem;
       }
+    }
+  }
+
+  @media(max-width: 1540px) {
+    &:not(:first-child) {
+      margin-top: 0;
+    }
+  }
+`;
+
+export const NotFoundMyTrails = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 4.8rem;
+
+  margin-top: 4.8rem;
+
+  img {
+    max-width: 32.0rem;
+    max-height: 32.0rem;
+  }
+
+  div.not_found_my_trails_texts {
+    width: max-content;
+    h2.title {
+      font-size: 3.2rem;
+    }
+    
+    p {
+      font-size: 1.6rem;
+      color: ${FONTS_COLORS.SECONDARY};
+
+      max-width: 48.0rem;
+
+      margin: 1.2rem 0 1.6rem;
     }
   }
 `;

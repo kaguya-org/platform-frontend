@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 
 import {
   IoPlaySharp,
-  BsDiscord
+  BsDiscord,
+  IoIosRocket
 } from 'react-icons/all';
 
 import { 
   ProgressBar,
   UserPhoto,
   ContainerPage,
+  Button,
 } from '../../../components';
 
 import {
@@ -26,17 +28,19 @@ import {
   OtherTrailsContainer,
   RightInternalContent,
   OtherTrail,
+
+  NotFoundMyTrails,
 } from './styles';
 
-import euImg from '../../../assets/images/eu.jpg';
+import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
+import NOT_FOUND_MY_TRAILS_IMAGE from '../../../assets/images/not_found_my_trails.svg';
+
 import { api } from '../../../services/api';
 import { ListAllTrailsFromUserResponse, ListAllTrailsResponse } from '../../../services/apiResponse';
 import { useBoolean } from '../../../hooks/useBoolean';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
-
-const jsImg =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
+import { UserProfile } from '../../../components/UserProfile';
 
 export function Dashboard(): JSX.Element {
   const { user } = useAuth();
@@ -74,11 +78,12 @@ export function Dashboard(): JSX.Element {
               </span>
               <h1> Vamos estudar o que hoje? </h1>
             </div>
+            <UserProfile />
           </Welcome>
 
           <LastClasse to="#">
             <div className="last_classe_information">
-              <img src={jsImg} alt="a" />
+              <img src={DEFAULT_TRAIL_IMAGE} alt="a" />
               <div>
                 <h2 className="title">Entendendo const/let/var</h2>
                 <span className="trail_name">Javascript</span>
@@ -97,21 +102,42 @@ export function Dashboard(): JSX.Element {
           <MyTrailsSection>
             <header>
               <h1> Minhas trilhas </h1>
-              <button type="button">Ver todas</button>
+              {allTrailsFromUser.length > 0 && (
+                <button type="button">Ver todas</button>
+              )}
             </header>
+            {!allTrailsFromUser.length ? (
+              <NotFoundMyTrails>
+                <img src={NOT_FOUND_MY_TRAILS_IMAGE} alt="Minhas trilhas não foram encontradas" />
+                <div className="not_found_my_trails_texts">
+                  <h2 className="title">Me parece que você não possuí trilhas</h2>
+                  <p>Comece fazer alguma imediatamente e turbine seu aprendizado</p>
+                  <Button 
+                    className="show_all_trails"
+                    iconConfig={{
+                      icon: <IoIosRocket />,
+                      isSide: 'left',
+                    }}
+                  >
+                    Ver trilhas disponíveis
+                  </Button>
+                </div>
+              </NotFoundMyTrails>
+            ): (
+              <MyTrailsContainer>
+                {allTrailsFromUser.map(({trail, trail_percentage_completed}) => (
+                  <MyTrail to={`/trail/${trail.id}`} key={trail.id} >
+                    <header>
+                      <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
+                    </header>
+                    <span>{trail.name}</span>
 
-            <MyTrailsContainer>
-              {allTrailsFromUser.map(({trail, trail_percentage_completed}) => (
-                <MyTrail to={`/trail/${trail.id}`} key={trail.id} >
-                  <header>
-                    <img src={trail.avatar_url || jsImg} alt={trail.name} />
-                  </header>
-                  <span>{trail.name}</span>
-
-                  <ProgressBar percent={trail_percentage_completed} />
-                </MyTrail>
-              ))}
-            </MyTrailsContainer>
+                    <ProgressBar percent={trail_percentage_completed} />
+                  </MyTrail>
+                ))}
+              </MyTrailsContainer>
+            )}
+            
           </MyTrailsSection>
 
           <ComunitySection>
@@ -125,27 +151,14 @@ export function Dashboard(): JSX.Element {
 
         <RightContent>
           <RightInternalContent>
-            <header className="profile">
-              <Link to="/profile">
-                <span>{user?.name}</span>
-                <UserPhoto
-                  imageUri={user?.avatar || euImg} 
-                  size={36}
-                  containerProps={{
-                    style: {
-                      padding: '2px'
-                    }
-                  }}
-                />
-              </Link>
-            </header>
+            <UserProfile />
 
             <OtherTrailsSection>
               <h1>Outras trilhas</h1>
               <OtherTrailsContainer>
                 {allTrails.map(trail => (
                   <OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
-                    <img src={trail.avatar_url || jsImg} alt={trail.name} />
+                    <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
                     <div className="trail_information">
                       <h2 className="title">{trail.name}</h2>
                       <span>{trail.playlists.length} playlists - 15 aulas</span>
