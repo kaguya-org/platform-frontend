@@ -2,7 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 import { 
   FONTS_COLORS,
   FONTS,
-  BACKGROUND
+  BACKGROUND,
+  COLORS
 } from '../theme';
 
 export const GlobalStyle = createGlobalStyle`
@@ -66,6 +67,8 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 62.5%;
 
     background: ${BACKGROUND.PRIMARY};
+
+    height: 100vh;
   }
   
   input:-webkit-autofill,
@@ -87,5 +90,24 @@ export const GlobalStyle = createGlobalStyle`
       from(${BACKGROUND.SECONDARY}), 
       to(${BACKGROUND.SECONDARY}), 
       color-stop(50%, #353535));
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: ${COLORS.QUARTENARY}; 
+    border-radius: 10px;
+
+    transition: all 0.2s;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${COLORS.PRIMARY};
   }
 `;
