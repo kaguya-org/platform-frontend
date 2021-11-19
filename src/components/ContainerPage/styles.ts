@@ -9,7 +9,6 @@ export const Container = styled.div<ContainerProps>`
   ${(props) => props.isLoading && css`
     align-items: center;
     justify-content: center;
+    height: 100%;
   `};
-  height: 100%;
-  width: 100%;
 `;

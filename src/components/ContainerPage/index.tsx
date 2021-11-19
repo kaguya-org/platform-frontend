@@ -15,7 +15,7 @@ type ContainerProps = {
 
 export function ContainerPage({ loadingProps, isLoading, containerStyle, children }: ContainerProps) {
   return (
-    <Container style={containerStyle}>
+    <Container style={containerStyle} isLoading={isLoading}>
       {isLoading ? (
         <Loading {...loadingProps} />
       ): (
