@@ -14,7 +14,7 @@ import {
 } from './styles';
 
 import euImg from '../../assets/images/eu.jpg';
-import logoImg from '../../assets/images/react.png';
+import logoImg from '../../assets/images/default_trail.jpg';
 
 export function AdminSideBar() {
   return (

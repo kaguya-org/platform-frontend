@@ -27,7 +27,7 @@ import {
   Trail
 } from './styles';
 
-import imgTest from '../../../assets/images/react.png';
+import imgTest from '../../../assets/images/default_trail.jpg';
 import { ContainerPage } from '../../../components';
 
 export function CreateTrail() {
