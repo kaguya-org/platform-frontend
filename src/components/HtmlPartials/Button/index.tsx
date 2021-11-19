@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { IconType } from 'react-icons/lib';
 import { Loading } from '../..';
 
 import { 
@@ -6,13 +6,22 @@ import {
 } from './styles';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: ReactNode;
+  children?: React.ReactNode;
   isLoading?: boolean;
   loadingSize?: string;
+  iconConfig?: {
+    icon?: React.ReactElement<IconType>;
+    isSide?: 'right' | 'left';
+  };
 }
 
-export function Button({children, isLoading, loadingSize, ...rest}: ButtonProps) {
-
+export function Button({
+  children, 
+  isLoading, 
+  loadingSize,
+  iconConfig,
+  ...rest
+}: ButtonProps) {
   return (
     <ContainerButton
       disabled={isLoading}
@@ -21,7 +30,15 @@ export function Button({children, isLoading, loadingSize, ...rest}: ButtonProps)
       {isLoading ? (
         <Loading size={loadingSize} type="circle" />         
       ) : (
-        children
+        <>
+        {iconConfig && iconConfig.isSide === 'left' && (
+          iconConfig.icon
+        )}
+        {children}
+        {iconConfig && iconConfig.isSide === 'right' && (
+          iconConfig.icon
+        )}
+        </>
       )}
     </ContainerButton>
   )
