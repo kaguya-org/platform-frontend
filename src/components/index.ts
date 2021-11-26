@@ -10,3 +10,4 @@ export { Input } from './HtmlPartials/Input';
 export { InputFile } from './HtmlPartials/InputFile';
 export { UserPhoto } from './UserPhoto';
 export { ContainerPage } from './ContainerPage';
+export { PagePath } from './PagePath';
