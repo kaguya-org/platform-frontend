@@ -10,40 +10,28 @@ import AVATAR_DEFAULT from '../../assets/images/default_avatar.png';
 export type UserPhotoProps = {
   imageUri: string | null | undefined;
   size: number;
-
-  containerProps?: {
-    style?: React.CSSProperties;
-  };
-  avatarProps?: {
-    style?: React.CSSProperties;
-  };
+  css?: {
+    container?: React.CSSProperties;
+    avatar?: React.CSSProperties;
+  }
 }
 
 export function UserPhoto({
   imageUri, 
   size, 
-  avatarProps, 
-  containerProps,
+  css
 }: UserPhotoProps) {
 
   return (
     <Container
-      style={
-        {
-          ...containerProps?.style
-        }
-      }
+      style={css?.container}
+      className="user_photo"
     >
-      <AvatarImage 
+      <AvatarImage
+        size={size} 
         src={imageUri || AVATAR_DEFAULT} 
-        style={
-          {
-            width: `${size}px`,
-            height: `${size}px`,
-            ...avatarProps?.style,
-          }
-        }
-        />
+        style={css?.container}
+      />
     </Container>
   );
 }

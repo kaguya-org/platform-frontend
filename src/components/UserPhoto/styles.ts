@@ -6,14 +6,21 @@ export const Container = styled.div`
   align-items: center;
 
   background: linear-gradient(to right bottom, var(--primary-color), var(--third-color));
-  padding: 4px;
+  padding: 0.4rem;
   border-radius: 50%;
 
   width: min-content;
 `;
 
-export const AvatarImage = styled.img`
-  border: 4px solid var(--third-background);
+type AvatarImageProps ={
+  size: number;
+}
+
+export const AvatarImage = styled.img<AvatarImageProps>`
+  border: 0.4rem solid var(--third-background);
+
+  width: ${props => `${props.size}rem`};
+  height: ${props => `${props.size}rem`};
 
   object-fit: cover;
 

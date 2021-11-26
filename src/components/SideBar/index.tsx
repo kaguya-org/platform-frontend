@@ -57,7 +57,7 @@ export function SideBar(): JSX.Element {
             <h2>Links principais </h2>
             <nav className="links">
             {principalLinks.map(link => (
-              <Link to={link.to} className="link_container">
+              <Link to={link.to} className="link_container" key={link.title}>
                 <div>
                   <span className="icon">{link.icon}</span>
                   <span className="title">{link.title}</span>
@@ -85,18 +85,16 @@ export function SideBar(): JSX.Element {
           </button>
 
           <UserProfile
-            link={{
-              style: {
+            css={{
+              link: {
                 gap: '0',
                 paddingLeft: '2rem',
-                justifyContent: 'flex-start'
+                justifyContent: 'flex-end',
+                flexFlow: 'row-reverse',
               },
-            }}
-            userNameProps={{
-              isSide: 'right',
-              style: {
+              name: {
                 marginLeft: '2rem',
-              },
+              }
             }}
           />
         </nav>
