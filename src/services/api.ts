@@ -3,7 +3,10 @@ import axios from 'axios';
 import {
   user,
   admin,
-  global
+  global,
+  AdminType,
+  GlobalType,
+  UserType
 } from './app_api';
 
 export const baseApi = axios.create({
@@ -21,3 +24,9 @@ export const api = {
   user,
   global
 };
+
+export {
+  AdminType,
+  GlobalType,
+  UserType
+}
