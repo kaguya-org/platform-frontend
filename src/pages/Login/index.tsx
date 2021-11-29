@@ -11,16 +11,17 @@ import {
   ContainerPage,
 } from '../../components';
 
-import { LoginParams } from '../../services/apiParams';
+import { UserType } from '../../services/api';
 
 import { getValidationErrors } from '../../utils/getValidationErrors';
+
 import { useAuth } from '../../hooks/useAuth';
+import { useBoolean } from '../../hooks/useBoolean';
 
 import {
   Content,
   FormTag
 } from './styles';
-import { useBoolean } from '../../hooks/useBoolean';
 
 export function Login() {
   const history = useHistory();
@@ -28,7 +29,7 @@ export function Login() {
   const { signIn } = useAuth();
   const loading = useBoolean(false);
 
-  async function handleSubmitLogin(data: LoginParams) {
+  async function handleSubmitLogin(data: UserType.LoginParams) {
     loading.changeToTrue();
 
     try {

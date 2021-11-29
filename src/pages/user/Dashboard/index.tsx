@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   IoPlaySharp,
@@ -8,9 +9,9 @@ import {
 
 import { 
   ProgressBar,
-  UserPhoto,
   ContainerPage,
   Button,
+  SideBar,
 } from '../../../components';
 
 import {
@@ -35,27 +36,28 @@ import {
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 import NOT_FOUND_MY_TRAILS_IMAGE from '../../../assets/images/not_found_my_trails.svg';
 
-import { api } from '../../../services/api';
-import { ListAllTrailsFromUserResponse, ListAllTrailsResponse } from '../../../services/apiResponse';
-import { useBoolean } from '../../../hooks/useBoolean';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../../hooks/useAuth';
-import { UserProfile } from '../../../components/UserProfile';
+import { GlobalType, UserType, api } from '../../../services/api';
+import { useBoolean, useAuth } from '../../../hooks';
+import { UserProfile } from '../../../components/';
 
 export function Dashboard(): JSX.Element {
   const { user } = useAuth();
-  const [allTrailsFromUser, setAllTrailsFromUser] = useState<ListAllTrailsFromUserResponse[]>([]);
-  const [allTrails, setAllTrails] = useState<ListAllTrailsResponse[]>([]);
+  const [allTrailsFromUser, setAllTrailsFromUser] = useState<UserType.ListAllTrailsFromUserResponse[]>([]);
+  const [allTrails, setAllTrails] = useState<GlobalType.ListAllTrailsResponse[]>([]);
   
   const loadingPage = useBoolean(true);
 
   useEffect(() => {
-    api.user.userTrails.listAllTrailsFromUser().then(response => {
+    api.user.trail.listAllTrailsFromUser().then(response => {
       setAllTrailsFromUser(response.data);
       loadingPage.changeToFalse();
     });
 
-    api.global.trail.listAll().then(response => {
+    api.global.trail.listAll({
+      exclude_my_trails: true,
+      take: 4,
+      order: 'desc'
+    }).then(response => {
       setAllTrails(response.data);
     });
 
@@ -69,6 +71,7 @@ export function Dashboard(): JSX.Element {
         size: '64px',
       }}
     >
+      <SideBar />
       <Content>
         <LeftContent>
           <Welcome>
@@ -158,10 +161,10 @@ export function Dashboard(): JSX.Element {
               <OtherTrailsContainer>
                 {allTrails.map(trail => (
                   <OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
-                    <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
+                    <img src={trail.avatar || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
                     <div className="trail_information">
                       <h2 className="title">{trail.name}</h2>
-                      <span>{trail.playlists.length} playlists - 15 aulas</span>
+                      <span>{trail._count.playlists} playlists - {trail._count.classes} aulas</span>
                     </div>
                   </OtherTrail>
                 ))}

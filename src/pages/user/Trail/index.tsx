@@ -1,25 +1,25 @@
-import { useBoolean } from '../../../hooks/useBoolean';
 import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+
 import { 
   BiListPlus, 
-  MdComputer, 
-  MdOndemandVideo, 
-  MdPlaylistPlay, 
-  FaUserFriends, 
-  IoIosArrowRoundForward, 
-  VscDebugBreakpointData, 
-  BiListMinus
+  BiListMinus,
+  HiOutlineArrowNarrowRight,
 } from 'react-icons/all';
-import { useParams } from 'react-router';
 
 import {
   ProgressBar,
   SideBar,
   ContainerPage,
-  Button
+  Button,
+  PagePath
 } from '../../../components';
-import { api } from '../../../services/api';
-import { ListAllPlaylistsByTrailResponse, ListAllTrailsFromUserResponse, ShowTrailResponse } from '../../../services/apiResponse';
+
+import { api, UserType, GlobalType } from '../../../services/api';
+
+import { useBoolean } from '../../../hooks';
+
+import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 
 import { 
   Content,
@@ -27,12 +27,8 @@ import {
   PlayListAndExerciciesContainer,
   PlayListAndExercicie,
   PlayList,
-  Exercicie
+  // Exercicie,
 } from './styles';
-
-const jsImg =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png';
-
 
 type LocationParams = {
   trail_id: string;
@@ -45,12 +41,12 @@ export function Trail() {
 
   const { trail_id } = useParams<LocationParams>();
 
-  const [userTrail, setUserTrail] = useState<ListAllTrailsFromUserResponse | undefined>(undefined);
-  const [trailInfo, setTrailInfo] = useState<ShowTrailResponse | null>(null);
-  const [listAllPlaylistByTrail, setListAllPlaylistByTrail] = useState<ListAllPlaylistsByTrailResponse[]>([]);
+  const [userTrail, setUserTrail] = useState<UserType.ListAllTrailsFromUserResponse | undefined>(undefined);
+  const [trailInfo, setTrailInfo] = useState<GlobalType.ShowTrailResponse | null>(null);
+  const [listAllPlaylistByTrail, setListAllPlaylistByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
 
   function getTrail() {
-    api.user.userTrails.listAllTrailsFromUser().then(response => {
+    api.user.trail.listAllTrailsFromUser().then(response => {
       if(response.data.length > 0) {
         response.data.some(({trail}) => {
           if(trail.id === trail_id) {
@@ -69,7 +65,7 @@ export function Trail() {
   const handleAddTrailInUser = useCallback(() => {
     loadingAddTrail.changeToTrue();
 
-    api.user.userTrails.addTrailInUser({trail_id}).then(response => {
+    api.user.trail.addTrailInUser({trail_id}).then(response => {
       getTrail();
       loadingAddTrail.changeToFalse();
     });
@@ -79,7 +75,7 @@ export function Trail() {
     loadingRemoveTrail.changeToTrue();
 
     if(userTrail) {
-      api.user.userTrails.removeTrailInUser({user_trail_id: userTrail?.id}).then(r => {
+      api.user.trail.removeTrailInUser({user_trail_id: userTrail?.id}).then(r => {
         setUserTrail(undefined);
         getTrail();
         loadingRemoveTrail.changeToFalse();
@@ -110,91 +106,94 @@ export function Trail() {
     >
       <SideBar />
       <Content>
-        {!userTrail ? (
+        <PagePath
+          previousPages={[
+            {
+              title: 'Dashborad',
+              to: '/dashboard',
+              order: 1,
+            }
+          ]}
+          currentPage={{
+            title: trailInfo?.name
+          }}
+        />
+        <section>
           <TrailInfo>
-            <div>
-              <img src={trailInfo?.avatar_url || jsImg} alt={trailInfo?.name} />
-              <span><MdPlaylistPlay /> 12 playlists </span>
-              <span><MdOndemandVideo /> 154 aulas </span>
-              <span><MdComputer /> 12 exercícios </span>
-              <span><FaUserFriends /> 36 alunos </span>
-            </div>
-            <aside>
-              <div>
-                <h1>Trilha de <span>{trailInfo?.name}</span></h1>
-                <Button 
-                  isLoading={loadingAddTrail.state}
-                  onClick={handleAddTrailInUser}
-                  loadingSize="1.2rem"
-                >
-                  <BiListPlus/> Adicionar trilha
-                </Button>
-              </div>
-              <p>{trailInfo?.description}</p>
-            </aside>
-          </TrailInfo>
-        ) : (
-          <TrailInfo>
-            <div>
-              <img src={userTrail.trail.avatar_url || jsImg} alt={userTrail.trail.name} />
-              <span><MdPlaylistPlay /> 12 playlists </span>
-              <span><MdOndemandVideo /> 154 aulas </span>
-              <span><MdComputer /> 12 exercícios </span>
-              <span><FaUserFriends /> 36 alunos </span>
-            </div>
-            <aside>
-              <div>
-                <h1>Trilha de <span>{userTrail.trail.name}</span></h1>
-                <Button 
-                  isLoading={loadingRemoveTrail.state}
-                  loadingSize="1.2rem"
-                  onClick={handleRemoveTrailInUser}
-                >
-                  <BiListMinus/> Remover trilha
-                </Button>
-              </div>
-              <p>{trailInfo?.description}</p>
-            </aside>
-          </TrailInfo>
-        )}
-          
-        <PlayListAndExerciciesContainer>
-          {listAllPlaylistByTrail.map(playlist => (
-            <PlayListAndExercicie key={playlist.id}>
-              <PlayList to={`/trail/${trail_id}/${playlist.id}`} >
-                <aside>
-                  <div>
-                    <h2>{playlist.name}</h2>
-                    <span>122 de 144 aulas assistidas</span>
-                  </div>
-                  <p>{playlist.description}</p>
-                </aside>
-                <ProgressBar percent={50}/>
-              </PlayList>
-              {/* <Exercicie>
-                <aside>
-                  <MdComputer />
-                  <div>
-                    <h2>Calculadora grande</h2>
-                    <span>Nível 1</span>
-                  </div>
-                </aside>
-                <div> */}
-                  {/* <span className="exercicie_notStarted">
-                    <VscDebugBreakpointData /> Não iniciado
-                  </span> */}
-                  {/* <span className="exercicie_started">
-                    <VscDebugBreakpointData /> Iniciado
-                  </span> */}
-                  {/* <span className="exercicie_completed">
-                    <VscDebugBreakpointData /> Completado
-                  </span>
-                  <button>Ver exercício <IoIosArrowRoundForward /></button>
+            <section className="principal_trail_info">
+              <img src={trailInfo?.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trailInfo?.name} />
+              <header>
+                <div>
+                  <h1>Trilha de <span>{trailInfo?.name}</span></h1>
+                  {userTrail ? (
+                    <Button 
+                      isLoading={loadingRemoveTrail.state}
+                      onClick={handleRemoveTrailInUser}
+                    >
+                      <BiListMinus/> Remover trilha
+                    </Button>
+                  ) : (
+                    <Button 
+                      isLoading={loadingAddTrail.state}
+                      onClick={handleAddTrailInUser}
+                    >
+                      <BiListPlus/> Adicionar trilha
+                    </Button>
+                  )}
                 </div>
-              </Exercicie> */}
-            </PlayListAndExercicie>
-          ))}
-        </PlayListAndExerciciesContainer>
+                <p className="trail_description">{trailInfo?.description}</p>
+              </header>
+            </section>
+            <section className="others_trail_info">
+              <header>
+                <h1>Outras informações desta trilha</h1>
+              </header>
+
+              <div className="others_info_container">
+                <p><HiOutlineArrowNarrowRight /> Contém 12 playlists e 154 aulas no total.</p>
+                <p><HiOutlineArrowNarrowRight /> Atualmente 36 alunos fazem está trilha, <span>que tal se juntar a eles?</span></p>
+              </div>
+            </section>
+          </TrailInfo>
+            
+          <PlayListAndExerciciesContainer>
+            {listAllPlaylistByTrail.map(playlist => (
+              <PlayListAndExercicie key={playlist.id}>
+                <PlayList to={`/trail/${trail_id}/${playlist.id}`} >
+                  <aside>
+                    <div>
+                      <h2>{playlist.name}</h2>
+                      <span>122 de 144 aulas assistidas</span>
+                    </div>
+                    <p>{playlist.description}</p>
+                  </aside>
+                  <ProgressBar percent={50}/>
+                </PlayList>
+                {/* <Exercicie>
+                  <aside>
+                    <MdComputer />
+                    <div>
+                      <h2>Calculadora grande</h2>
+                      <span>Nível 1</span>
+                    </div>
+                  </aside>
+                  <div> */}
+                    {/* <span className="exercicie_notStarted">
+                      <VscDebugBreakpointData /> Não iniciado
+                    </span> */}
+                    {/* <span className="exercicie_started">
+                      <VscDebugBreakpointData /> Iniciado
+                    </span> */}
+                    {/* <span className="exercicie_completed">
+                      <VscDebugBreakpointData /> Completado
+                    </span>
+                    <button>Ver exercício <IoIosArrowRoundForward /></button>
+                  </div>
+                </Exercicie> */}
+              </PlayListAndExercicie>
+            ))}
+          </PlayListAndExerciciesContainer>
+        </section>
       </Content>
     </ContainerPage>
   );

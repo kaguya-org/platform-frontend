@@ -10,11 +10,13 @@ import {
   Button,
   ContainerPage
 } from '../../components';
-import { InputCheckbox } from '../../components/HtmlPartials/InputCheckbox';
-import { useAuth } from '../../hooks/useAuth';
-import { useBoolean } from '../../hooks/useBoolean';
-import { api } from '../../services/api';
-import { RegisterUserParams } from '../../services/apiParams';
+
+import { InputCheckbox } from '../../components';
+
+import { useAuth, useBoolean } from '../../hooks';
+
+import { UserType } from '../../services/api';
+
 import { getValidationErrors } from '../../utils/getValidationErrors';
 
 import {
@@ -31,7 +33,7 @@ export function Register() {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
 
-  async function registerUserSubmit(data: RegisterUserParams) {
+  async function registerUserSubmit(data: UserType.RegisterUserParams) {
     try {
       const schema = Yup.object().shape({
         email: Yup.string().email('E-mail inválido').required('Email obrigatório'),

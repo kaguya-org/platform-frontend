@@ -1,18 +1,15 @@
 import { useBoolean } from '../hooks/useBoolean';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { Redirect } from 'react-router-dom';
-import { api, baseApi, slinkedApiToken } from '../services/api';
-import { LoginParams, RegisterUserParams } from '../services/apiParams';
-import { User, LoginResponse, RegisterUserResponse} from '../services/apiResponse';
+import { UserType, slinkedApiToken, baseApi, api } from '../services/api';
 
 type AuthContextData = {
-  user: User | null;
+  user: UserType.User | null;
   token: string | null;
   tokenIsValid: boolean;
 
-  signIn(credentials: LoginParams): Promise<LoginResponse | undefined>;
-  register(credentials: RegisterUserParams): Promise<RegisterUserResponse | undefined>;
+  signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined>;
+  register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined>;
   signOut(): void;
 }
 
@@ -25,7 +22,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export function AuthProvider({ children }: AuthProviderProps) {
   const history = useHistory();
   
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType.User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [tokenIsValid, setTokenIsValid] = useState(true);
 
@@ -37,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     
     baseApi.defaults.headers.common['Authorization'] = `Bearer ${getToken}`;
 
-    api.user.token.validate().then(response => {
+    api.user.geral.token.validate().then(response => {
       setTokenIsValid(response.data.validated);
 
       if(!(response.data.validated || token)) {
@@ -45,15 +42,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     });
 
-    api.user.getProfile().then(response => {
+    api.user.geral.getProfile().then(response => {
       setUser(response.data);
     })
 
     return () => loading.changeToFalse();
   }, []);
 
-  async function signIn(credentials: LoginParams): Promise<LoginResponse | undefined> {
-    const response = await api.authenticate.login(credentials);
+  async function signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined> {
+    const response = await api.user.geral.authenticate.login(credentials);
 
     const { token, user } = response.data;
 
@@ -80,8 +77,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return responseModified || undefined;
   }
 
-  async function register(credentials: RegisterUserParams): Promise<RegisterUserResponse | undefined> {
-    const response = await api.user.register(credentials);
+  async function register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined> {
+    const response = await api.user.geral.register(credentials);
 
     // localStorage.setItem(slinkedApiToken, token);
 

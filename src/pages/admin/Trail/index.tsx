@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { useModal } from '@tg0/react-modal';
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
+import { AxiosError } from 'axios';
+import { useParams, useHistory } from 'react-router';
 
 import {
   AiFillEdit, 
@@ -17,7 +21,6 @@ import {
 } from '../../../components';
 
 import {
-  Container,
   Content,
   FormContainer,
   inputTrailName,
@@ -29,13 +32,10 @@ import {
 } from './styles';
 
 import { PlaylistContainer } from './Partials/PlaylistContainer';
-import { useBoolean } from '../../../hooks/useBoolean';
-import { Form } from '@unform/web';
-import { FormHandles } from '@unform/core';
-import { api } from '../../../services/api';
-import { useParams, useHistory } from 'react-router';
-import { ListAllPlaylistsByTrailResponse } from '../../../services/apiResponse';
-import { AxiosError } from 'axios';
+
+import { useBoolean } from '../../../hooks';
+
+import { api, GlobalType } from '../../../services/api';
 
 type LocationParams = {
   trail_id: string;
@@ -47,7 +47,7 @@ export function Trail() {
   const history = useHistory();
   const { trail_id } = useParams<LocationParams>();
 
-  const [playlistsByTrail, setPlaylistsByTrail] = useState<ListAllPlaylistsByTrailResponse[]>([]);
+  const [playlistsByTrail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
 
   const openTrailInfoEditForm = useBoolean(false);
   const openPlaylistsDraggable = useBoolean(false);

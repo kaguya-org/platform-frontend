@@ -10,13 +10,13 @@ import {
   InputFile,
   Input,
   Button,
-  Loading
+  ContainerPage
 } from '../../../components';
-import { useBoolean } from '../../../hooks/useBoolean';
 
-import { api } from '../../../services/api';
-import { CreateTrailParams } from '../../../services/apiParams';
-import { ListAllTrailsResponse } from '../../../services/apiResponse';
+import { useBoolean } from '../../../hooks';
+
+import { api, AdminType, GlobalType } from '../../../services/api';
+
 import { getValidationErrors } from '../../../utils/getValidationErrors';
 
 import { 
@@ -27,8 +27,7 @@ import {
   Trail
 } from './styles';
 
-import imgTest from '../../../assets/images/default_trail.jpg';
-import { ContainerPage } from '../../../components';
+import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 
 export function CreateTrail() {
   const history = useHistory();
@@ -37,9 +36,9 @@ export function CreateTrail() {
   const createTrailLoading = useBoolean(false);
   const listAllTrailsLoading = useBoolean(true);
 
-  const [listAllTrail, setListAllTrail] = useState<ListAllTrailsResponse[]>([]);
+  const [listAllTrail, setListAllTrail] = useState<GlobalType.ListAllTrailsResponse[]>([]);
 
-  async function handleCreateTrailSubmit(data: CreateTrailParams) {
+  async function handleCreateTrailSubmit(data: AdminType.CreateTrailParams) {
     createTrailLoading.changeToTrue();
 
     try {
@@ -146,7 +145,7 @@ export function CreateTrail() {
             {listAllTrail.map(trail => (
               <Trail to={`/admin/trail/${trail.id}`} key={trail.id}>
                 <div className="trail_container">
-                  <img src={trail.avatar_url ? trail.avatar_url : imgTest} alt={trail.name} />
+                  <img src={trail.avatar ? trail.avatar : DEFAULT_TRAIL_IMAGE} alt={trail.name} />
                   <div>
                     <h3>{trail.name}</h3>
                     <p>{trail.description}</p>
