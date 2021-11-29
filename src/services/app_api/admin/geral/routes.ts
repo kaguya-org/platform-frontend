@@ -12,8 +12,8 @@ import {
   RegisterUserByAdminParams,
 } from './params';
 
-import {
-} from './response';
+// import {
+// } from './response';
 
 export const geral = {
   createUser: (data: RegisterUserByAdminParams): Promise<AxiosResponse> => {
