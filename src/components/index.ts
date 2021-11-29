@@ -8,6 +8,8 @@ export { BoxProgressBarStep } from './BoxProgressBarStep';
 export { Button } from './HtmlPartials/Button';
 export { Input } from './HtmlPartials/Input';
 export { InputFile } from './HtmlPartials/InputFile';
+export { InputCheckbox } from './HtmlPartials/InputCheckbox';
 export { UserPhoto } from './UserPhoto';
 export { ContainerPage } from './ContainerPage';
 export { PagePath } from './PagePath';
+export { UserProfile } from './UserProfile';
