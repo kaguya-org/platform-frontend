@@ -13,6 +13,7 @@ export const Content = styled.main`
   display: flex;
   justify-content: space-between;
   gap: 1.8rem;
+  margin-left: 7.8rem;
 
   width: 100%;
 
@@ -21,6 +22,10 @@ export const Content = styled.main`
     align-items: center;
 
     padding: 3.2rem;
+  }
+
+  @media(max-width: 840px) {
+    margin-left: 0;
   }
 `;
 
@@ -31,8 +36,8 @@ export const LeftContent = styled.div`
 
   max-width: 110rem;
 
-  @media(max-width: 1540px) {
-    margin: 0 0 3.2rem 0;
+  @media(min-width: 840px) and (max-width: 1540px) {
+    margin: 1.6rem 6.4rem 3.2rem;
   } 
 `;
 
@@ -219,19 +224,11 @@ export const MyTrailsContainer = styled.div`
 
   width: 100%;
 
-  @media(min-width: 1101px) and (max-width: 1440px) {
+  @media(max-width: 980px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 840px) and (max-width: 1100px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media(max-width: 800px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media(max-width: 600px) {
+  @media(max-width: 640px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -297,6 +294,7 @@ export const ComunitySection = styled.a`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 1.6rem;
 
   transition: all 0.2s;
 
@@ -308,8 +306,6 @@ export const ComunitySection = styled.a`
     width: 7.2rem;
     height: 7.2rem;
 
-    margin-right: 1.6rem;
-    
     path {
       color: ${UNIQUE_CASE_COLORS.DISCORD};
     }
@@ -345,13 +341,9 @@ export const ComunitySection = styled.a`
   }
 
   @media(min-width: 1101px) and (max-width: 1296px) {
-    flex-direction: column;
-
     > svg {
       width: 4.8rem;
       height: 4.8rem;
-      margin-right: 0;
-      margin-bottom: 0.8rem;
     }
 
     div {
@@ -395,6 +387,7 @@ export const OtherTrailsSection = styled.section`
 
   h1 {
     margin-bottom: 1.6rem;
+    padding: 2px;
   }
 `;
 
@@ -406,7 +399,7 @@ export const OtherTrailsContainer = styled.div`
   overflow: auto;
   position: relative;
 
-  padding-bottom: 3.2rem;
+  padding: 2px 2px 3.2rem 2px;
 
   @media(max-width: 1540px) {
     display: grid;
