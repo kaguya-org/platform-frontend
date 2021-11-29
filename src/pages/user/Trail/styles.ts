@@ -1,120 +1,122 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-export const Container = styled.div`
-  display: flex;
-`;
+import { COLORS, FONTS_COLORS, GLOBAL_COLORS } from '../../../theme';
 
 export const Content = styled.div`
   width: 100%;
   padding-left: 3.6rem;
-  margin: 6.4rem 4.8rem 3.2rem 6.4rem;
+  margin: 6.4rem 6.4rem 6.4rem 7.8rem;
+
   display: flex;
-  gap: 1.8rem;
+  flex-direction: column;
+
   width: 100%;
+
+  > section {
+    display: flex;
+    gap: 1.8rem;
+
+    margin-top: 3.2rem;
+  }
 `;
 
-export const TrailInfo = styled.div`
+export const TrailInfo = styled.aside`
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
   gap: 2.6rem;
 
   width: 100%;
   max-width: 99.0rem;
   height: min-content;
 
-  background: var(--second-background);
-
-  padding: 3.2rem;
-
-  border-radius: 0.8rem;
-
-  > div {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: column;
-
-    img {
-      width: 128px;
-      height: 128px;
-      border-radius: 0.8rem;
-    }
-
-    span {
-      margin-top: 1.2rem;
-      color: #c4c4c4;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-
-      font-size: 1.6rem;
-
-      svg path {
-        color: #c4c4c4;
-      }
-    }
-
-    aside {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      width: 100%;
-      div {
-        display: flex;
-        justify-content: space-between;
-      }
-    }
-  }
- 
-  > aside {
-    display: flex;
-    flex-direction: column;
+  section {
     width: 100%;
 
-    > div {
+    &.principal_trail_info {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      
-      h1 {
-        margin-bottom: 1.2rem;
-        font-size: 2.6rem;
-          
-        span {
-          font-size: 2.6rem;
-          font-family: var(--second-font);
-          color: var(--second-color);
+      align-items: flex-start;
+      gap: 2.4rem;
+
+      background: var(--second-background);
+      padding: 3.2rem;
+      border-radius: 0.8rem;
+
+      > img {
+        width: 12.8rem;
+        height: 12.8rem;
+        border-radius: 0.8rem;
+      }
+
+      header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+        div {
+          display: flex;
+          justify-content: space-between;
+
+          h1 {
+            margin-bottom: 1.2rem;
+            font-size: 2.6rem;
+              
+            span {
+              font-size: 2.6rem;
+              font-family: var(--second-font);
+              color: var(--second-color);
+            }
+          }
+
+          button {
+            svg {
+              width: 2.2rem;
+              height: 2.2rem;
+            }
+          }
+        }
+
+        > p.trail_description {
+          margin-top: 1.6rem;
+          letter-spacing: 0.8px;
+          font-size: 1.6rem;
+          color: #c4c4c4;
         }
       }
-        
-      button {
-        background: #242731;
+    }
 
-        padding: 1.2rem 2.8rem;
+    &.others_trail_info {
+      margin-top: 1.6rem;
+
+      header {
+        margin-bottom: 0.8rem;
+      }
+
+      .others_info_container {
+        background: var(--second-background);
+        padding: 3.2rem;
         border-radius: 0.8rem;
 
         display: flex;
-        align-items: center;
-        gap: 0.8rem;
+        flex-direction: column;
 
-        transition: all 0.2s;
-        &:hover {
-          filter: brightness(110%);
-        }
-        svg {
-          width: 2.2rem;
-          height: 2.2rem;
+        p {
+          font-size: 1.6rem;
+          color: ${FONTS_COLORS.SECONDARY};
+
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+
+          &:not(:first-child) {
+            margin-top: 1.6rem;
+          }
+
+          span {
+            color: ${COLORS.SECONDARY};
+          }
         }
       }
-    }
-
-    > p {
-      margin-top: 1.6rem;
-      letter-spacing: 0.8px;
-      font-size: 1.6rem;
-      color: #c4c4c4;
     }
   }
 `;
