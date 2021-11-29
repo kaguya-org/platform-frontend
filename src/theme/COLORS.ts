@@ -30,6 +30,7 @@ export const FONTS_COLORS = {
 
 export const SHADOW_COLORS = {
   BLACK_OPACITY: 'rgba(0, 0, 0, 0.38)',
+  BLACK_OPACITY_50: 'rgba(0, 0, 0, 0.50)',
 }
 
 export const UNIQUE_CASE_COLORS = {
