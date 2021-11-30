@@ -55,8 +55,7 @@ export function Dashboard(): JSX.Element {
 
     api.global.trail.listAll({
       exclude_my_trails: true,
-      take: 4,
-      order: 'desc'
+      take: 5,
     }).then(response => {
       setAllTrails(response.data);
     });
@@ -106,7 +105,7 @@ export function Dashboard(): JSX.Element {
             <header>
               <h1> Minhas trilhas </h1>
               {allTrailsFromUser.length > 0 && (
-                <button type="button">Ver todas</button>
+                <button type="button">Ver mais</button>
               )}
             </header>
             {!allTrailsFromUser.length ? (
@@ -157,7 +156,10 @@ export function Dashboard(): JSX.Element {
             <UserProfile />
 
             <OtherTrailsSection>
-              <h1>Outras trilhas</h1>
+              <header>
+                <h1>Outras trilhas</h1>
+                <button type="button">Ver mais</button>
+              </header>
               <OtherTrailsContainer>
                 {allTrails.map(trail => (
                   <OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
