@@ -3,26 +3,30 @@ import { BACKGROUND, FONTS, FONTS_COLORS, SHADOW_COLORS } from '../../theme';
 
 export const Container = styled.aside`
   height: 100%;
-
+  
   position: fixed;
   left: 0;
   z-index: 15;
 
   display: flex;
 
+  transition: all .5s;
+  -webkit-transition: all .5s;
+
   @media(max-width: 840px) {
     width: 100%;
     display: block;
-    height: 100%;
-  }
-
-  button.close_sidebar {
-    display: none;
-    cursor: initial;
+    height: max-content;
+      
+    button.close_sidebar {
+      display: none;
+      cursor: initial;
+    }
   }
 
   &.container_sidebar_open {
     width: 100%;
+    height: 100%;
 
     > button.close_sidebar {
       display: block;
@@ -34,7 +38,6 @@ export const Container = styled.aside`
 `;
 
 export const Content = styled.div`
-  height: 100%;
   width: 7.8rem;
 
   display: flex;
@@ -49,6 +52,7 @@ export const Content = styled.div`
 
   &.content_sidebar_open {
     width: 28.8rem;
+    height: 100%;
   }
 
   div.content_top {
