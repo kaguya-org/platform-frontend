@@ -384,11 +384,37 @@ export const RightInternalContent = styled.div`
 export const OtherTrailsSection = styled.section`
   margin-top: 3.2rem;
   position: relative;
+  
+  > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  h1 {
     margin-bottom: 1.6rem;
     padding: 2px;
+
+    h1 {
+      margin-bottom: 1.6rem;
+    }
+
+    button {
+      font-size: 1.6rem;
+      font-weight: 500;
+
+      color: ${FONTS_COLORS.SECONDARY};
+      border-bottom: 0.1rem solid ${FONTS_COLORS.SECONDARY};
+
+      letter-spacing: 0.7px;
+
+      transition: color 0.2s;
+
+      &:hover {
+        color: ${COLORS.SECONDARY};
+        border-bottom: 0.1rem solid ${COLORS.SECONDARY};
+      }
+    }
   }
+
 `;
 
 export const OtherTrailsContainer = styled.div`
@@ -405,6 +431,10 @@ export const OtherTrailsContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.2rem;
+  }
+
+  @media(max-width: 1100px) {
+    grid-template-columns: 1fr;
   }
 `;
 
