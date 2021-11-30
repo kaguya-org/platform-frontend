@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLORS, FONTS_COLORS, GLOBAL_COLORS } from '../../../theme';
+import { BACKGROUND, COLORS, FONTS_COLORS, GLOBAL_COLORS, SHADOW_COLORS } from '../../../theme';
 
 export const Content = styled.div`
   width: 100%;
-  padding-left: 3.6rem;
-  margin: 6.4rem 6.4rem 6.4rem 7.8rem;
+  padding-left: 4.8rem;
+  margin: 6.4rem;
+  margin-left: 7.8rem;
 
   display: flex;
   flex-direction: column;
@@ -14,119 +15,246 @@ export const Content = styled.div`
 
   > section {
     display: flex;
+    justify-content: space-between;
     gap: 1.8rem;
 
     margin-top: 3.2rem;
+
+    @media(max-width: 1600px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media(max-width: 840px) {
+    margin: 3.2rem;
+    margin-top: 8rem;
+    padding: 0;
   }
 `;
 
-export const TrailInfo = styled.aside`
+export const TrailInfoContainer = styled.aside`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 2.6rem;
 
   width: 100%;
-  max-width: 99.0rem;
+  max-width: 92rem;
   height: min-content;
 
   section {
     width: 100%;
+  }
 
-    &.principal_trail_info {
-      display: flex;
-      align-items: flex-start;
-      gap: 2.4rem;
+  @media(max-width: 1600px) {
+    section {
+      margin-bottom: 1.6rem;
+    }
+  }
+`;
 
-      background: var(--second-background);
-      padding: 3.2rem;
-      border-radius: 0.8rem;
+export const PrincipalTrailInfo = styled.section`
+  &.principal_trail_info {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.4rem;
 
-      > img {
-        width: 12.8rem;
-        height: 12.8rem;
-        border-radius: 0.8rem;
+    background: var(--second-background);
+    padding: 3.2rem;
+    border-radius: 0.8rem;
+
+    position: relative;
+
+    button.open_others_trail_info {
+      display: none;
+      position: absolute;
+      bottom: -1rem;
+      right: -1rem;
+      background: ${BACKGROUND.PRIMARY};
+      padding: 0.4rem;
+      border-radius: 50%;
+
+      &:hover {
+        svg path {
+          color: ${COLORS.SECONDARY};
+        }
       }
 
-      header {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        
-        div {
-          display: flex;
-          justify-content: space-between;
+      svg {
+        width: 3.2rem;
+        height: 3.2rem;
 
-          h1 {
-            margin-bottom: 1.2rem;
-            font-size: 2.6rem;
-              
-            span {
-              font-size: 2.6rem;
-              font-family: var(--second-font);
-              color: var(--second-color);
-            }
-          }
-
-          button {
-            svg {
-              width: 2.2rem;
-              height: 2.2rem;
-            }
-          }
-        }
-
-        > p.trail_description {
-          margin-top: 1.6rem;
-          letter-spacing: 0.8px;
-          font-size: 1.6rem;
-          color: #c4c4c4;
+        path {
+          color: ${GLOBAL_COLORS.GRAY};
+          transition: all 0.2s;
         }
       }
     }
 
-    &.others_trail_info {
-      margin-top: 1.6rem;
-
-      header {
-        margin-bottom: 0.8rem;
-      }
-
-      .others_info_container {
-        background: var(--second-background);
-        padding: 3.2rem;
-        border-radius: 0.8rem;
-
+    @media(max-width: 1600px) {
+      button.open_others_trail_info {
         display: flex;
-        flex-direction: column;
+      }
+    }
+  }
+`;
 
-        p {
-          font-size: 1.6rem;
-          color: ${FONTS_COLORS.SECONDARY};
+export const TrailInfo = styled.div`
+  &.trail_info {
+    header {
+      display: flex;
+      gap: 1.6rem;
 
-          display: flex;
-          align-items: center;
-          gap: 0.8rem;
+      width: 100%;
 
-          &:not(:first-child) {
-            margin-top: 1.6rem;
+      > img {
+        width: 8.2rem;
+        height: 8.2rem;
+        border-radius: 0.8rem;
+      }
+      
+      div {
+        display: flex;
+        justify-content: space-between;
+
+        height: max-content;
+        width: 100%;
+
+        .trail_title {
+          font-size: 2.6rem;
+          font-family: var(--second-font);
+        }
+
+        h1.trail_title {
+          margin-bottom: 1.2rem;
+            
+          span {
+            color: var(--second-color);
+            margin-left: 0.4rem;
+          }
+        }
+
+        button {
+          svg {
+            width: 2.2rem;
+            height: 2.2rem;
+          }
+        }
+      }
+    }
+
+    > p.trail_description {
+      margin-top: 1.6rem;
+      letter-spacing: 0.8px;
+      font-size: 1.6rem;
+      color: #c4c4c4;
+    }
+      
+    @media(max-width: 1100px) {
+      header div {
+        button {
+          position: absolute;
+          top: -1rem;
+          right: -1rem;
+          background: ${BACKGROUND.PRIMARY};
+          padding: 0.4rem;
+          border-radius: 50%;
+
+          svg {
+            width: 3.2rem;
+            height: 3.2rem;
+            padding: 0.4rem;
           }
 
           span {
-            color: ${COLORS.SECONDARY};
+            display: none;
           }
+        }
+      }
+    }
+        
+    @media(max-width: 920px) {
+      header {
+        div {
+          .trail_title {
+            font-size: 2rem;
+          }
+        }
+      }
+
+      > p.trail_description {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media(max-width: 640px) {
+      header {
+        > img {
+          width: 4.8rem;
+          height: 4.8rem;
+        }
+      }
+    }
+
+    @media(max-width: 480px) {
+      header div {
+        .trail_title {
+          font-size: 1.4rem;
         }
       }
     }
   }
 `;
 
-export const PlayListAndExerciciesContainer = styled.main`
-  flex: 1;
-  grid-area: playListExerciciesContainer;
+export const OthersTrailInfo = styled.section`
+  &.others_trail_info {
+    margin-top: 1.6rem;
+
+    header {
+      margin-bottom: 0.8rem;
+    }
+
+    .others_info_container {
+      background: var(--second-background);
+      padding: 3.2rem;
+      border-radius: 0.8rem;
+
+      display: flex;
+      flex-direction: column;
+
+      p {
+        font-size: 1.6rem;
+        color: ${FONTS_COLORS.SECONDARY};
+
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+
+        &:not(:first-child) {
+          margin-top: 1.6rem;
+        }
+
+        span {
+          color: ${COLORS.SECONDARY};
+        }
+      }
+    }
+  }
+
+  @media(max-width: 1600px) {
+    &.others_trail_info {
+      display: none;
+    }
+  }
 `;
 
-export const PlayListAndExercicie = styled.section`
+export const PlayListAndExerciciesContainer = styled.main`
+  max-width: 66rem;
+  width: 100%;
+`;
+
+export const PlayListAndExercicie = styled.div`
   &:not(:first-child) {
     margin-top: 3.2rem;
   }
@@ -137,6 +265,8 @@ export const PlayList = styled(Link)`
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
+
+  position: relative;
 
   background: var(--second-background);
 
@@ -150,7 +280,29 @@ export const PlayList = styled(Link)`
     box-shadow: 2px -2px 1px var(--second-color);
   }
 
-  aside {
+  div.playlist_index {
+    background: ${BACKGROUND.PRIMARY};
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 4.8rem;
+    height: 4.8rem;
+
+    position: absolute;
+    top: -1.6rem;
+    left: -1.6rem;
+
+    span {
+      color: ${GLOBAL_COLORS.GRAY};
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+  }
+
+  div.playlist_info {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -165,23 +317,44 @@ export const PlayList = styled(Link)`
       justify-content: space-between;
       width: 100%;
 
-      span {
-        font-size: 1.4rem;
+      h2.playlist_title {
+        font-size: 1.8rem;
       }
 
-      h2 {
-        font-size: 1.8rem;
+      span.playlist_classes_total {
+        font-size: 1.4rem;
+        color: ${FONTS_COLORS.SECONDARY}  
       }
 
     }
 
-    p {
+    p.playlist_description {
       font-size: 1.4rem;
       color: #c4c4c4;
-      max-width: 80%;
       width: 100%;
 
       margin: 0.8rem 0 1.6rem;
+    }
+  }
+
+  @media(max-width: 920px) {
+    div.playlist_info {
+      div {
+        flex-direction: column;
+
+        h2.playlist_title {
+          font-size: 1.6rem;
+        }
+
+        span.playlist_classes_total {
+          margin-top: 0.4rem;
+          font-size: 1.2rem;
+        }
+      }
+
+      p.playlist_description {
+        font-size: 1.2rem;
+      }
     }
   }
 `;
@@ -295,6 +468,63 @@ export const Exercicie = styled.div`
         width: 2.2rem;
         height: 2.2rem;
       }
+    }
+  }
+`;
+
+export const NotFoundPlaylists = styled.section`
+  max-width: 66rem;
+  width: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: left;
+  
+  img {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .not_found_playlists_text {
+    margin-top: 2.4rem;
+
+    h2 {
+      font-size: 1.6rem;  
+      font-weight: 500;
+      color: ${FONTS_COLORS.SECONDARY};
+      
+      max-width: 360px;
+      margin-top: 0.8rem;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.6rem;
+
+      span {
+        font-size: 1.4rem;
+      }
+
+      button {
+        max-width: 24rem;
+        margin-top: 0.8rem;
+      }
+    }
+  }
+
+  @media(max-width: 1600px) {
+    margin-top: 2.4rem;
+  }
+
+  @media(max-width: 1100px) {
+    img {
+      width: 15rem;
+      height: 15rem;
     }
   }
 `;
