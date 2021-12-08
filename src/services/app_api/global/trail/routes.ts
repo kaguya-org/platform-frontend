@@ -26,6 +26,8 @@ export const trail = {
     });
   },
   getInfo: (data: ShowTrailParams): Promise<AxiosResponse<ShowTrailResponse>> => {
-    return baseApi.get(`/trails/show?trail_id=${data.trail_id}`);
+    return baseApi.get('/trails/show', {
+      params: data,
+    });
   },
 }
