@@ -1,23 +1,42 @@
 import styled, { css } from 'styled-components';
-
-export const Container = styled.div`
-  display: flex;
-`;
+import { BACKGROUND, COLORS, GLOBAL_COLORS, FONTS_COLORS } from '../../../theme';
 
 export const Content = styled.div`
   width: 100%;
-  padding-left: 36px;
-  margin: 64px 48px 32px 64px;
+  padding-left: 4.8rem;
+  margin: 6.4rem;
+  margin-left: 7.8rem;
+
   display: flex;
-  gap: 18px;
+  flex-direction: column;
+
+  > section {
+    display: flex;
+    justify-content: center;
+    gap: 1.8rem;
+
+    margin-top: 3.2rem;
+
+    @media(max-width: 1600px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media(max-width: 840px) {
+    margin: 3.2rem;
+    margin-top: 8rem;
+    padding: 0;
+  }
 `;
 
 export const CurrentClasseContainer = styled.main`
   width: 100%;
-  max-width: 960px;
+  max-width: 98rem;
+
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.8rem;
 `;
 
 export const CurrentClasse = styled.section`
@@ -27,50 +46,53 @@ export const CurrentClasse = styled.section`
   flex-direction: column;
   width: 100%;
 
-  background: var(--second-background);
-  border-radius: 8px;
+  background: ${BACKGROUND.SECONDARY};
+  border-radius: 0.8rem;
 
   iframe {
     width: 100%;
-    border-radius: 8px 8px 0 0;
+    border-radius: 0.8rem 0.8rem 0 0;
     border: none;
 
-    height: 460px;
+    height: 46rem;
   }
 
-  > div {
+  > div.classe_counts_container {
     width: 100%;
 
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 
-    > span {
-      padding: 24px;
+    padding: 1.6rem;
+
+    > span.views_count {
+      font-size: 1.6rem;
     }
 
-    > div {
-      padding: 24px;
-
+    > div.likes_deslikes {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 2.4rem;
 
       span {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 0.6rem;
+
         cursor: pointer;
+
+        font-size: 1.6rem;
 
         &:hover {
           svg path{
-            color: var(--third-color);
+            color: ${COLORS.SECONDARY};
           }
         }
 
         svg {
-          width: 22px;
-          height: 22px;
+          width: 2.2rem;
+          height: 2.2rem;
 
           path {
             transition: all 0.2s;
@@ -79,13 +101,13 @@ export const CurrentClasse = styled.section`
 
         &.classe_liked {
           svg path {
-            color: var(--third-color);
+            color: ${COLORS.SECONDARY};
           }
         }
 
-        &.classe_deslike {
+        &.classe_desliked {
           svg path {
-            color: var(--third-color);
+            color: ${COLORS.SECONDARY};
           }
         }
       }
@@ -98,27 +120,26 @@ export const ClasseInfo = styled.section`
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
-  padding: 32px;
 
-  background: var(--second-background);
-  border-radius: 8px;
+  padding: 3.2rem;
+
+  background: ${BACKGROUND.SECONDARY};
+  border-radius: 0.8rem;
 
   div.classeInfo_switch_buttons {
     display: flex;
-    border-bottom: 2px solid #fff;
-    margin: 16px 0 24px; 
+    border-bottom: 0.2rem solid ${GLOBAL_COLORS.WHITE};
+    margin: 1.6rem 0 2.4rem; 
 
     button {
-      padding: 4px 0;
+      padding: 0.4rem 0;
       transition: all 0.2s;
 
-      border-bottom: 1px solid #fff;
+      border-bottom: 0.1rem solid ${GLOBAL_COLORS.WHITE};
       position: relative;
-      top: 2px;
+      top: 0.2rem;
 
-      &:first-child {
-      }
-      border-bottom: 2px solid var(--second-color);
+      border-bottom: 0.2rem solid ${COLORS.TERTIARY};
 
       &:hover {
         filter: brightness(80%);
@@ -126,66 +147,90 @@ export const ClasseInfo = styled.section`
     }
   }
 
-  > p {
-    color: #c4c4c4;
+  > p.current_classe_description {
+    color: ${FONTS_COLORS.SECONDARY};
+    font-size: 1.4rem;
   }
 `;
 
-export const BlocksAndClassesContainer = styled.section`
+export const BlocksAndClassesContainer = styled.aside`
   flex: 1;
-  max-width: 480px;
-  background: var(--second-background);
+  background: ${BACKGROUND.SECONDARY};
 
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 38rem;
 
-  border-radius: 8px;
-  max-height: 530px;
-  overflow: auto;
+  border-radius: 0.8rem;
 `;
 
 export const BlockAndClasses = styled.div`
+  width: 100%;
+  max-width: 38rem;
+
   &:not(:first-child) {
     margin-top: 6px;
   }
 `;
 
-export const Block = styled.div`
+export const Block = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #262832;
+
   padding: 24px;
+  height: 9.6rem;
+  width: 100%;
 
-  border-radius: 8px 8px 0 0;
+  border-radius: 0.8rem 0.8rem 0 0;
 
-  cursor: pointer;
-
-  > div {
+  > div.block_info {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
 
-    h2 {
-      font-size: 18px;
+    h2.block_title {
+      font-size: 1.8rem;
     }
 
-    span {
-      font-size: 14px;
-      margin-top: 6px;
-      color: #c4c4c4;
+    span.block_classes_count {
+      font-size: 1.4rem;
+      margin-top: 0.6rem;
+      color: ${FONTS_COLORS.SECONDARY};
     }
   }
 
   > svg {
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
   }
 `;
 
-export const Classes = styled.ul`
-  padding: 24px;
+type BlockAndClassesType = {
+  selectedBlock: boolean;
+}
+
+export const ClassesContainer = styled.div<BlockAndClassesType>`
+  transition: height 0.3s ease 0s;
+
+  height: 0;
+
+  overflow: hidden;
+
+  > ul.classes {
+    padding: 24px;
+
+    li:not(:first-child) {
+      margin-top: 1.6rem;
+    }
+  }
+
+  ${props => props.selectedBlock && css`
+    height: auto;
+    overflow: visible;
+  `};
 `;
 
 type ClasseType = {
@@ -193,17 +238,18 @@ type ClasseType = {
   isCurrent?: boolean;
 }
 
-export const Classe = styled.li<ClasseType>`
-  button {
-    color: #a8a8b3;
+export const Classe = styled.button<ClasseType>`
+  display: flex;
+  align-items: center;
 
-    ${props => props.isCompleted && css`
-      color: var(--second-color);
-    `}
+  color: ${FONTS_COLORS.SECONDARY};
 
-    ${props => props.isCurrent && css`
-      color: var(--primary-font-color);
-      font-weight: bold;
-    `}
-  }
+  ${props => props.isCompleted && css`
+    color: ${COLORS.TERTIARY};
+  `}
+
+  ${props => props.isCurrent && css`
+    color: ${FONTS_COLORS.PRIMARY};
+    font-weight: bold;
+  `}
 `;
