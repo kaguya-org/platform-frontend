@@ -5,7 +5,7 @@ type BoxProgressBarType = {
   isCurrent?: boolean;
 };
 
-export const Container = styled.div<BoxProgressBarType>`
+export const Container = styled.li<BoxProgressBarType>`
   position: relative;
   z-index: 5;
 
@@ -13,8 +13,6 @@ export const Container = styled.div<BoxProgressBarType>`
   align-items: center;
   
   &:not(:first-child) {
-    margin-top: 20px;
-      
     &:before {
       content: "";
       left: 4px;
@@ -32,26 +30,22 @@ export const Container = styled.div<BoxProgressBarType>`
     }
   }
 
-  &:last-child {
+  &:not(:last-child){
     &:after {
-      display: none;
-    }
-  }
-
-  &:after {
-    content: "";
-    left: 4px;
-    width: 2px;
-    z-index: 1;
-    top: 54%;
-    height: calc(100% + -2px);
-    ${props => props.isCompleted ? css`
-        background: var(--second-color);
-      `:
-      css`
-        background: rgb(60, 60, 66);
-      `}
-    position: absolute;
+      content: "";
+      left: 4px;
+      width: 2px;
+      z-index: 1;
+      top: 54%;
+      height: calc(100% + -2px);
+      ${props => props.isCompleted ? css`
+          background: var(--second-color);
+          `:
+        css`
+          background: rgb(60, 60, 66);
+        `}
+        position: absolute;
+     }
   }
 `;
 
