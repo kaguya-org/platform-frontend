@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useModal } from '@tg0/react-modal';
 
 import {
   IoPlaySharp,
@@ -12,6 +12,7 @@ import {
   ContainerPage,
   Button,
   SideBar,
+  Loading
 } from '../../../components';
 
 import {
@@ -39,25 +40,42 @@ import NOT_FOUND_MY_TRAILS_IMAGE from '../../../assets/images/not_found_my_trail
 import { GlobalType, UserType, api } from '../../../services/api';
 import { useBoolean, useAuth } from '../../../hooks';
 import { UserProfile } from '../../../components/';
+import { SeeMoreTrails } from '../../../components/Modals/SeeMoreTrails';
 
 export function Dashboard(): JSX.Element {
   const { user } = useAuth();
-  const [allTrailsFromUser, setAllTrailsFromUser] = useState<UserType.ListAllTrailsFromUserResponse[]>([]);
-  const [allTrails, setAllTrails] = useState<GlobalType.ListAllTrailsResponse[]>([]);
+
+  const seeMoreTrailsModal = useModal(false);
+
+  const [otherTrailsFromUser, setAllTrailsFromUser] = useState<UserType.ListAllTrailsFromUserResponse[]>([]);
+  const [otherTrails, setAllTrails] = useState<GlobalType.ListAllTrailsResponse[]>([]);
   
   const loadingPage = useBoolean(true);
+  const trailsFromUserLoading = useBoolean(true);
+  const otherTrailsLoading = useBoolean(true);
 
   useEffect(() => {
-    api.user.trail.listAllTrailsFromUser().then(response => {
-      setAllTrailsFromUser(response.data);
-      loadingPage.changeToFalse();
-    });
+    window.addEventListener('load', (event) => {
+      loadingPage.changeToFalse()
+    })
+
+    api.user.trail.listAllTrailsFromUser()
+      .then(response => {
+        setAllTrailsFromUser(response.data);
+      })
+      .finally(() => {
+        trailsFromUserLoading.changeToFalse();
+      });
 
     api.global.trail.listAll({
       exclude_my_trails: true,
-      take: 5,
-    }).then(response => {
+      take: 4,
+    })
+    .then(response => {
       setAllTrails(response.data);
+    })
+    .finally(() => {
+      otherTrailsLoading.changeToFalse();
     });
 
     return () => loadingPage.changeToFalse();
@@ -76,7 +94,7 @@ export function Dashboard(): JSX.Element {
           <Welcome>
             <div>
               <span>
-                Olá, Tiago
+                Olá, {user?.name.split(' ')[0]}
               </span>
               <h1> Vamos estudar o que hoje? </h1>
             </div>
@@ -104,11 +122,11 @@ export function Dashboard(): JSX.Element {
           <MyTrailsSection>
             <header>
               <h1> Minhas trilhas </h1>
-              {allTrailsFromUser.length > 0 && (
+              {otherTrailsFromUser.length > 3 && (
                 <button type="button">Ver mais</button>
               )}
             </header>
-            {!allTrailsFromUser.length ? (
+            {!otherTrailsFromUser.length ? (
               <NotFoundMyTrails>
                 <img src={NOT_FOUND_MY_TRAILS_IMAGE} alt="Minhas trilhas não foram encontradas" />
                 <div className="not_found_my_trails_texts">
@@ -127,7 +145,7 @@ export function Dashboard(): JSX.Element {
               </NotFoundMyTrails>
             ): (
               <MyTrailsContainer>
-                {allTrailsFromUser.map(({trail, trail_percentage_completed}) => (
+                {otherTrailsFromUser.map(({trail, trail_percentage_completed}) => (
                   <MyTrail to={`/trail/${trail.id}`} key={trail.id} >
                     <header>
                       <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
@@ -144,10 +162,7 @@ export function Dashboard(): JSX.Element {
 
           <ComunitySection>
             <BsDiscord />
-            <div>
-              <h1>Venha fazer parte da nossa comunidade no discord</h1>
-              <p>Interaja e faça amigos, participe de call's e muito mais</p>
-            </div>
+            Comunidade
           </ComunitySection>
         </LeftContent>
 
@@ -158,10 +173,19 @@ export function Dashboard(): JSX.Element {
             <OtherTrailsSection>
               <header>
                 <h1>Outras trilhas</h1>
-                <button type="button">Ver mais</button>
+                {otherTrails.length > 0 && (
+                  <button type="button" onClick={() => seeMoreTrailsModal.handleOpen()}>Ver mais</button>
+                )}
               </header>
               <OtherTrailsContainer>
-                {allTrails.map(trail => (
+                {!otherTrails.length && (
+                  <span>Não foi possivel encontrar outras trilhas no momento</span>
+                )}
+                {otherTrailsLoading.state ? (
+                  <Loading 
+                    size='64px'
+                  />
+                ) : otherTrails.map(trail => (
                   <OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
                     <img src={trail.avatar || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
                     <div className="trail_information">
@@ -174,7 +198,15 @@ export function Dashboard(): JSX.Element {
             </OtherTrailsSection>
           </RightInternalContent>
         </RightContent>
+
       </Content>
+
+      <SeeMoreTrails 
+        isOpen={seeMoreTrailsModal.state}
+        handleClose={seeMoreTrailsModal.handleClose}
+        trails={otherTrails}
+      />
+
     </ContainerPage>
   );
 }
