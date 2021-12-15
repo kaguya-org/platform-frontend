@@ -287,73 +287,30 @@ export const ComunitySection = styled.a`
   
   cursor: pointer;
 
-  padding: 3.2rem;
+  padding: 1.6rem;
+  max-width: 20rem;
 
   border-radius: 0.8rem;
 
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: 1.6rem;
 
   transition: all 0.2s;
+
+  font-size: 1.6rem;
 
   &:hover {
     box-shadow: -2px -2px 2px ${UNIQUE_CASE_COLORS.DISCORD};
   }
 
   > svg {
-    width: 7.2rem;
-    height: 7.2rem;
+    width: 2.4rem;
+    height: 2.4rem;
 
     path {
       color: ${UNIQUE_CASE_COLORS.DISCORD};
-    }
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    h1 {
-    }
-
-    p {
-      margin-top: 0.8rem;
-      color: ${FONTS_COLORS.SECONDARY};
-
-      font-size: 1.6rem;
-    }
-  }
-
-  @media(max-width: 1100px) {
-    div {
-      h1 {
-        font-size: 1.8rem;
-      }
-
-      p {
-        font-size: 1.2rem;
-      }
-    }
-  }
-
-  @media(min-width: 1101px) and (max-width: 1296px) {
-    > svg {
-      width: 4.8rem;
-      height: 4.8rem;
-    }
-
-    div {
-      h1 {
-        font-size: 1.8rem;
-      }
-
-      p {
-        font-size: 1.2rem;
-      }
     }
   }
 `;
