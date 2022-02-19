@@ -1,7 +1,7 @@
 import { FormHandles } from '@unform/core';
 import { useRef, useState } from 'react';
 import { MdEmail, FaLock, FaUser } from 'react-icons/all';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import {
@@ -25,7 +25,8 @@ import {
 } from './styles';
 
 export function Register() {
-  const history = useHistory();
+  const page_navigate = useNavigate();
+
   const loading = useBoolean(false);
   const { register } = useAuth();
 
@@ -34,48 +35,45 @@ export function Register() {
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   async function registerUserSubmit(data: UserType.RegisterUserParams) {
+    const schema = Yup.object().shape({
+      email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
+      password: Yup.string().required('Senha obrigatória').min(6, 'Minimo de 6 digitos'),
+      username: Yup.string().required('Username obrigatório'),
+      terms: Yup.boolean().isTrue('Aceite os termos')
+    });
+
+    const customData = {
+      ...data,
+      terms: termsAccepted,
+    }
+
+    const dataToRegister = {
+      email: data.email,
+      password: data.password,
+      username: data.username,
+    }
+
+    await schema.validate(customData, {
+      abortEarly: false
+    });
+
     try {
-      const schema = Yup.object().shape({
-        email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
-        password: Yup.string().required('Senha obrigatória').min(6, 'Minimo de 6 digitos'),
-        username: Yup.string().required('Username obrigatório'),
-        terms: Yup.boolean().isTrue('Aceite os termos')
-      });
+      const response = await register(dataToRegister);
 
-      const customData = {
-        ...data,
-        terms: termsAccepted,
+      if(response) {
+        return page_navigate('/user');
       }
 
-      const dataToRegister = {
-        email: data.email,
-        password: data.password,
-        username: data.username,
-      }
-
-      console.log(dataToRegister);
-
-      await schema.validate(customData, {
-        abortEarly: false
-      });
-
-      await register(dataToRegister);
-
-      history.push('/dashboard');
-    } catch(error) {
+    } catch(error: any) {
       loading.changeToFalse();
 
       if(error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
         
-        registerFormRef.current?.setErrors(errors);
-
-        return;
+        return registerFormRef.current?.setErrors(errors);
       }
 
-      registerFormRef.current?.setErrors({
-        email: 'Algum erro ocorreu'
-      });
+      console.log(error);
     }
   }
 

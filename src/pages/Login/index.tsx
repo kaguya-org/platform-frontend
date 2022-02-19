@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { FaLock, MdEmail } from 'react-icons/all';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { 
@@ -24,39 +24,32 @@ import {
 } from './styles';
 
 export function Login() {
-  const history = useHistory();
+  const page_navigate = useNavigate();
+
   const loginFormRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
+  
   const loading = useBoolean(false);
 
   async function handleSubmitLogin(data: UserType.LoginParams) {
     loading.changeToTrue();
 
+    const schema = Yup.object().shape({
+      email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
+      password: Yup.string().required('Senha obrigatória'),
+    });
+    
     try {
       loginFormRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
-      
       await schema.validate(data, {
         abortEarly: false
       });
       
-      const responseSignIn = await signIn(data);
+      const signIn_response = await signIn(data);
 
-      const adminPermission = {
-        name: 'sub-admin',
-        permission: 1,
-      };
-
-      const hasPermission = responseSignIn?.user?.user_roles.some((user_role) => adminPermission.permission >= user_role.role.permission);
-
-      if(hasPermission) {
-        history.push('/admin/trail/create');
-      } else {
-        history.push('/dashboard');
+      if(signIn_response) {
+        page_navigate('/user');
       }
       
     } catch(error) {
@@ -65,14 +58,10 @@ export function Login() {
       if(error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
         
-        loginFormRef.current?.setErrors(errors);
-
-        return;
+        return loginFormRef.current?.setErrors(errors);
       }
 
-      loginFormRef.current?.setErrors({
-        email: 'E-mail ou senha incorreto'
-      });
+      console.log(error);
     }
   };
   
