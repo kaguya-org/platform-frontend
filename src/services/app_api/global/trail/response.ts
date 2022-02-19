@@ -1,10 +1,19 @@
+export type Trail = {
+  id: string;
+  name: string;
+  description: string;
+  avatar: string | null;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
 export type ListAllTrailsResponse = {
   id: string;
   name: string;
   description: string;
   avatar: string | null;
-  created_at: string,
+  created_at: string;
   updated_at: string;
   _count: {
     playlists: number;
@@ -14,10 +23,15 @@ export type ListAllTrailsResponse = {
 };
 
 export type ShowTrailResponse = {
-  id: string,
-  name: string,
-  description: string,
-  avatar_url: null | string,
-  created_at: string,
+  id: string;
+  name: string;
+  description: string;
+  avatar_url: null | string;
+  created_at: string;
   updated_at: string;
+  _count: {
+    playlists: number;
+    users: number;
+    classes: number;  
+  };
 }

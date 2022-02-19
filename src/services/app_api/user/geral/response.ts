@@ -8,30 +8,24 @@ type Role = {
 
 export type User = {
   id: string;
-  name: string;
+  name: string | null;
   email: string;
   avatar: string | null;
+  avatar_url: string | null;
   username: string;
   enabled: boolean;
   created_at: string;
   updated_at: string;
   user_roles: Array<{
+    id: string;
+    created_at: string;
+    updated_at: string;
     role: Role;
   }>;
 };
 
 export type RegisterUserResponse = {
   user: User;
-  platform_user_roles: Array<{
-    id: string;
-    platform_role: {
-      id: string;
-      role: string | 'default';
-      permision: number,
-      created_at: string;
-      updated_at: string;
-    }
-  }>
 }
 
 export type TokenValidResponse = {
