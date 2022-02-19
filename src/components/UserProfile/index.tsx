@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { UserPhoto } from '../';
 import { useAuth } from '../../hooks/useAuth';
 
-import { Container, CSSProfileType } from './styles';
+import * as S from './styles';
 
 type UserProfileProps = {
   container?: React.HTMLAttributes<HTMLHeadingElement>;
-  css?: CSSProfileType;
+  css?: S.CSSProfileType;
 }
 
 export function UserProfile({
@@ -17,12 +17,12 @@ export function UserProfile({
   const { user } = useAuth();
 
   return (
-    <Container 
+    <S.Container 
       className="profile" 
       {...container} 
       style={css?.container}
     >
-      <Link to="/profile" style={css?.link}>
+      <S.Content>
         <span style={css?.name}>{user?.name || user?.username || 'Default name'}</span>
 
         <UserPhoto
@@ -34,7 +34,7 @@ export function UserProfile({
             }
           }}
         />
-      </Link>
-    </Container>
-  )
+      </S.Content>
+    </S.Container>
+  );
 }
