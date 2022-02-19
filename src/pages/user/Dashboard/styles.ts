@@ -1,44 +1,34 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { 
   BACKGROUND, 
   COLORS, 
   FONTS, 
   FONTS_COLORS,
   GLOBAL_COLORS,
-  UNIQUE_CASE_COLORS,
-} from '../../../theme';
+} from '@/theme';
+
+export const Container = styled.div`
+
+`;
 
 export const Content = styled.main`
   display: flex;
   justify-content: space-between;
-  gap: 1.8rem;
-  margin-left: 7.8rem;
+  gap: 24px;
 
   width: 100%;
 
-  @media(max-width: 1540px) {
-    flex-direction: column;
-    align-items: center;
-
-    padding: 3.2rem;
-  }
-
-  @media(max-width: 840px) {
-    margin-left: 0;
-  }
+  height: 100%;
 `;
 
 export const LeftContent = styled.div`
   width: 100%;
+  max-width: 980px;
 
-  margin: 6.4rem;
-
-  max-width: 110rem;
-
-  @media(min-width: 840px) and (max-width: 1540px) {
-    margin: 1.6rem 6.4rem 3.2rem;
-  } 
+  margin: 64px;
+  margin-right: 0;
 `;
 
 export const Welcome = styled.section`
@@ -282,79 +272,33 @@ export const MyTrail = styled(Link)`
   }
 `;
 
-export const ComunitySection = styled.a`
-  background: ${BACKGROUND.SECONDARY};
-  
-  cursor: pointer;
-
-  padding: 1.6rem;
-  max-width: 20rem;
-
-  border-radius: 0.8rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.6rem;
-
-  transition: all 0.2s;
-
-  font-size: 1.6rem;
-
-  &:hover {
-    box-shadow: -2px -2px 2px ${UNIQUE_CASE_COLORS.DISCORD};
-  }
-
-  > svg {
-    width: 2.4rem;
-    height: 2.4rem;
-
-    path {
-      color: ${UNIQUE_CASE_COLORS.DISCORD};
-    }
-  }
-`;
-
 export const RightContent = styled.section`
-  background: ${BACKGROUND.TERTIARY};
+  max-width: 480px;
   width: 100%;
-  height: 100vh;
 
-  max-width: 56rem;
+  // viewport - navbar height
+  height: calc(100vh - 70px);
 
-  @media(max-width: 1540px) {
-    height: max-content;
-    max-width: 110rem;
-  } 
-`;
+  padding: 0 16px;
 
-export const RightInternalContent = styled.div`
-  padding: 3.2rem;
-
-  @media(max-width: 1540px) {
-    header.profile {
-      display: none;
-    }
-  }
+  background: ${BACKGROUND.SECONDARY};
 `;
 
 export const OtherTrailsSection = styled.section`
-  margin-top: 3.2rem;
   position: relative;
   
-  > header {
+  .other_trails_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 1.6rem;
-    padding: 2px;
+    margin: 16px 0;
 
-    h1 {
-      margin-bottom: 1.6rem;
+    .other_trails_header_title {
+      padding: 0 8px;
     }
 
-    button {
+    .see_more_trails {
       font-size: 1.6rem;
       font-weight: 500;
 
@@ -377,22 +321,12 @@ export const OtherTrailsSection = styled.section`
 export const OtherTrailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  
-  max-height: 62.0rem;
+
   overflow: auto;
   position: relative;
 
-  padding: 2px 2px 3.2rem 2px;
-
-  @media(max-width: 1540px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-  }
-
-  @media(max-width: 1100px) {
-    grid-template-columns: 1fr;
-  }
+  max-height: 100%;
+  padding: 8px;
 `;
 
 export const OtherTrail = styled(Link)`
@@ -407,10 +341,6 @@ export const OtherTrail = styled(Link)`
 
   transition: all 0.2s;
   cursor: pointer;
-
-  &:hover {
-    box-shadow: 2px -2px 2px ${COLORS.QUARTENARY};
-  }
 
   &:not(:first-child) {
     margin-top: 1.6rem;
@@ -453,35 +383,6 @@ export const OtherTrail = styled(Link)`
   @media(max-width: 1540px) {
     &:not(:first-child) {
       margin-top: 0;
-    }
-  }
-`;
-
-export const NotFoundMyTrails = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 4.8rem;
-
-  margin-top: 4.8rem;
-
-  img {
-    max-width: 32.0rem;
-    max-height: 32.0rem;
-  }
-
-  div.not_found_my_trails_texts {
-    width: max-content;
-    h2.title {
-      font-size: 3.2rem;
-    }
-    
-    p {
-      font-size: 1.6rem;
-      color: ${FONTS_COLORS.SECONDARY};
-
-      max-width: 48.0rem;
-
-      margin: 1.2rem 0 1.6rem;
     }
   }
 `;
