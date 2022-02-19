@@ -1,12 +1,13 @@
 import { useBoolean } from '../hooks/useBoolean';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import { UserType, slinkedApiToken, baseApi, api } from '../services/api';
 
 type AuthContextData = {
   user: UserType.User | null;
   token: string | null;
   tokenIsValid: boolean;
+
+  loading_page: boolean;
 
   signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined>;
   register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined>;
@@ -20,90 +21,115 @@ type AuthProviderProps = {
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const history = useHistory();
-  
   const [user, setUser] = useState<UserType.User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [tokenIsValid, setTokenIsValid] = useState(true);
+  const [token, setToken] = useState<string | null>(localStorage.getItem(slinkedApiToken));
 
-  const loading = useBoolean(true);
+  const tokenIsValid = useBoolean(false);
+  const loading_page = useBoolean(true);
+
+  async function validateToken() {
+    try {
+      const response = await api.user.geral.token.validate();
+
+      const { validated } = response.data;
+
+      tokenIsValid.setState(validated);
+
+      if(!(validated || token)) {
+        signOut();
+      }
+
+      return {
+        validated
+      };
+    } catch(error) {
+      console.log(error);
+    } finally {
+      loading_page.changeToFalse();
+    }
+  }
+
+  async function getUserProfile() {
+    try {
+      const response = await api.user.geral.getProfile();
+      
+      setUser(response.data);
+    } catch(error) {
+      console.log(error);
+    } finally {
+      return loading_page.changeToFalse();
+    }
+  }
+
+  async function initialMethods() {
+    const validate_response = await validateToken();
+
+    if(validate_response?.validated) {
+      getUserProfile();
+    }
+  }
 
   useEffect(() => {
-    const getToken = localStorage.getItem(slinkedApiToken);
-    setToken(getToken);
-    
-    baseApi.defaults.headers.common['Authorization'] = `Bearer ${getToken}`;
+    baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    api.user.geral.token.validate().then(response => {
-      setTokenIsValid(response.data.validated);
-
-      if(!(response.data.validated || token)) {
-        setTokenIsValid(false);
-      }
-    });
-
-    api.user.geral.getProfile().then(response => {
-      setUser(response.data);
-    })
-
-    return () => loading.changeToFalse();
+    initialMethods();
   }, []);
 
   async function signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined> {
-    const response = await api.user.geral.authenticate.login(credentials);
-
-    const { token, user } = response.data;
-
-    const userMapped = {
-      ...user,
-      user_roles: [{
-        role: user.user_roles[0].role,
-      }],
-    };
-
-    localStorage.setItem(slinkedApiToken, token);
-
-    baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-    setToken(token);
-    setUser(userMapped);
-    setTokenIsValid(true);
-
-    const responseModified = {
-      user: userMapped,
-      token,
-    };
-
-    return responseModified || undefined;
+    try {
+      const response = await api.user.geral.authenticate.login(credentials);
+  
+      const { token, user } = response.data;
+  
+      baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+      setToken(token);
+      setUser(user);
+      tokenIsValid.changeToTrue();
+      localStorage.setItem(slinkedApiToken, token);
+  
+      return response.data || undefined;
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   async function register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined> {
-    const response = await api.user.geral.register(credentials);
+    try {
+      const response = await api.user.geral.register(credentials);
 
-    // localStorage.setItem(slinkedApiToken, token);
+      const { user } = response.data;
 
-    // baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(user);
+      tokenIsValid.changeToTrue();
 
-    // setToken(token);
-    setUser(response.data.user);
-    setTokenIsValid(true);
-
-    return response.data || undefined;
+      return response.data || undefined;
+    } catch(error) {
+      console.log(error);
+    }
   }
 
-  function signOut(redirect?: {
-    to?: string;
-  }) {
+  function signOut() {
     localStorage.removeItem(slinkedApiToken);
+    tokenIsValid.changeToFalse();
 
-    if(redirect) {
-      history.push(redirect.to || '/login');
-    }
+    baseApi.defaults.headers.common['Authorization'] = '';
+
+    setUser(null);
+    setToken(null);
   }
 
   return (
     <AuthContext.Provider
-      value={{signIn, register, signOut, user, token, tokenIsValid}}
+      value={{
+        signIn, 
+        register, 
+        signOut, 
+        user, 
+        token, 
+        tokenIsValid: tokenIsValid.state, 
+        loading_page: loading_page.state,
+      }}
     >
       {children}
     </AuthContext.Provider>
