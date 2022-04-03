@@ -39,7 +39,7 @@ export const LinkItem = styled(Link)`
     transition: 0.2s all ease-in-out;
 
     span {
-      color: ${COLORS.PRIMARY};
+      color: ${COLORS.SECONDARY};
 
       &:after {
         content: '';
@@ -51,7 +51,7 @@ export const LinkItem = styled(Link)`
         width: 100%;
         height: 2px;
         
-        background: ${COLORS.PRIMARY};
+        background: ${COLORS.SECONDARY};
       }
     }
   }
