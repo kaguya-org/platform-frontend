@@ -32,7 +32,7 @@ export const LeftContent = styled.div`
 `;
 
 export const Welcome = styled.section`
-  border-radius: 0.8rem;
+  border-radius: 8px;
 
   display: flex;
 
@@ -44,20 +44,14 @@ export const Welcome = styled.section`
     width: 100%;
 
     span {
-      font-size: 1.6rem;
+      font-size: 16px;
       font-weight: 500;
       color: ${FONTS_COLORS.SECONDARY};
     }
 
     h1 {
       letter-spacing: 0.8px;
-      margin-top: 0.8rem;
-    }
-  }
-
-  @media(min-width: 1540px) {
-    header.profile {
-      display: none;
+      margin-top: 8px;
     }
   }
 `;
@@ -65,14 +59,14 @@ export const Welcome = styled.section`
 export const LastClasse = styled(Link)`
   margin: 3.2rem 0;
   padding: 3.2rem;
-  border-radius: 0.8rem;
+  border-radius: 8px;
 
   background: ${BACKGROUND.SECONDARY};
   background: 
     linear-gradient(90deg, 
       ${BACKGROUND.SECONDARY} 0%, 
-      ${BACKGROUND.SECONDARY} 31%, 
-      rgba(101,67,99, 0.7) 100%
+      ${BACKGROUND.SECONDARY} 32%, 
+      ${COLORS.SECONDARY} 300%
     );
 
   display: flex;
@@ -84,17 +78,17 @@ export const LastClasse = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 2px -2px 2px ${COLORS.QUARTENARY};
+    box-shadow: -2px 2px 2px ${COLORS.SECONDARY};
   }
 
   div.last_classe_information {
     display: flex;
-    gap: 1.6rem;
+    gap: 16px;
 
     img {
       width: 7.2rem;
       height: 7.2rem;
-      border-radius: 0.8rem;
+      border-radius: 8px;
     }
 
     div {
@@ -107,7 +101,7 @@ export const LastClasse = styled(Link)`
       }
 
       span.trail_name {
-        margin-top: 0.8rem;
+        margin-top: 8px;
         color: ${FONTS_COLORS.SECONDARY};
         letter-spacing: 0.8px;
         
@@ -119,12 +113,12 @@ export const LastClasse = styled(Link)`
   > strong {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 8px;
 
-    font-size: 1.6rem;
+    font-size: 16px;
 
     span {
-      background: ${COLORS.QUARTENARY};
+      background: ${COLORS.SECONDARY};
       border-radius: 50%;
       padding: 1.2rem;
 
@@ -133,31 +127,8 @@ export const LastClasse = styled(Link)`
       justify-content: center;
 
       svg {
-        width: 2.4rem;
-        height: 2.4rem;
-      }
-    }
-  }
-  
-  @media(max-width: 840px) {
-    flex-direction: column;
-
-    div.last_classe_information {
-      img {
-        width: 4.8rem;
-        height: 4.8rem;
-      }
-
-      div {
-        align-items: center;
-      }
-    }
-
-    > strong {
-      margin-top: 1.6rem;
-
-      span {
-        padding: 0.8rem;
+        width: 24px;
+        height: 24px;
       }
     }
   }
@@ -171,13 +142,13 @@ export const MyTrailsSection = styled.section`
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 1.6rem;
+    margin-bottom: 16px;
 
     h1 {
     }
 
     button {
-      font-size: 1.6rem;
+      font-size: 16px;
       font-weight: 500;
 
       color: ${FONTS_COLORS.SECONDARY};
@@ -210,21 +181,15 @@ export const MyTrailsSection = styled.section`
 export const MyTrailsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.6rem;
+  gap: 16px;
 
   width: 100%;
-
-  @media(max-width: 980px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media(max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 export const MyTrail = styled(Link)`
-  padding: 2.4rem;
+  padding: 24px;
+
+  height: 200px;
 
   display: flex;
   align-items: center;
@@ -234,12 +199,7 @@ export const MyTrail = styled(Link)`
   background: ${BACKGROUND.SECONDARY};
   transition: 0.2s;
 
-  border-radius: 0 0 0.8rem 0.8rem;
-  border-bottom: 0.1rem solid ${COLORS.PRIMARY};
-
-  :hover {
-    background: rgb(20, 20, 32);
-  }
+  border-radius: 8px;
 
   header {
     display: flex;
@@ -249,7 +209,7 @@ export const MyTrail = styled(Link)`
     img {
       width: 7.2rem;
       height: 7.2rem;
-      border-radius: 0.8rem;
+      border-radius: 8px;
     }
   }
 
@@ -257,12 +217,12 @@ export const MyTrail = styled(Link)`
     word-wrap: break-word;
     text-align: center;
 
-    font-size: 2.4rem;
+    font-size: 24px;
     font-weight: 600;
     font-family: ${FONTS.SECONDARY}, sans-serif;
 
     max-width: 100%;
-    margin: 1rem 0 2.4rem;
+    margin: 1rem 0 24px;
   }
 
   @media(max-width: 1024px) {
@@ -299,8 +259,10 @@ export const OtherTrailsSection = styled.section`
     }
 
     .see_more_trails {
-      font-size: 1.6rem;
+      font-size: 16px;
       font-weight: 500;
+
+      margin-right: 8px;
 
       color: ${FONTS_COLORS.SECONDARY};
       border-bottom: 0.1rem solid ${FONTS_COLORS.SECONDARY};
@@ -325,64 +287,41 @@ export const OtherTrailsContainer = styled.div`
   overflow: auto;
   position: relative;
 
-  max-height: 100%;
+  max-height: 80vh;
   padding: 8px;
 `;
 
 export const OtherTrail = styled(Link)`
   display: flex;
-  gap: 1.6rem;
+  gap: 16px;
 
-  padding: 1.6rem;
+  padding: 16px;
 
   background: ${GLOBAL_COLORS.BLACK};
 
-  border-radius: 0.8rem;
+  border-radius: 8px;
 
   transition: all 0.2s;
   cursor: pointer;
 
   &:not(:first-child) {
-    margin-top: 1.6rem;
+    margin-top: 16px;
   }
 
   > img {
     width: 7.2rem;
     height: 7.2rem;
-    border-radius: 0.8rem;
+    border-radius: 8px;
   }
 
   div.trail_information {
     h2.title {
-      margin-bottom: 0.8rem;
+      margin-bottom: 8px;
     }
 
     span {
-      font-size: 1.6rem;
+      font-size: 16px;
       color: ${FONTS_COLORS.SECONDARY};
-
-    }
-  }
-  
-  @media(max-width: 1024px) {
-    > img {
-      width: 4.8rem;
-      height: 4.8rem;
-    }
-    div.trail_information {
-      h2.title {
-        font-size: 1.8rem;
-      }
-
-      span {
-        font-size: 1.4rem;
-      }
-    }
-  }
-
-  @media(max-width: 1540px) {
-    &:not(:first-child) {
-      margin-top: 0;
     }
   }
 `;
