@@ -1,38 +1,29 @@
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { BACKGROUND, COLORS, GLOBAL_COLORS, FONTS_COLORS } from '../../../theme';
 
+export const Container = styled.div``;
+
 export const Content = styled.div`
+  max-width: 1200px;
   width: 100%;
-  padding-left: 4.8rem;
-  margin: 6.4rem;
-  margin-left: 7.8rem;
+
+  margin: 64px auto;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+`;
 
-  > section {
-    display: flex;
-    justify-content: center;
-    gap: 1.8rem;
-
-    margin-top: 3.2rem;
-
-    @media(max-width: 1600px) {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  @media(max-width: 840px) {
-    margin: 3.2rem;
-    margin-top: 8rem;
-    padding: 0;
-  }
+export const MainContent = styled.main`
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 `;
 
 export const CurrentClasseContainer = styled.main`
   width: 100%;
-  max-width: 98rem;
 
   display: flex;
   flex-direction: column;
@@ -44,17 +35,18 @@ export const CurrentClasse = styled.section`
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
+
   width: 100%;
 
   background: ${BACKGROUND.SECONDARY};
   border-radius: 0.8rem;
 
   iframe {
-    width: 100%;
-    border-radius: 0.8rem 0.8rem 0 0;
+    border-radius: 8px 8px 0 0;
     border: none;
 
-    height: 46rem;
+    width: 830px;
+    height: 470px;
   }
 
   > div.classe_counts_container {
@@ -64,7 +56,7 @@ export const CurrentClasse = styled.section`
     justify-content: space-between;
     align-items: center;
 
-    padding: 1.6rem;
+    padding: 16px;
 
     > span.views_count {
       font-size: 1.6rem;
@@ -73,12 +65,12 @@ export const CurrentClasse = styled.section`
     > div.likes_deslikes {
       display: flex;
       align-items: center;
-      gap: 2.4rem;
+      gap: 24px;
 
       span {
         display: flex;
         align-items: center;
-        gap: 0.6rem;
+        gap: 8px;
 
         cursor: pointer;
 
@@ -121,56 +113,27 @@ export const ClasseInfo = styled.section`
   justify-content: space-between;
   flex-direction: column;
 
-  padding: 3.2rem;
+  padding: 32px;
 
   background: ${BACKGROUND.SECONDARY};
-  border-radius: 0.8rem;
-
-  div.classeInfo_switch_buttons {
-    display: flex;
-    border-bottom: 0.2rem solid ${GLOBAL_COLORS.WHITE};
-    margin: 1.6rem 0 2.4rem; 
-
-    button {
-      padding: 0.4rem 0;
-      transition: all 0.2s;
-
-      border-bottom: 0.1rem solid ${GLOBAL_COLORS.WHITE};
-      position: relative;
-      top: 0.2rem;
-
-      border-bottom: 0.2rem solid ${COLORS.TERTIARY};
-
-      &:hover {
-        filter: brightness(80%);
-      }
-    }
-  }
-
-  > p.current_classe_description {
-    color: ${FONTS_COLORS.SECONDARY};
-    font-size: 1.4rem;
-  }
+  border-radius: 8px;
 `;
 
 export const BlocksAndClassesContainer = styled.aside`
-  flex: 1;
   background: ${BACKGROUND.SECONDARY};
 
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 38rem;
 
-  border-radius: 0.8rem;
+  max-width: 360px;
+  width: 100%;
+
+  border-radius: 8px;
 `;
 
 export const BlockAndClasses = styled.div`
-  width: 100%;
-  max-width: 38rem;
-
   &:not(:first-child) {
-    margin-top: 6px;
+    margin-top: 8px;
   }
 `;
 
@@ -181,10 +144,11 @@ export const Block = styled.button`
   background: #262832;
 
   padding: 24px;
-  height: 9.6rem;
+
+  height: 96px;
   width: 100%;
 
-  border-radius: 0.8rem 0.8rem 0 0;
+  border-radius: 8px 8px 0 0;
 
   > div.block_info {
     display: flex;
@@ -197,14 +161,14 @@ export const Block = styled.button`
 
     span.block_classes_count {
       font-size: 1.4rem;
-      margin-top: 0.6rem;
+      margin-top: 8px;
       color: ${FONTS_COLORS.SECONDARY};
     }
   }
 
   > svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -223,7 +187,7 @@ export const ClassesContainer = styled.div<BlockAndClassesType>`
     padding: 24px;
 
     li:not(:first-child) {
-      margin-top: 1.6rem;
+      margin-top: 16px;
     }
   }
 
@@ -238,11 +202,13 @@ type ClasseType = {
   isCurrent?: boolean;
 }
 
-export const Classe = styled.button<ClasseType>`
+export const Classe = styled(Link)<ClasseType>`
   display: flex;
   align-items: center;
 
   color: ${FONTS_COLORS.SECONDARY};
+
+  font-size: 1.4rem;
 
   ${props => props.isCompleted && css`
     color: ${COLORS.TERTIARY};

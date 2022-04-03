@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { TabContainer, TabItem } from '@/components/Tab';
+import { modifyYoutubeUrl, parseToSlugLowerCase } from '@/utils/formatText';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { 
   AiFillDislike, 
   AiFillLike, 
@@ -7,98 +9,138 @@ import {
   IoIosArrowDown,
   IoIosArrowUp
 } from 'react-icons/all';
+
 import { useParams } from 'react-router';
 
 import {
   BoxProgressBarStep,
-  SideBar,
-  ContainerPage,
+  Navbar,
   PagePath
 } from '../../../components';
 import { useBoolean } from '../../../hooks';
-import { api, UserType, GlobalType } from '../../../services/api';
+import { api, GlobalType } from '../../../services/api';
 
-import {
-  Content,
-  CurrentClasseContainer,
-  CurrentClasse,
-  ClasseInfo,
-  BlocksAndClassesContainer,
-  BlockAndClasses,
-  Block,
-  ClassesContainer,
-  Classe
-} from './styles';
+import * as S from './styles';
 
 type Params = {
-  playlist_id: string;
-  trail_id: string;
+  playlist_name: string;
+  trail_name: string;
+  block_name?: string;
+  classe_name?: string;
 }
 
 export function Playlist() {
-  const { playlist_id, trail_id } = useParams<Params>();
+  const { 
+    playlist_name, 
+    trail_name,
+    block_name,
+    classe_name
+  } = useParams<Params>();
   const isLiked = useBoolean(true);
 
-  const loadingPage = useBoolean(true);
-
-  const [blocks, setBlocks] = useState<GlobalType.ListAllBlocksResponse[]>([]);
+  const [blocks, setBlocks] = useState<GlobalType.Block[]>([]);
   
-  const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse>({} as GlobalType.ShowPlaylistResponse);
-  const [trail, setTrail] = useState<GlobalType.ShowTrailResponse>({} as GlobalType.ShowTrailResponse);
+  const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse | null>(null);
+  const [trail, setTrail] = useState<GlobalType.ShowTrailResponse | null>(null);
 
-  const [selectedBlockId, setSelectedBlockId] = useState('');
-  const [currentClasseId, setCurrentClasseId] = useState('');
-  const [currentClasse, setCurrentClasse] = useState<GlobalType.Classe>({} as GlobalType.Classe);
- 
-  useEffect(() => {
-    api.global.playlist_block.listAllBlocks({
-      playlist_id
-    }).then(response => {
-      setBlocks(response.data);
-      setCurrentClasse({
-        ...response.data[0].classes[0],
-        link: response.data[0].classes[0].link.replace('watch?v=', 'embed/')
+  const [currentBlock, setCurrentBlock] = useState<GlobalType.Block | null>(null);
+  const [currentClasse, setCurrentClasse] = useState<GlobalType.Classe | null>(null);
+
+  async function getBlocks(playlist: GlobalType.ShowPlaylistResponse) {
+    try {
+      const response = await api.global.playlist_block.listBlocks({
+        query: {
+          playlist_id: playlist.id
+        }
       });
-      setCurrentClasseId(response.data[0].classes[0].id);
-    });
 
-    api.global.trail.getInfo({trail_id}).then(response => {
-      setTrail(response.data);
-    });
+      setCurrentBlock(response.data[0]);
+      
+      setCurrentClasse(response.data[0].classes[0]);
 
-    api.global.playlist.getInfo({playlist_id}).then(response => {
-      setPlaylist(response.data);
-    });
-  }, []);
+      setBlocks(response.data);
 
-  function handleChangeBlocks(block_id: string) {
-    setSelectedBlockId(block_id);
-
-    if(selectedBlockId === block_id) {
-      setSelectedBlockId('');
-    };
+    } catch (error: any) {
+      console.log(error);
+    }
   }
 
-  function handleChangeCurrentClasse(classe: GlobalType.Classe) {
-    setCurrentClasseId(classe.id);
+  async function getPlaylist() {
+    try {
+      const get_trail = await api.global.trail.getInfo({
+        query: {
+          name: trail_name
+        }
+      });
 
-    const classeModified = {
-      ...classe,
-      link: classe.link.replace('watch?v=', 'embed/'),
+      setTrail(get_trail.data);
+
+      if(get_trail.data) {
+        const response = await api.global.playlist.getInfo({
+          query: {
+            name: playlist_name,
+            trail_id: get_trail.data.id
+          }
+        });
+
+        getBlocks(response.data);
+
+        setPlaylist(response.data);
+      }
+    } catch (error: any) {
+      console.log(error);
     }
+  }
 
-    setCurrentClasse(classeModified);
+  async function getCurrentClasse() {
+    if(block_name && classe_name) {
+      const block = blocks.find((where) => {
+        return parseToSlugLowerCase(where.name) === parseToSlugLowerCase(block_name);
+      });
+
+      if(block) {
+        const current_classe = block.classes.find((where) => {
+          return parseToSlugLowerCase(where.name) === parseToSlugLowerCase(classe_name)
+        });
+        
+        if(current_classe) {
+          setCurrentClasse(current_classe);
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    getPlaylist();
+  }, [playlist_name, trail_name]);
+
+  useEffect(() => {
+    getCurrentClasse();
+  }, [block_name, classe_name, blocks]);
+
+  function handleSetCurrentBlock(block: GlobalType.Block) {
+    setCurrentBlock(prevState => {
+      if(prevState?.id === block.id) {
+        return null;
+      }
+
+      return block;
+    })
+  }
+
+  function setCurrentPath(block: GlobalType.Block, classe: GlobalType.Classe) {
+    const base_url = `/trail/${parseToSlugLowerCase(trail?.name)}/playlist/${parseToSlugLowerCase(playlist?.name)}`;
+    const block_url = `block/${parseToSlugLowerCase(block.name)}`;
+    const classe_url = `classe/${parseToSlugLowerCase(classe.name)}`;
+
+    return `${base_url}/${block_url}/${classe_url}`;
   }
 
   return (
-    <ContainerPage 
-      isLoading={false}
-      loadingProps={{
-        size: '6.4rem',
-      }}
-    >
-      <SideBar />
-      <Content>
+    <S.Container>
+      <Navbar />
+      
+      <S.Content>
         <PagePath 
           previousPages={[
             {
@@ -107,21 +149,21 @@ export function Playlist() {
               order: 1,
             },
             {
-              title: `${trail.name}`,
-              to: `/trail/${trail.id}`,
+              title: `${trail?.name}`,
+              to: `/trail/${trail?.name}`,
               order: 2,
             }
           ]}
           currentPage={{
-            title: `${playlist.name}`,
+            title: `${playlist?.name}`,
           }}
         />
-        <section>
-          <CurrentClasseContainer>
-            <CurrentClasse>
+        <S.MainContent>
+          <S.CurrentClasseContainer>
+            <S.CurrentClasse>
               <iframe 
-                src={currentClasse.link}
-                title={currentClasse.name}
+                src={modifyYoutubeUrl(currentClasse?.link)}
+                title={currentClasse?.name}
                 frameBorder="0"
                 allowFullScreen 
               />
@@ -142,63 +184,62 @@ export function Playlist() {
                   </span>
                 </div>
               </div>
-            </CurrentClasse>
-            <ClasseInfo>
-              <h1 className="current_classe_title">{currentClasse.name}</h1>
-              <div className="classeInfo_switch_buttons">
-                <button>Descrição</button>
-                <button>Artigos</button>
-              </div>
-              <p className="current_classe_description">{currentClasse.description}</p>
-            </ClasseInfo>
-          </CurrentClasseContainer>
+            </S.CurrentClasse>
+            <S.ClasseInfo>
+              <h1 className="current_classe_title">{currentClasse?.name}</h1>
+              <TabContainer>
+                <TabItem tabTitle="Descrição">
+                  <p>{currentClasse?.description}</p>
+                </TabItem>
+                <TabItem tabTitle="Artigos">
+                  <p>TODO - adicionar artigos mais pra frente</p>
+                </TabItem>
+              </TabContainer>
+            </S.ClasseInfo>
+          </S.CurrentClasseContainer>
 
-          <BlocksAndClassesContainer>
+          <S.BlocksAndClassesContainer>
             {blocks.map(block => (
-              <>
-                <BlockAndClasses 
-                  key={block.id}
+              <S.BlockAndClasses 
+                key={block.id}
+              >
+                <S.Block onClick={() => handleSetCurrentBlock(block)}>
+                  <div className="block_info">
+                    <h2 className="block_title">{block.name}</h2>
+                    <span className="block_classes_count">
+                      {block.classes.length} 
+                      {block.classes.length === 1 ? ' aula' : ' aulas'}
+                    </span>
+                  </div>
+                  {block.id === currentBlock?.id ? (
+                    <IoIosArrowUp />
+                  ) : (
+                    <IoIosArrowDown />
+                  )}
+                </S.Block>
+                <S.ClassesContainer
+                  selectedBlock={block.id === currentBlock?.id}
                 >
-                  <Block onClick={() => handleChangeBlocks(block.id)}>
-                    <div className="block_info">
-                      <h2 className="block_title">{block.name}</h2>
-                      <span className="block_classes_count">
-                        {block.classes.length} 
-                        {block.classes.length === 1 ? ' aula' : ' aulas'}
-                      </span>
-                    </div>
-                    {block.id === selectedBlockId ? (
-                      <IoIosArrowUp />
-                    ) : (
-                      <IoIosArrowDown />
-                    )}
-                  </Block>
-                  <ClassesContainer
-                    selectedBlock={block.id === selectedBlockId}
-                  >
-                    <ul className="classes">
-                      {block.classes.map(classe => (
-                        <BoxProgressBarStep 
-                          key={classe.id}
-                          isCurrent={classe.id === currentClasseId}
-                        > 
-                          <Classe 
-                            isCurrent={classe.id === currentClasseId}
-                            type="button"
-                            onClick={() => handleChangeCurrentClasse(classe)}
-                          >
-                            {classe.name}
-                          </Classe>
-                        </BoxProgressBarStep>
-                      ))}
-                    </ul>
-                  </ClassesContainer>
-                </BlockAndClasses>
-              </>
+                  <ul className="classes">
+                    {block.classes.map(classe => (
+                      <BoxProgressBarStep 
+                        isCurrent={classe.id === currentClasse?.id}
+                      > 
+                        <S.Classe
+                          to={setCurrentPath(block, classe)}
+                          isCurrent={classe.id === currentClasse?.id}
+                        >
+                          {classe.name}
+                        </S.Classe>
+                      </BoxProgressBarStep>
+                    ))}
+                  </ul>
+                </S.ClassesContainer>
+              </S.BlockAndClasses>
             ))}
-          </BlocksAndClassesContainer>
-        </section>
-      </Content>
-    </ContainerPage>
+          </S.BlocksAndClassesContainer>
+        </S.MainContent>
+      </S.Content>
+    </S.Container>
   );
 }
