@@ -8,7 +8,7 @@ export type Trail = {
   updated_at: string;
 }
 
-export type ListAllTrailsResponse = {
+export type ListTrailsResponse = {
   id: string;
   name: string;
   description: string;

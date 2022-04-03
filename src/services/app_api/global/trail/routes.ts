@@ -5,18 +5,18 @@ import {
 } from '../../../api';
 
 import {
-  ListAllTrailParams,
+  ListTrailParams,
   ShowTrailParams
 } from './params';
 
 import {
-  ListAllTrailsResponse,
+  ListTrailsResponse,
   ShowTrailResponse
 } from './response';
 
 export const trail = {
-  listAll: (data?: ListAllTrailParams): Promise<AxiosResponse<ListAllTrailsResponse[]>> => {
-    return baseApi.get('/trails/list-all', {
+  list: (data?: ListTrailParams) => {
+    return baseApi.get<ListTrailsResponse[]>('/trails/list-all', {
       params: {
         order: data?.order || 'asc',
         exclude_my_trails: data?.exclude_my_trails || false,
@@ -25,9 +25,9 @@ export const trail = {
       }
     });
   },
-  getInfo: (data: ShowTrailParams): Promise<AxiosResponse<ShowTrailResponse>> => {
+  getInfo: (data?: ShowTrailParams): Promise<AxiosResponse<ShowTrailResponse>> => {
     return baseApi.get('/trails/show', {
-      params: data,
+      params: data?.query,
     });
   },
 }

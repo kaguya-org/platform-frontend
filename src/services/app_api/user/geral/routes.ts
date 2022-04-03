@@ -20,8 +20,8 @@ export const geral = {
   register: (data: RegisterUserParams): Promise<AxiosResponse<RegisterUserResponse>> => {
     return baseApi.post('/users', data);
   },
-  getProfile: (): Promise<AxiosResponse<User>> => {
-    return baseApi.get('/profile');
+  getProfile: () => {
+    return baseApi.get<User>('/profile');
   },
   token: {
     validate: (): Promise<AxiosResponse<TokenValidResponse>> => {
@@ -29,8 +29,8 @@ export const geral = {
     }
   },
   authenticate: {
-    login: (data: LoginParams): Promise<AxiosResponse<LoginResponse>> => {
-      return baseApi.post('/sessions', data);
+    login: (data: LoginParams) => {
+      return baseApi.post<LoginResponse>('/sessions', data);
     }
   },
 }

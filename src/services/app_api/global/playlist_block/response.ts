@@ -8,11 +8,11 @@ export type Classe = {
   updated_at: string;
 }
 
-export type ListAllBlocksResponse = {
+export type Block = {
   id: string;
   name: string;
   playlist_id: string;
   created_at: string;
   updated_at: string;
   classes: Classe[];
-} 
+}

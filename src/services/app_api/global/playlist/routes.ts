@@ -16,11 +16,15 @@ import {
 
 export const playlist = {
   listAllByTrail: (data: ListAllPlaylistByTrailParams): Promise<AxiosResponse<ListAllPlaylistsByTrailResponse[]>> => {
-    return baseApi.get(`/playlists/trail-list-all?trail_id=${data.trail_id}`);
+    return baseApi.get('/playlists/trail-list-all', {
+      params: {
+        trail_id: data?.query?.trail_id
+      },
+    });
   },
   getInfo: (data: ShowPlaylistParams): Promise<AxiosResponse<ShowPlaylistResponse>> => {
     return baseApi.get('/playlists/show', {
-      params: data
+      params: data.query
     })
   }
 }

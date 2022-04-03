@@ -1,8 +1,14 @@
 
 export type ListAllPlaylistByTrailParams = {
-  trail_id: string;
+  query?: {
+    trail_id?: string;
+  }
 }
 
 export type ShowPlaylistParams = {
-  playlist_id: string;
+  query?: {
+    playlist_id?: string;
+    name?: string;
+    trail_id?: string;
+  }
 }

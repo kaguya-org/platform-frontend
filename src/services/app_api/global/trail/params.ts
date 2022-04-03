@@ -1,5 +1,5 @@
 
-export type ListAllTrailParams = {
+export type ListTrailParams = {
   order?: 'desc' | 'asc';
   exclude_my_trails?: boolean;
   take?: number;
@@ -7,5 +7,8 @@ export type ListAllTrailParams = {
 }
 
 export type ShowTrailParams = {
-  trail_id: string;
+  query?: {
+    trail_id?: string;
+    name?: string;
+  }
 }
