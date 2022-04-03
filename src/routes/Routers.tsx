@@ -63,7 +63,11 @@ export function Routers() {
 
       {/* Users private */}
       <Route element={<PrivateRoute />}>
-        <Route element={<User.Dashboard />} path="/user" />
+        <Route element={<User.Dashboard />} path="user" />
+        <Route element={<User.Trail />} path="/trail/:trail_name" />
+        <Route element={<User.Playlist />} path="/trail/:trail_name/playlist/:playlist_name">
+          <Route element={<User.Playlist />} path="block/:block_name/classe/:classe_name" />
+        </Route>
       </Route>
 
       <Route element={<Navigate to={tokenIsValid ? '/user' : '/login'} />} path="*" />
