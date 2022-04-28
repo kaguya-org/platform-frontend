@@ -1,3 +1,4 @@
+import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -5,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(to right bottom, var(--primary-color), var(--third-color));
+  background: linear-gradient(to right bottom, ${COLORS.SECONDARY}, ${COLORS.TERTIARY});
   padding: 0.4rem;
   border-radius: 50%;
 

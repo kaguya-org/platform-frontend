@@ -28,7 +28,7 @@ export function Button({
       {...rest}
     >
       {isLoading ? (
-        <Loading size={loadingSize} type="circle" />         
+        <Loading size={loadingSize} type="square" />         
       ) : (
         <>
         {iconConfig && iconConfig.isSide === 'left' && (

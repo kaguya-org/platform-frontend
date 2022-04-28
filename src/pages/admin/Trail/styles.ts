@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
-import { Input } from '../../../components/HtmlPartials/Input';
+import { Input } from '../../../components/Commons/Input';
 
 type ContainerProps = {
   isLoading?: boolean;

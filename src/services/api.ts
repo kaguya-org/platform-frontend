@@ -13,9 +13,9 @@ export const baseApi = axios.create({
   baseURL: 'https://slinked-test.herokuapp.com',
 });
 
-export const slinkedApiToken = '@slinked:token';
+export const kaguyaApiToken = '@kaguya:token';
 
-export const localStorageToken = localStorage.getItem(slinkedApiToken);
+export const localStorageToken = localStorage.getItem(kaguyaApiToken);
 
 baseApi.defaults.headers.common['Authorization'] = `Bearer ${localStorageToken}`;
 

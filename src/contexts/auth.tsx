@@ -1,6 +1,6 @@
 import { useBoolean } from '../hooks/useBoolean';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { UserType, slinkedApiToken, baseApi, api } from '../services/api';
+import { UserType, kaguyaApiToken, baseApi, api } from '../services/api';
 
 type AuthContextData = {
   user: UserType.User | null;
@@ -22,13 +22,15 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserType.User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem(slinkedApiToken));
+  const [token, setToken] = useState<string | null>(localStorage.getItem(kaguyaApiToken));
 
   const tokenIsValid = useBoolean(false);
   const loading_page = useBoolean(true);
 
   async function validateToken() {
     try {
+      loading_page.changeToTrue();
+      
       const response = await api.user.geral.token.validate();
 
       const { validated } = response.data;
@@ -76,41 +78,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   async function signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined> {
-    try {
-      const response = await api.user.geral.authenticate.login(credentials);
-  
-      const { token, user } = response.data;
-  
-      baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  
-      setToken(token);
-      setUser(user);
-      tokenIsValid.changeToTrue();
-      localStorage.setItem(slinkedApiToken, token);
-  
-      return response.data || undefined;
-    } catch(error) {
-      console.log(error);
-    }
+    const response = await api.user.geral.authenticate.login(credentials);
+
+    const { token, user } = response.data;
+
+    baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    setToken(token);
+    setUser(user);
+    tokenIsValid.changeToTrue();
+    localStorage.setItem(kaguyaApiToken, token);
+
+    return response.data;
   }
 
   async function register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined> {
-    try {
-      const response = await api.user.geral.register(credentials);
+    const response = await api.user.geral.register(credentials);
 
-      const { user } = response.data;
+    const { user } = response.data;
 
-      setUser(user);
-      tokenIsValid.changeToTrue();
+    setUser(user);
+    tokenIsValid.changeToTrue();
 
-      return response.data || undefined;
-    } catch(error) {
-      console.log(error);
-    }
+    return response.data;
   }
 
   function signOut() {
-    localStorage.removeItem(slinkedApiToken);
+    localStorage.removeItem(kaguyaApiToken);
     tokenIsValid.changeToFalse();
 
     baseApi.defaults.headers.common['Authorization'] = '';

@@ -1,21 +1,30 @@
 import {
   LoadingContainer,
   CircleLoading,
+  SquareLoading
 } from './styles';
 
 export type LoadingProps = {
   size?: string;
-  type?: 'circle'
+  type?: 'circle' | 'square';
 };
 
-export function Loading({type = 'circle', ...rest}: LoadingProps) {
+export const Loading: React.FC<LoadingProps> = ({ type = 'circle', size = '20px', ...rest }) => {
   const loadings = {
-    circle: <CircleLoading {...rest}/>,
+    circle: ( 
+      <LoadingContainer size={size}>
+        <CircleLoading />
+      </LoadingContainer> 
+    ),
+    square: (
+      <SquareLoading size={size} {...rest}>
+        <span />
+        <span />
+        <span />
+        <span />
+      </SquareLoading>
+    )
   };
 
-  return (
-    <LoadingContainer {...rest}>
-      {loadings[type]}
-    </LoadingContainer>
-  );
+  return loadings[type]
 }

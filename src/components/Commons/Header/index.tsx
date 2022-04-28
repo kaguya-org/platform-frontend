@@ -8,7 +8,9 @@ export function Header() {
   return (
     <Container>
       <Content>
-        <h2>Slinked</h2>
+        <Link to="/dashboard">
+          <h2>Kaguya</h2>
+        </Link>
 
         <nav>
           <Link to="/">Home</Link>

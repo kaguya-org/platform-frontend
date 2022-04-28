@@ -23,7 +23,9 @@ export function UserProfile({
       style={css?.container}
     >
       <S.Content>
-        <span style={css?.name}>{user?.name || user?.username || 'Default name'}</span>
+        {user && (
+          <span style={css?.name}>{user.name || user.username}</span>
+        )}
 
         <UserPhoto
           imageUri={user?.avatar} 

@@ -54,7 +54,7 @@ export function Trail() {
 
   const loadingPage = useBoolean(true);
 
-  const newPlaylistModal = useModal()
+  const newPlaylistModal = useModal(false)
   
   const savePlaylists = useCallback(() => {
     openPlaylistsDraggable.changeToFalse();

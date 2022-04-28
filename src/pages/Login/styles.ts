@@ -1,19 +1,16 @@
 import styled from 'styled-components';
 
 import { Form } from '@unform/web';
-import { BACKGROUND, COLORS, FONTS_COLORS } from '../../theme';
+import { BACKGROUND, COLORS, FONTS_COLORS, SHADOW_COLORS } from '../../theme';
 
 export const Content = styled.main`
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  max-width: 46.0rem;
   width: 100%;
-  height: min-content;
-  margin: 0 auto;
-
-  border-radius: 0.8rem;
-  background: ${BACKGROUND.SECONDARY};
+  height: calc(100% - 61px);
+  margin-top: 61px;
 
   nav.login_register_navigation {
     width: 100%;
@@ -28,13 +25,16 @@ export const Content = styled.main`
 
       font-size: 1.6rem;
     }
+    span {
+      color: ${COLORS.PRIMARY};
+      border-top-left-radius: 0.8rem;
+      border-top-right-radius: 0.8rem;
+      box-shadow: 0 15px ${BACKGROUND.SECONDARY}, 4px 4px 10px ${SHADOW_COLORS.BLACK_OPACITY_50};
+    }
 
     a {
-      color: ${COLORS.PRIMARY};
-      border-bottom: 2px solid ${COLORS.PRIMARY};
-      border-left: 2px solid ${COLORS.PRIMARY};
-      border-radius: 0.8rem;
-      background: ${BACKGROUND.TERTIARY};
+      border-top-right-radius: 0.8rem;
+      background: linear-gradient(to right, ${BACKGROUND.PRIMARY}, ${BACKGROUND.SECONDARY}) !important;
     }
   }
 
@@ -46,6 +46,16 @@ export const Content = styled.main`
     }
   }
 `;
+
+export const FormContainer = styled.div`
+  max-width: 46.0rem;
+  min-width: 500px;
+  height: 644px;
+
+  border-radius: 0.8rem;
+  background: ${BACKGROUND.SECONDARY};
+`
+
 
 export const FormTag = styled(Form)`
   > div {

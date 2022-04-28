@@ -5,7 +5,7 @@ export const Container = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  background: ${BACKGROUND.TERTIARY};
+  background: linear-gradient(to left, ${BACKGROUND.TERTIARY}, ${BACKGROUND.PRIMARY});
   width: 100%;
 `;
 

@@ -6,6 +6,7 @@ import {
   COLORS,
   FONTS_COLORS,
   GLOBAL_COLORS,
+  SHADOW_COLORS,
 } from '../../theme';
 
 export const Container = styled.header`
@@ -13,8 +14,12 @@ export const Container = styled.header`
   padding: 0 64px;
 
   min-height: 70px;
+  position: relative;
+  z-index: 1;
 
-  background: ${BACKGROUND.SECONDARY};
+  background: linear-gradient(to left, ${BACKGROUND.TERTIARY}, ${BACKGROUND.PRIMARY});
+
+  box-shadow: 2px 2px 15px ${SHADOW_COLORS.BLACK_OPACITY_30};
 `;
 
 export const Content = styled.div`
@@ -92,7 +97,7 @@ export const SubMenuProfile = styled.div`
 
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 15px solid #F0F0F0;
+    border-bottom: 15px solid ${GLOBAL_COLORS.WHITE};
 
     position: absolute;
     top: -12px;
@@ -103,7 +108,7 @@ export const SubMenuProfile = styled.div`
 `;
 
 export const SubMenuProfileContent = styled.div`
-  background: #F0F0F0;
+  background: ${GLOBAL_COLORS.WHITE};
   border-radius: 8px;
 `;
 
@@ -135,7 +140,7 @@ export const SubMenuProfileItemStyle = css`
     height: 16px;
   } 
   svg, svg path, svg > *, span {
-    color: #8F8F8F;
+    color: ${GLOBAL_COLORS.GRAY};
   }
 `
 

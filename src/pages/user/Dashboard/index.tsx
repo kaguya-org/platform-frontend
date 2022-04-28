@@ -78,7 +78,7 @@ export function Dashboard() {
               <span>
                 Olá, {user?.name || user?.username}
               </span>
-              <h1> Vamos estudar o que hoje? </h1>
+              <h1>Vamos estudar o que hoje? </h1>
             </div>
           </S.Welcome>
 

@@ -26,6 +26,5 @@ export const Content = styled.div`
   span {
     font-size: 1.6rem;
     color: ${FONTS_COLORS.SECONDARY};
-    text-transform: capitalize;
   }
 `;

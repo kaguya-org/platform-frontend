@@ -24,8 +24,8 @@ export function Navbar(): JSX.Element {
   return (
     <S.Container>
       <S.Content>
-        <Link to="#" className="app_logo">
-          <h1>Slinked</h1>
+        <Link to="/dashboard" className="app_logo">
+          <h1>Kaguya</h1>
         </Link>
 
         <S.LinksContainer>

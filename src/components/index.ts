@@ -1,15 +1,15 @@
 // Global
-export { Header } from './HtmlPartials/Header';
+export { Header } from './Commons/Header';
 export { Loading } from './Loading';
 export { ProgressBar } from './ProgressBar';
 export { Navbar } from './Navbar';
 export { Tooltip } from './Tooltip';
 export { BoxProgressBarStep } from './BoxProgressBarStep';
 
-export { Button } from './HtmlPartials/Button';
-export { Input } from './HtmlPartials/Input';
-export { InputFile } from './HtmlPartials/InputFile';
-export { InputCheckbox } from './HtmlPartials/InputCheckbox';
+export { Button } from './Commons/Button';
+export { Input } from './Commons/Input';
+export { InputFile } from './Commons/InputFile';
+export { InputCheckbox } from './Commons/InputCheckbox';
 
 export { UserPhoto } from './UserPhoto';
 export { PagePath } from './PagePath';
