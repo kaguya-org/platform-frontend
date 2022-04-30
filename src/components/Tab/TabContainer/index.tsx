@@ -24,6 +24,7 @@ export function TabContainer({
       <header>
         {Array.isArray(children) ? children.map((item, index) => (
           <TabTitle
+            key={index}
             isSelected={index === current_index}
             tabTitle={item?.props.tabTitle}
             onClick={() => handleChangeCurrentIndex(index)}
