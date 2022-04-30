@@ -19,7 +19,6 @@ export const Container = styled.header`
 
   background: linear-gradient(to left, ${BACKGROUND.TERTIARY}, ${BACKGROUND.PRIMARY});
 
-  box-shadow: 2px 2px 15px ${SHADOW_COLORS.BLACK_OPACITY_30};
 `;
 
 export const Content = styled.div`
