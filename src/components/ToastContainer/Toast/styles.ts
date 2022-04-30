@@ -1,3 +1,4 @@
+import { FONTS } from '@/theme';
 import styled, { css, keyframes } from 'styled-components';
 
 type ContainerProps = {
@@ -31,21 +32,28 @@ const animateToast = keyframes`
 
 export const Container = styled.div<ContainerProps>`
   position: relative;
-  font-family: 'roboto';
+
+  font-family: ${FONTS.PRIMARY};
   font-weight: bold;
+  cursor: pointer;
+
   max-width: 400px;
   margin: 10px 0;
-  border: 2px solid transparent;
-  cursor: pointer;
   padding: 10px 60px 10px 20px;
+
+  border: 2px solid transparent;
   border-radius: 11px;
+
   animation: ${animateToast} 0.5s ease-in-out;
 
   backdrop-filter: blur(10px);
+
   ${props => styles[props.type || 'info']}
+
   > p {
     font-size: 12px;
   }
+
   > button {
     position: absolute;
     top: 10px;
