@@ -355,8 +355,9 @@ export const Exercicie = styled.div`
   }
 `;
 
-
 export const OtherTrailInfo = styled.section`
+  width: 100%;
+
   header {
     margin-bottom: 0.8rem;
   }
