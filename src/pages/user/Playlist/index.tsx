@@ -1,6 +1,4 @@
-import { TabContainer, TabItem } from '@/components/Tab';
-import { modifyYoutubeUrl, parseToSlugLowerCase } from '@/utils/formatText';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   AiFillDislike, 
   AiFillLike, 
@@ -9,15 +7,20 @@ import {
   IoIosArrowDown,
   IoIosArrowUp
 } from 'react-icons/all';
-
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 
 import {
   BoxProgressBarStep,
   Navbar,
   PagePath
 } from '../../../components';
+
 import { useBoolean } from '../../../hooks';
+import { TabContainer, TabItem } from '@/components/Tab';
+import { modifyYoutubeUrl, parseToSlugLowerCase } from '@/utils/formatText';
+
+import { Cover } from '@/components/Cover';
+
 import { api, GlobalType } from '../../../services/api';
 
 import * as S from './styles';
@@ -31,12 +34,16 @@ type Params = {
 
 export function Playlist() {
   const { 
-    playlist_name, 
     trail_name,
+    playlist_name, 
     block_name,
     classe_name
   } = useParams<Params>();
+  const navigate_to = useNavigate();
+
   const isLiked = useBoolean(true);
+
+  const get_current_classe_loading = useBoolean(true);
 
   const [blocks, setBlocks] = useState<GlobalType.Block[]>([]);
   
@@ -46,7 +53,7 @@ export function Playlist() {
   const [currentBlock, setCurrentBlock] = useState<GlobalType.Block | null>(null);
   const [currentClasse, setCurrentClasse] = useState<GlobalType.Classe | null>(null);
 
-  async function getBlocks(playlist: GlobalType.ShowPlaylistResponse) {
+  async function getBlocks(playlist: GlobalType.ShowPlaylistResponse, get_trail: GlobalType.ShowTrailResponse) {
     try {
       const response = await api.global.playlist_block.listBlocks({
         query: {
@@ -55,10 +62,15 @@ export function Playlist() {
       });
 
       setCurrentBlock(response.data[0]);
-      
-      setCurrentClasse(response.data[0].classes[0]);
 
       setBlocks(response.data);
+
+      if(response.data[0].classes[0]) {
+        setCurrentClasse(response.data[0].classes[0]);
+        get_current_classe_loading.changeToFalse();
+      } else {
+        navigate_to(`/trail/${get_trail?.name}`)
+      }
 
     } catch (error: any) {
       console.log(error);
@@ -73,17 +85,19 @@ export function Playlist() {
         }
       });
 
-      setTrail(get_trail.data);
+      const trail = get_trail.data;
 
-      if(get_trail.data) {
+      setTrail(trail);
+
+      if(trail) {
         const response = await api.global.playlist.getInfo({
           query: {
-            name: playlist_name,
-            trail_id: get_trail.data.id
+            playlist_slug: playlist_name,
+            trail_slug: trail_name
           }
         });
 
-        getBlocks(response.data);
+        getBlocks(response.data, trail);
 
         setPlaylist(response.data);
       }
@@ -105,6 +119,7 @@ export function Playlist() {
         
         if(current_classe) {
           setCurrentClasse(current_classe);
+          get_current_classe_loading.changeToFalse();
         }
       }
     }
@@ -137,109 +152,114 @@ export function Playlist() {
   }
 
   return (
-    <S.Container>
-      <Navbar />
-      
-      <S.Content>
-        <PagePath 
-          previousPages={[
-            {
-              title: 'Dashboard',
-              to: '/dashboard',
-              order: 1,
-            },
-            {
-              title: `${trail?.name}`,
-              to: `/trail/${trail?.name}`,
-              order: 2,
-            }
-          ]}
-          currentPage={{
-            title: `${playlist?.name}`,
-          }}
-        />
-        <S.MainContent>
-          <S.CurrentClasseContainer>
-            <S.CurrentClasse>
-              <iframe 
-                src={modifyYoutubeUrl(currentClasse?.link)}
-                title={currentClasse?.name}
-                frameBorder="0"
-                allowFullScreen 
-              />
+    <Cover
+      hasLoading={get_current_classe_loading.state}
+    >
+      <S.Container>
+        <Navbar />
+        
+        <S.Content>
+          <PagePath 
+            previousPages={[
+              {
+                title: 'Dashboard',
+                to: '/dashboard',
+                order: 1,
+              },
+              {
+                title: `${trail?.name}`,
+                to: `/trail/${trail?.name}`,
+                order: 2,
+              }
+            ]}
+            currentPage={{
+              title: `${playlist?.name}`,
+            }}
+          />
+          <S.MainContent>
+            <S.CurrentClasseContainer>
+              <S.CurrentClasse>
+                <iframe 
+                  src={modifyYoutubeUrl(currentClasse?.link)}
+                  title={currentClasse?.name}
+                  frameBorder="0"
+                  allowFullScreen 
+                />
 
-              <div className="classe_counts_container">
-                <span className="views_count">315 visualizações</span>
+                <div className="classe_counts_container">
+                  <span className="views_count">315 visualizações</span>
 
-                <div className="likes_deslikes">
-                  <span
-                    className={isLiked ? 'classe_liked' : ''}>
-                      {isLiked ? <AiFillLike /> : <AiOutlineLike />} 
-                      20
-                  </span>
-                  <span
-                    className={!isLiked ? 'classe_desliked' : ''}>
-                      {!isLiked ? <AiFillDislike /> : <AiOutlineDislike />} 
-                      32
-                  </span>
-                </div>
-              </div>
-            </S.CurrentClasse>
-            <S.ClasseInfo>
-              <h1 className="current_classe_title">{currentClasse?.name}</h1>
-              <TabContainer>
-                <TabItem tabTitle="Descrição">
-                  <p>{currentClasse?.description}</p>
-                </TabItem>
-                <TabItem tabTitle="Artigos">
-                  <p>TODO - adicionar artigos mais pra frente</p>
-                </TabItem>
-              </TabContainer>
-            </S.ClasseInfo>
-          </S.CurrentClasseContainer>
-
-          <S.BlocksAndClassesContainer>
-            {blocks.map(block => (
-              <S.BlockAndClasses 
-                key={block.id}
-              >
-                <S.Block onClick={() => handleSetCurrentBlock(block)}>
-                  <div className="block_info">
-                    <h2 className="block_title">{block.name}</h2>
-                    <span className="block_classes_count">
-                      {block.classes.length} 
-                      {block.classes.length === 1 ? ' aula' : ' aulas'}
+                  <div className="likes_deslikes">
+                    <span
+                      className={isLiked ? 'classe_liked' : ''}>
+                        {isLiked ? <AiFillLike /> : <AiOutlineLike />} 
+                        20
+                    </span>
+                    <span
+                      className={!isLiked ? 'classe_desliked' : ''}>
+                        {!isLiked ? <AiFillDislike /> : <AiOutlineDislike />} 
+                        32
                     </span>
                   </div>
-                  {block.id === currentBlock?.id ? (
-                    <IoIosArrowUp />
-                  ) : (
-                    <IoIosArrowDown />
-                  )}
-                </S.Block>
-                <S.ClassesContainer
-                  selectedBlock={block.id === currentBlock?.id}
+                </div>
+              </S.CurrentClasse>
+              <S.ClasseInfo>
+                <h1 className="current_classe_title">{currentClasse?.name}</h1>
+                <TabContainer>
+                  <TabItem tabTitle="Descrição">
+                    <p>{currentClasse?.description}</p>
+                  </TabItem>
+                  <TabItem tabTitle="Artigos">
+                    <p>TODO - adicionar artigos mais pra frente</p>
+                  </TabItem>
+                </TabContainer>
+              </S.ClasseInfo>
+            </S.CurrentClasseContainer>
+
+            <S.BlocksAndClassesContainer>
+              {blocks.map(block => (
+                <S.BlockAndClasses 
+                  key={block.id}
                 >
-                  <ul className="classes">
-                    {block.classes.map(classe => (
-                      <BoxProgressBarStep 
-                        isCurrent={classe.id === currentClasse?.id}
-                      > 
-                        <S.Classe
-                          to={setCurrentPath(block, classe)}
+                  <S.Block onClick={() => handleSetCurrentBlock(block)}>
+                    <div className="block_info">
+                      <h2 className="block_title">{block.name}</h2>
+                      <span className="block_classes_count">
+                        {block.classes.length} 
+                        {block.classes.length === 1 ? ' aula' : ' aulas'}
+                      </span>
+                    </div>
+                    {block.id === currentBlock?.id ? (
+                      <IoIosArrowUp />
+                    ) : (
+                      <IoIosArrowDown />
+                    )}
+                  </S.Block>
+                  <S.ClassesContainer
+                    selectedBlock={block.id === currentBlock?.id}
+                  >
+                    <ul className="classes">
+                      {block.classes.map(classe => (
+                        <BoxProgressBarStep
+                          key={classe.id}
                           isCurrent={classe.id === currentClasse?.id}
-                        >
-                          {classe.name}
-                        </S.Classe>
-                      </BoxProgressBarStep>
-                    ))}
-                  </ul>
-                </S.ClassesContainer>
-              </S.BlockAndClasses>
-            ))}
-          </S.BlocksAndClassesContainer>
-        </S.MainContent>
-      </S.Content>
-    </S.Container>
+                        > 
+                          <S.Classe
+                            $isCurrent={classe.id === currentClasse?.id}
+                            to={setCurrentPath(block, classe)}
+                          >
+                            {classe.name}
+                          </S.Classe>
+                        </BoxProgressBarStep>
+                      ))}
+                    </ul>
+                  </S.ClassesContainer>
+                </S.BlockAndClasses>
+              ))}
+            </S.BlocksAndClassesContainer>
+          </S.MainContent>
+        </S.Content>
+      </S.Container>
+    </Cover>
   );
 }
