@@ -199,7 +199,7 @@ export const ClassesContainer = styled.div<BlockAndClassesType>`
 
 type ClasseType = {
   isCompleted?: boolean;
-  isCurrent?: boolean;
+  $isCurrent?: boolean;
 }
 
 export const Classe = styled(Link)<ClasseType>`
@@ -214,7 +214,7 @@ export const Classe = styled(Link)<ClasseType>`
     color: ${COLORS.TERTIARY};
   `}
 
-  ${props => props.isCurrent && css`
+  ${props => props.$isCurrent && css`
     color: ${FONTS_COLORS.PRIMARY};
     font-weight: bold;
   `}
