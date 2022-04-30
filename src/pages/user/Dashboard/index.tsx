@@ -10,7 +10,7 @@ import {
   Navbar,
 } from '@/components';
 
-import { useAuth } from '@/hooks';
+import { useAuth, useBoolean } from '@/hooks';
 
 import { 
   api,
@@ -23,11 +23,21 @@ import { SeeMoreTrails } from '@/components/Modals/SeeMoreTrails';
 import DEFAULT_TRAIL_IMAGE from '@/assets/images/default_trail.jpg';
 
 import * as S from './styles';
+import { Cover } from '@/components/Cover';
+import axios from 'axios';
+
+type ApiError = {
+  status: string;
+  message: string;
+  statusCode: number;
+}
 
 export function Dashboard() {
   const { user } = useAuth();
 
   const seeMoreTrailsModal = useModal(false);
+
+  const user_trail_loading = useBoolean(true);
 
   const [user_trails, setUserTrails] = useState<UserType.ListTrailFromUserResponse[]>([]);
   const [other_trails, setOtherTrails] = useState<GlobalType.ListTrailsResponse[]>([]);
@@ -38,8 +48,14 @@ export function Dashboard() {
       const response = await api.user.trail.listTrailsFromUser();
 
       setUserTrails(response.data);
+
+      return {
+        data: response.data
+      };
     } catch (error: any) {
-      console.log(error.message);
+      return {
+        error: error as ApiError
+      };
     }
   }
 
@@ -52,14 +68,28 @@ export function Dashboard() {
       });
 
       setOtherTrails(response.data);
+
+      return {
+        data: response.data
+      }
     } catch (error: any) {
-      console.log(error.message);
+      return {
+        error: error as ApiError
+      }
+    }
+  }
+
+  async function initializePage() {
+    const get_user_trails = await getUserTrails();
+    const get_trails = await getTrails();
+
+    if(get_user_trails && get_trails) {
+      user_trail_loading.changeToFalse();
     }
   }
 
   useEffect(() => {
-    getUserTrails();
-    getTrails();
+    initializePage();
   }, []);
 
   const filter_user_trail = useMemo(() => {
@@ -69,100 +99,104 @@ export function Dashboard() {
   }, [user_trails]);
 
   return (
-    <S.Container>
-      <Navbar />
-      <S.Content>
-        <S.LeftContent>
-          <S.Welcome>
-            <div>
-              <span>
-                Olá, {user?.name || user?.username}
-              </span>
-              <h1>Vamos estudar o que hoje? </h1>
-            </div>
-          </S.Welcome>
-
-          {/* TODO - create a history api */}
-          <S.LastClasse to="#">
-            <div className="last_classe_information">
-              <img src={DEFAULT_TRAIL_IMAGE} alt="a" />
+    <Cover 
+      hasLoading={user_trail_loading.state}
+    >
+      <S.Container>
+        <Navbar />
+        <S.Content>
+          <S.LeftContent>
+            <S.Welcome>
               <div>
-                <h2 className="title">Entendendo const/let/var</h2>
-                <span className="trail_name">Javascript</span>
+                <span>
+                  Olá, {user?.name || user?.username}
+                </span>
+                <h1>Vamos estudar o que hoje? </h1>
               </div>
-            </div>
-            <strong>
-              Continuar Assistindo
-              <span>
-                <IoPlaySharp />
-              </span>
-            </strong>
-          </S.LastClasse>
+            </S.Welcome>
 
-          <div className="line_separator" />
+            {/* TODO - create a history api */}
+            <S.LastClasse to="#">
+              <div className="last_classe_information">
+                <img src={DEFAULT_TRAIL_IMAGE} alt="a" />
+                <div>
+                  <h2 className="title">Entendendo const/let/var</h2>
+                  <span className="trail_name">Javascript</span>
+                </div>
+              </div>
+              <strong>
+                Continuar Assistindo
+                <span>
+                  <IoPlaySharp />
+                </span>
+              </strong>
+            </S.LastClasse>
 
-          <S.MyTrailsSection>
-            <header>
-              <h1> Minhas trilhas </h1>
-              {user_trails.length === 3 && (
-                <button type="button">Ver todas</button>
-              )}
-            </header>
-            <S.MyTrailsContainer>
-              {filter_user_trail.map((trail) => (
-                <S.MyTrail to={`/trail/${trail.name}`} key={trail.id} >
-                  <header>
-                    <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
-                  </header>
-                  <span>{trail.name}</span>
+            <div className="line_separator" />
 
-                  <ProgressBar percent={trail.user_trail.progress} />
-                </S.MyTrail>
-              ))}
-            </S.MyTrailsContainer>
-          </S.MyTrailsSection>
-        </S.LeftContent>
+            <S.MyTrailsSection>
+              <header>
+                <h1> Minhas trilhas </h1>
+                {user_trails.length === 3 && (
+                  <button type="button">Ver todas</button>
+                )}
+              </header>
+              <S.MyTrailsContainer>
+                {filter_user_trail.map((trail) => (
+                  <S.MyTrail to={`/trail/${trail.name}`} key={trail.id} >
+                    <header>
+                      <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
+                    </header>
+                    <span>{trail.name}</span>
 
-        <S.RightContent>
-          <S.OtherTrailsSection>
+                    <ProgressBar percent={trail.user_trail.progress} />
+                  </S.MyTrail>
+                ))}
+              </S.MyTrailsContainer>
+            </S.MyTrailsSection>
+          </S.LeftContent>
 
-            <header className="other_trails_header">
-              <h1 className="other_trails_header_title">Outras trilhas</h1>
-              {other_trails.length === 6 && (
-                <button
-                  className="see_more_trails"
-                  type="button" 
-                  onClick={() => seeMoreTrailsModal.handleOpen()}
-                >
-                  Ver mais
-                </button>
-              )}
-            </header>
+          <S.RightContent>
+            <S.OtherTrailsSection>
 
-            <S.OtherTrailsContainer>
-              {other_trails.map((trail) => (
-                <S.OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
-                  <img src={trail.avatar || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
-                  <div className="trail_information">
-                    <h2 className="title">{trail.name}</h2>
-                    <span>{trail._count.playlists} playlists - </span>
-                    <span>{trail._count.classes} aulas</span>
-                  </div>
-                </S.OtherTrail>
-              ))}
-            </S.OtherTrailsContainer>
+              <header className="other_trails_header">
+                <h1 className="other_trails_header_title">Outras trilhas</h1>
+                {other_trails.length === 6 && (
+                  <button
+                    className="see_more_trails"
+                    type="button" 
+                    onClick={() => seeMoreTrailsModal.handleOpen()}
+                  >
+                    Ver mais
+                  </button>
+                )}
+              </header>
 
-          </S.OtherTrailsSection>
-        </S.RightContent>
+              <S.OtherTrailsContainer>
+                {other_trails.map((trail) => (
+                  <S.OtherTrail to={`/trail/${trail.id}`} key={trail.id} >
+                    <img src={trail.avatar || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
+                    <div className="trail_information">
+                      <h2 className="title">{trail.name}</h2>
+                      <span>{trail._count.playlists} playlists - </span>
+                      <span>{trail._count.classes} aulas</span>
+                    </div>
+                  </S.OtherTrail>
+                ))}
+              </S.OtherTrailsContainer>
 
-      </S.Content>
+            </S.OtherTrailsSection>
+          </S.RightContent>
 
-      <SeeMoreTrails 
-        isOpen={seeMoreTrailsModal.state}
-        handleClose={seeMoreTrailsModal.handleClose}
-        trails={other_trails}
-      />
+        </S.Content>
 
-    </S.Container>
+        <SeeMoreTrails 
+          isOpen={seeMoreTrailsModal.state}
+          handleClose={seeMoreTrailsModal.handleClose}
+          trails={other_trails}
+        />
+
+      </S.Container>
+    </Cover>
   );
 }
