@@ -8,42 +8,38 @@ type ContainerProps = {
 export const Container = styled.label<ContainerProps>`
   &.labelInput {
     background: ${BACKGROUND.DEFAULT_INPUT};
-    padding: 1.6rem;
+    padding: 16px;
     cursor: text;
-    border-radius: 0.8rem;
+    border-radius: 8px;
     
-    border: 0.2rem solid transparent;
+    border: 2px solid transparent;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
 
     ${props => props.isError && css`
-      border: 0.2rem solid ${COLORS.STATUS_ERROR};
+      border: 2px solid ${COLORS.STATUS_ERROR};
     `};
 
-    > svg {
-      width: 1.6rem;
-      height: 1.6rem;
-      margin-right: 1.6rem;
+    > svg, svg *{
+      width: 16px;
+      height: 16px;
+      margin-right: 16px;
       color: ${FONTS_COLORS.SECONDARY};
-
-      path, line, circle {
-        color: ${FONTS_COLORS.SECONDARY};
-      }
     }
 
     &:not(:first-child) {
-      margin-top: 1.2rem;
+      margin-top: 12px;
     }
 
     &:last-child {
-      margin-bottom: 2.4rem;
+      margin-bottom: 24px;
     }
 
     input, textarea {
       font-size: 1.4rem;
-      padding-top: 0.6rem;
+      padding-top: 8px;
       width: 100%;
 
       background: none;
@@ -55,7 +51,7 @@ export const Container = styled.label<ContainerProps>`
     }
 
     textarea {
-      height: 10rem;
+      height: 100px;
       appearance: none;
       resize: none;
     }
@@ -63,7 +59,7 @@ export const Container = styled.label<ContainerProps>`
     input + span,
     textarea + span {
       position: absolute;
-      top: 0.4rem;
+      top: 4px;
       left: 0;
       transition: all 0.2s;
       color: ${FONTS_COLORS.SECONDARY};
@@ -75,7 +71,7 @@ export const Container = styled.label<ContainerProps>`
     input:not(:placeholder-shown) + span,
     textarea:focus + span,
     textarea:not(:placeholder-shown) + span {
-      top: -1.4rem;
+      top: -14px;
       font-size: 1.2rem;
     }
   }
@@ -84,18 +80,18 @@ export const Container = styled.label<ContainerProps>`
     display: flex;
     align-items: center;
 
-    margin-left: 1.6rem;
+    margin-left: 16px;
 
     position: relative;
     svg {
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 24px;
+      height: 24px;
     }
 
     div.lock_unlock_tooltip {
       position: absolute;
-      top: 0.6rem;
-      right: 1.2rem;
+      top: 6px;
+      right: 12px;
     }
 
     &:hover div.lock_unlock_tooltip span {
