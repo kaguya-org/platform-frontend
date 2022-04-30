@@ -2,6 +2,7 @@ import { SeparatorLine } from '@/components/LineSeparator';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';
+import axios from 'axios';
 import { useRef } from 'react';
 import { AiFillGithub, FaLock, FcGoogle, MdEmail } from 'react-icons/all';
 import { Link, useNavigate } from 'react-router-dom';
@@ -50,23 +51,25 @@ export function Login() {
         page_navigate('/dashboard');
       }
       
-    } catch(error) {
+    } catch(error: any) {
       if(error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
         
         return loginFormRef.current?.setErrors(errors);
       }
 
-      addToast({
-        title: 'Erro na autenticação',
-        description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
-        type: 'error',
-      })
+      if(axios.isAxiosError(error) as any) {
+        addToast({
+          title: 'Erro na autenticação',
+          description: error?.response?.data.message,
+          type: 'error',
+        })
+      }
     } finally {
       loading.changeToFalse();
     }
   };
-  
+
   return (
     <ContainerPage 
       containerStyle={{
@@ -95,8 +98,9 @@ export function Login() {
                 }} />,
                 isSide: 'left'
               }} 
-              type="button" 
-              onClick={() => popupSignInWithGithub()}
+              type="button"
+              disabled
+              // onClick={popupSignInWithGithub}
             >Continuar com Github</Button>
             <Button 
               style={{
@@ -111,8 +115,9 @@ export function Login() {
                 }} />,
                 isSide: 'left'
               }} 
-              type="button" 
-              onClick={() => popupSignInWithGoogle()}
+              type="button"
+              disabled
+              // onClick={popupSignInWithGoogle}
             >Continuar com Google</Button>
           
           <SeparatorLine children={'ou'}/>
