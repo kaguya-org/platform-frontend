@@ -8,7 +8,7 @@ export type ListAllPlaylistByTrailParams = {
 export type ShowPlaylistParams = {
   query?: {
     playlist_id?: string;
-    name?: string;
-    trail_id?: string;
+    playlist_slug?: string;
+    trail_slug?: string;
   }
 }
