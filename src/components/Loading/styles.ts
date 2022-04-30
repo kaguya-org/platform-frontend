@@ -2,7 +2,7 @@ import { COLORS } from '@/theme';
 import styled, { keyframes } from 'styled-components';
 
 type LoadingContainerProps = {
-  size?: string;
+  size?: number;
 };
 
 const animate1 = keyframes`
@@ -41,8 +41,8 @@ const animate4 = keyframes`
 `
 
 export const SquareLoading = styled.div<LoadingContainerProps>`
-  width: ${(props) => props.size || '18px'};
-  height: ${(props) => props.size || '18px'};
+  width: ${(props) => `${props.size || 20}px`};
+  height: ${(props) => `${props.size || 20}px`};
 
   overflow: hidden;
   position: relative;
@@ -95,8 +95,8 @@ export const SquareLoading = styled.div<LoadingContainerProps>`
 `
 
 export const LoadingContainer = styled.div<LoadingContainerProps>`
-  width: ${({size}) => size};
-  height: ${({size}) => size};
+  width: ${({size}) => `${size}px`};
+  height: ${({size}) => `${size}px`};
 `;
 
 const circleLoadingKeyFrame = keyframes`
