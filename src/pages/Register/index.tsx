@@ -111,6 +111,7 @@ export function Register() {
           <section>
             <h1>Criar conta</h1>
             <Button 
+              disabled
               style={{
                 width: '100%',
                 padding: '17px 35px'
@@ -126,6 +127,7 @@ export function Register() {
               onClick={() => popupSignInWithGithub()}
             >Continuar com Github</Button>
             <Button 
+              disabled
               style={{
                 width: '100%',
                 marginTop: 10,

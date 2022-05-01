@@ -8,7 +8,7 @@ import {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   isLoading?: boolean;
-  loadingSize?: string;
+  loadingSize?: number;
   iconConfig?: {
     icon?: React.ReactElement<IconType>;
     isSide?: 'right' | 'left';

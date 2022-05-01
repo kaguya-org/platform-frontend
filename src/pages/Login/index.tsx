@@ -1,4 +1,5 @@
 import { SeparatorLine } from '@/components/LineSeparator';
+import { Lordicon } from '@/components/Lordicon';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';
@@ -100,7 +101,7 @@ export function Login() {
               }} 
               type="button"
               disabled
-              // onClick={popupSignInWithGithub}
+              onClick={popupSignInWithGithub}
             >Continuar com Github</Button>
             <Button 
               style={{
@@ -117,11 +118,10 @@ export function Login() {
               }} 
               type="button"
               disabled
-              // onClick={popupSignInWithGoogle}
+              onClick={popupSignInWithGoogle}
             >Continuar com Google</Button>
           
           <SeparatorLine children={'ou'}/>
-          
             <FormTag ref={loginFormRef} onSubmit={handleSubmitLogin}>
               <div>
                 <Input 
@@ -133,7 +133,7 @@ export function Login() {
                   name="password" 
                   title="Senha" 
                   type="password"
-                  icon={<FaLock />}
+                  icon={<FaLock/>}
                 />
               <span className="forgot_password">Esqueceu a senha? 
                 <button>Redefina agora</button>

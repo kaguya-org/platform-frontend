@@ -10,7 +10,7 @@ import {
 } from './app_api';
 
 export const baseApi = axios.create({
-  baseURL: 'https://slinked-test.herokuapp.com',
+  baseURL: 'https://kaguya-it.herokuapp.com',
 });
 
 export const kaguyaApiToken = '@kaguya:token';

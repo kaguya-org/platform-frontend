@@ -20,6 +20,9 @@ export const Container = styled.label<ContainerProps>`
 
     ${props => props.isError && css`
       border: 2px solid ${COLORS.STATUS_ERROR};
+      > svg, svg * {
+        color: ${COLORS.STATUS_ERROR} !important;
+      }
     `};
 
     > svg, svg *{
