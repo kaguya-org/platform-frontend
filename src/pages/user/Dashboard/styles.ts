@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { 
   BACKGROUND, 
@@ -8,9 +8,24 @@ import {
   FONTS_COLORS,
   GLOBAL_COLORS,
 } from '@/theme';
+import { shade, tint } from 'polished';
 
 export const Container = styled.div`
 
+`;
+
+type NoContentProps = {
+  fontSize?: string;
+}
+export const NoContent = styled.div<NoContentProps>`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex: 1;
+  align-items: center;
+  span {
+    font-size: ${({ fontSize }) => fontSize || '1.5rem'};
+  }
 `;
 
 export const Content = styled.main`
@@ -188,7 +203,7 @@ export const MyTrailsContainer = styled.div`
 
 export const MyTrail = styled(Link)`
   padding: 24px;
-
+  position: relative;
   height: 200px;
 
   display: flex;
@@ -210,6 +225,12 @@ export const MyTrail = styled(Link)`
       width: 7.2rem;
       height: 7.2rem;
       border-radius: 8px;
+    }
+    
+    button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
   }
 
@@ -239,20 +260,23 @@ export const RightContent = styled.section`
   // viewport - navbar height
   height: calc(100vh - 70px);
 
-  padding: 0 16px;
 
   background: ${BACKGROUND.SECONDARY};
 `;
 
 export const OtherTrailsSection = styled.section`
   position: relative;
-  
+  padding: 16px;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
   .other_trails_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    margin: 16px 0;
 
     .other_trails_header_title {
       padding: 0 8px;
@@ -280,6 +304,17 @@ export const OtherTrailsSection = styled.section`
 
 `;
 
+export const OtherTrailsActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  button {
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+    align-items: center;
+    justify-content: flex-end;
+  }
+`
 export const OtherTrailsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -288,16 +323,24 @@ export const OtherTrailsContainer = styled.div`
   position: relative;
 
   max-height: 80vh;
-  padding: 8px;
+  padding-right: 6px;
 `;
 
-export const OtherTrail = styled(Link)`
+type OtherTrailProps = {
+  isSubAdmin: boolean;
+}
+
+export const OtherTrail = styled.div<OtherTrailProps>`
   display: flex;
+  align-items: center;
   gap: 16px;
 
-  padding: 16px;
+  padding: 25px 16px;
+  background: ${shade(.3, BACKGROUND.TERNARY)};
+  &:hover {
+    background-color: ${shade(.2, BACKGROUND.TERNARY)};
 
-  background: ${GLOBAL_COLORS.BLACK};
+  }
 
   border-radius: 8px;
 
@@ -305,22 +348,41 @@ export const OtherTrail = styled(Link)`
   cursor: pointer;
 
   &:not(:first-child) {
-    margin-top: 16px;
+    margin-top: 6px;
+  }
+  &:last-child {
+    margin-bottom: 50px;
+    ${({ isSubAdmin }) => isSubAdmin && css`
+      margin-bottom: 150px;
+    `}
   }
 
-  > img {
+  img {
     width: 7.2rem;
     height: 7.2rem;
     border-radius: 8px;
   }
-
-  div.trail_information {
+  div.trail_information_container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  div.trail_actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .trail_information {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     h2.title {
       margin-bottom: 8px;
     }
 
     span {
-      font-size: 16px;
+      font-size: 12px;
       color: ${FONTS_COLORS.SECONDARY};
     }
   }
