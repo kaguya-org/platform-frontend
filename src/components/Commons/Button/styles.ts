@@ -1,6 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const ContainerButton = styled.button`
+type ButtonProps = {
+  styleType: 'primary' | 'secondary' | 'ternary' | 'quaternary'
+}
+export const ContainerButton = styled.button<ButtonProps>`
   background: #242731;
   color: var(--text-color);
 
@@ -17,6 +20,15 @@ export const ContainerButton = styled.button`
   text-align: center;
 
   transition: all 0.2s;
+
+  ${props => props.styleType === 'ternary' && css`
+    padding: 8px 20px;
+    background-color: transparent;
+  `}
+  ${props => props.styleType === 'quaternary' && css`
+    padding: 0;
+    background-color: transparent;
+  `}
 
   &:disabled {
     opacity: 0.6;

@@ -1,3 +1,4 @@
+import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { IconType } from 'react-icons/lib';
 import { Loading } from '../..';
 
@@ -5,9 +6,10 @@ import {
   ContainerButton 
 } from './styles';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   isLoading?: boolean;
+  styleType?: 'primary' | 'secondary' | 'ternary' | 'quaternary';
   loadingSize?: number;
   iconConfig?: {
     icon?: React.ReactElement<IconType>;
@@ -15,15 +17,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   };
 }
 
-export function Button({
+const ButtonFC: ForwardRefRenderFunction<{}, ButtonProps> = ({
   children, 
   isLoading, 
+  styleType = 'primary',
   loadingSize,
   iconConfig,
+  type,
   ...rest
-}: ButtonProps) {
+}) => {
+  
   return (
     <ContainerButton
+      type={type || 'button'}
+      styleType={styleType}
       disabled={isLoading}
       {...rest}
     >
@@ -43,3 +50,7 @@ export function Button({
     </ContainerButton>
   )
 }
+
+const Button = forwardRef(ButtonFC);
+
+export { Button }
