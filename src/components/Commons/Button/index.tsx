@@ -17,7 +17,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   };
 }
 
-const ButtonFC: ForwardRefRenderFunction<{}, ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   children, 
   isLoading, 
   styleType = 'primary',
@@ -50,7 +50,3 @@ const ButtonFC: ForwardRefRenderFunction<{}, ButtonProps> = ({
     </ContainerButton>
   )
 }
-
-const Button = forwardRef(ButtonFC);
-
-export { Button }

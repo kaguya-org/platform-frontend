@@ -53,7 +53,6 @@ export const Container = styled.section<ContainerProps>`
     top: calc(100% + 5px);
 
     background-color: ${BACKGROUND.SECONDARY};
-    padding: 20px;
     font-size: 2rem;
     border-radius: 5px;
 `;

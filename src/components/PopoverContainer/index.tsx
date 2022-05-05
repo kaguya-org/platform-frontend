@@ -11,19 +11,18 @@ type PopoverProps = {
 
 const PopoverContainer: React.FC<PopoverProps> = ({ content, triggerContent, ...rest }) => {
     const popoverRef = useRef<PopoverHandles>(null);
-    const buttonRef = useRef(null);
+
+    const callEvent = (event: MouseEvent) => {
+        const target = event.target as PopoverHandles | null;
+   
+        if (
+            target !== popoverRef.current
+        ) {
+            return popoverRef.current?.closePopover();
+        }
+    }
 
     useEffect(() => {
-        const callEvent = (event: MouseEvent) => {
-            const target = event.target as PopoverHandles | null;
-       
-            if (
-                target !== popoverRef.current
-            ) {
-                return popoverRef.current?.closePopover();
-            }
-        }
-        
         document.addEventListener('mousedown', callEvent);
 
         return () => {
@@ -34,8 +33,7 @@ const PopoverContainer: React.FC<PopoverProps> = ({ content, triggerContent, ...
     return (
         <Container {...rest}>
             <Button 
-                ref={buttonRef} 
-                onClick={() => popoverRef.current?.openPopover()}  
+                onClick={() => popoverRef.current?.changePopover()}  
                 styleType='ternary'
             >
                 {triggerContent}

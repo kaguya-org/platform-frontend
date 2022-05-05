@@ -5,7 +5,7 @@ import * as S from './styles';
 export type PopoverHandles = {
     openPopover: () => void;
     closePopover: () => void;
-    togglePopover: () => void;
+    changePopover: () => void;
 }
 
 type PopoverProps = {
@@ -13,51 +13,48 @@ type PopoverProps = {
 }
 
 const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ content }, ref) => {
+    const isAnimate = useBoolean(false);
     const isOpen = useBoolean(false);
-    const isForceClose = useBoolean(true);
     
-    const togglePopover = () => {
-        if(isOpen.state) {
-            closePopover()
-        } else {
-            openPopover()
-        }
-    }
-
     const openPopover = () => {
+        isAnimate.changeToTrue();
         isOpen.changeToTrue();
-        isOpen.changeToTrue();
-        isForceClose.changeToFalse();
     }
     
     const closePopover = (force?: boolean) => {
         if (force) {
-            isForceClose.changeToTrue();
+            isOpen.changeToFalse();
         }
-        isOpen.changeToFalse();
+        isAnimate.changeToFalse();
+    }
+
+    function changePopover() {
+        if(isOpen.state) {
+            closePopover(true)
+        } else {
+            openPopover();
+        }
     }
 
     useImperativeHandle(ref, () => ({
         closePopover,
         openPopover,
-        togglePopover,
-    }), [openPopover, closePopover, togglePopover]);
-
+        changePopover,
+    }), [openPopover, closePopover, changePopover]);
 
     useEffect(() => {
-        if(!isOpen.state) {
+        if(!isAnimate.state) {
             setTimeout(() => {
                 closePopover(true);
             }, 310)
         }
-    }, [isOpen.state])
-
+    }, [isAnimate.state])
 
     return (
         <>
-            {!isForceClose.state && (
+            {isOpen.state && (
                 <>
-                    <S.Container fadeout={!isOpen.state} >
+                    <S.Container fadeout={!isAnimate.state} >
                         {content}
                     </S.Container>
                 </>

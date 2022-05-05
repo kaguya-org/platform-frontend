@@ -308,9 +308,7 @@ export const OtherTrailsActions = styled.div`
   display: flex;
   flex-direction: column;
   button {
-    &:not(:first-child) {
-      margin-top: 10px;
-    }
+    padding: 8px 24px;
     align-items: center;
     justify-content: flex-end;
   }
