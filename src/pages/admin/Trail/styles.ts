@@ -340,7 +340,7 @@ const PlaylistStyle = css`
   border-radius: 8px;
 
   &:not(:first-child) {
-    margin-top: 16px;
+    margin-top: 16px;x
   }
 `;
 

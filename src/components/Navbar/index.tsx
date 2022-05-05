@@ -9,17 +9,13 @@ import { UserProfile } from '../UserProfile';
 import { useAuth } from '@/hooks';
 
 import * as S from './styles';
+import { PopoverContainer } from '../PopoverContainer';
 
 export function Navbar(): JSX.Element {
   const { signOut } = useAuth();
 
-  const [submenu_open, setSubmenuOpen] = useState<'closed' | 'open'>('closed');
 
-  function handleChangeSubMenu() {
-    setSubmenuOpen(prevState => {
-      return prevState === 'closed' ? 'open' : 'closed';
-    })
-  }
+
 
   return (
     <S.Container>
@@ -28,41 +24,37 @@ export function Navbar(): JSX.Element {
           <h1>Kaguya</h1>
         </Link>
 
-        <S.LinksContainer>
-          <S.LinkItem to="#">
+        {/* <S.LinksContainer> */}
+          {/* <S.LinkItem to="#">
             <span>Link 1</span>
           </S.LinkItem>
           <S.LinkItem to="#">
             <span>Link 2</span>
-          </S.LinkItem>
-        </S.LinksContainer>
+          </S.LinkItem> */}
+        {/* </S.LinksContainer> */}
         
         <S.ViewProfile>
-          <button
-            className="open_submenu_profile"
-            onClick={handleChangeSubMenu}
-          >
-            <UserProfile />
-          </button>
+         
 
-          <S.SubMenuProfile
-            className={submenu_open}
-          >
             <div className="triangule" />
-            <S.SubMenuProfileContent>
+            <PopoverContainer 
+              triggerContent={ 
+                <UserProfile />
+              }
+              content={(
+                <S.SubMenuProfileContent>
+                  <S.SubMenuProfileLinkItem to={'/profile'}>
+                    <RiUser3Fill />
+                    <span>Meu perfil</span>
+                  </S.SubMenuProfileLinkItem>
+                  <S.SubMenuProfileButtonItem onClick={signOut}>
+                    <FiLogOut />
+                    <span>Sair da conta</span>
+                  </S.SubMenuProfileButtonItem>
+                </S.SubMenuProfileContent>
+              )} 
+            />
               
-              <S.SubMenuProfileLinkItem to="/profile" title="Ir para o perfil">
-                <RiUser3Fill />
-                <span>Meu perfil</span>
-              </S.SubMenuProfileLinkItem>
-
-              <S.SubMenuProfileButtonItem onClick={signOut} title="Sair da conta">
-                <FiLogOut />
-                <span>Sair da conta</span>
-              </S.SubMenuProfileButtonItem>
-
-            </S.SubMenuProfileContent>
-          </S.SubMenuProfile>
         </S.ViewProfile>
 
       </S.Content>

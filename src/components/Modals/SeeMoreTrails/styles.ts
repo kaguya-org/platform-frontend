@@ -93,7 +93,7 @@ export const Trail = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 2px -2px 2px ${COLORS.QUARTENARY};
+    box-shadow: 2px -2px 2px ${COLORS.QUATENARY};
   }
 
   > img {

@@ -6,8 +6,8 @@ export type CreateTrailParams = {
 
 export type UpdateTrailParams = {
   trail_id: string;
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 };
 
 export type UpdateAvatarTrailParams = {

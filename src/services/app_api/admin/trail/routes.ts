@@ -30,6 +30,8 @@ export const trail = {
     return baseApi.patch(`${ADMIN_URL_SOURCE.sub_admin}/trails/avatar`, data);
   },
   delete: (data: DeleteTrailParams): Promise<AxiosResponse> => {
-    return baseApi.patch(`${ADMIN_URL_SOURCE.sub_admin}/trails?trail_id=${data.trail_id}`);
+    return baseApi.delete(`${ADMIN_URL_SOURCE.sub_admin}/trails`, {
+      params: data
+    });
   },
 }

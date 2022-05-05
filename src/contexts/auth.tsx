@@ -6,7 +6,8 @@ type AuthContextData = {
   user: UserType.User | null;
   token: string | null;
   tokenIsValid: boolean;
-
+  isSubAdmin: boolean;
+  isAdmin: boolean;
   loading_page: boolean;
 
   signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined>;
@@ -27,6 +28,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const tokenIsValid = useBoolean(false);
   const loading_page = useBoolean(true);
 
+  const isSubAdmin = !!user?.user_roles.some(user_role => user_role.role.permission <= 1)
+  const isAdmin = !!user?.user_roles.some(user_role => user_role.role.permission === 0)
+
   async function validateToken() {
     try {
       loading_page.changeToTrue();
@@ -45,6 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         validated
       };
     } catch(error) {
+      signOut();
       console.log(error);
     } finally {
       loading_page.changeToFalse();
@@ -120,6 +125,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         register, 
         signOut, 
         user, 
+        isSubAdmin,
+        isAdmin,
         token, 
         tokenIsValid: tokenIsValid.state, 
         loading_page: loading_page.state,

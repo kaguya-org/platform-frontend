@@ -2,7 +2,7 @@ import { FONTS } from '@/theme';
 import styled, { css, keyframes } from 'styled-components';
 
 type ContainerProps = {
-  type?: 'success' | 'info' | 'error';
+  appearance?: 'success' | 'info' | 'error';
 }
 
 const styles = {
@@ -48,7 +48,7 @@ export const Container = styled.div<ContainerProps>`
 
   backdrop-filter: blur(10px);
 
-  ${props => styles[props.type || 'info']}
+  ${props => styles[props.appearance || 'info']}
 
   > p {
     font-size: 12px;

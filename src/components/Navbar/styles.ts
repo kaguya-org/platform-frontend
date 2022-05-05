@@ -12,17 +12,20 @@ import {
 export const Container = styled.header`
   width: 100%;
   padding: 0 64px;
-
+  display: flex;
+  align-items: center;
   min-height: 70px;
+  box-shadow: 0px 4px 4px ${SHADOW_COLORS.BLACK_OPACITY_10}; 
   position: relative;
   z-index: 1;
 
-  background: linear-gradient(to left, ${BACKGROUND.TERTIARY}, ${BACKGROUND.PRIMARY});
+  background: linear-gradient(to left, ${BACKGROUND.TERNARY}, ${BACKGROUND.PRIMARY});
 
 `;
 
 export const Content = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 `;
@@ -107,7 +110,6 @@ export const SubMenuProfile = styled.div`
 `;
 
 export const SubMenuProfileContent = styled.div`
-  background: ${GLOBAL_COLORS.WHITE};
   border-radius: 8px;
 `;
 

@@ -17,7 +17,7 @@ export const Container = styled.button<TabTitleContainerProps>`
   border-bottom: 2px solid transparent;
   
   ${props => props.isSelected && css`
-    border-bottom: 2px solid ${COLORS.TERTIARY};
+    border-bottom: 2px solid ${COLORS.TERNARY};
   `}
 
   &:not(:first-child) {

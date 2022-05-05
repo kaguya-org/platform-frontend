@@ -1,5 +1,5 @@
 export const ADMIN_URL_SOURCE = {
-  sub_admin: '/sub_admins',
+  sub_admin: '/sub-admins',
 };
 
 export { trail } from './trail/routes';

@@ -102,7 +102,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   ::-webkit-scrollbar-thumb {
-    background: ${COLORS.QUARTENARY}; 
+    background: ${COLORS.QUATENARY}; 
     border-radius: 10px;
 
     transition: all 0.2s;

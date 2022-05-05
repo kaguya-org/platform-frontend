@@ -1,5 +1,5 @@
 
-type Icons = 'helpCenter' | 'info' | 'notificationBell' | 'warning' | 'chat' | 'clock' | 'autorenew' | 'article' | 'history' | 'trash' | 'play' | 'addCard' | 'thumbsUpDown' | 'cross' | 'spaFlower' | 'snake' | 'ruins' | 'privacyPolicy' | 'edit' | 'bin'
+type Icons = 'helpCenter' | 'info' | 'notificationBell' | 'warning' | 'chat' | 'clock' | 'autorenew' | 'article' | 'history' | 'trash' | 'play' | 'addCard' | 'thumbsUpDown' | 'cross' | 'spaFlower' | 'snake' | 'ruins' | 'privacyPolicy' | 'edit' | 'bin' | 'flatArrow'
 
 type LordiconProps = {
   icon?: Icons
@@ -46,6 +46,7 @@ export const Lordicon: React.FC<LordiconProps> = ({
       privacyPolicy: 'yyecauzv.json',
       edit: 'wloilxuq.json',
       bin: 'gsqxdxog.json',
+      flatArrow: 'iifryyua.json',
     }
 
     const iconSchemaJsonFile = iconsSchemaJsonFile[icon]

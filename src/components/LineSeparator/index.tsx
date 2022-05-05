@@ -11,7 +11,7 @@ export function SeparatorLine({
 }: SeparatorLineProps) {
   return (
     <Container>
-      <hr
+      <div
         {...rest}
       />
       {children && (

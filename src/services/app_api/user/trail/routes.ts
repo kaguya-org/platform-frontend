@@ -23,4 +23,9 @@ export const trail = {
   removeTrailInUser: (data: RemoveTrailInUserParams): Promise<void> => {
     return baseApi.delete(`/user-trails?user_trail_id=${data.user_trail_id}`);
   },
+  changeEnabled: (trail_id: string): Promise<void> => {
+    return baseApi.patch(`/user-trails/change-enabled`, {
+      trail_id
+    });
+  },
 };

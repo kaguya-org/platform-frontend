@@ -21,7 +21,7 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
       addToast({
         title: 'Erro na autenticação com o Github',
         description: 'Ocorreu um erro ao fazer login, tente novamente.',
-        type: 'error',
+        appearance: 'error',
       })
     } 
   }
@@ -35,7 +35,7 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
       addToast({
         title: 'Erro na autenticação com o Google',
         description: 'Ocorreu um erro ao fazer login, tente novamente.',
-        type: 'error',
+        appearance: 'error',
       })
     }
   }

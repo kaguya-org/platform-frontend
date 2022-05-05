@@ -81,7 +81,7 @@ export function Register() {
       addToast({
         title: 'Erro no cadastro',
         description: 'Ocorreu um erro ao fazer o cadastro, tente novamente.',
-        type: 'error',
+        appearance: 'error',
       })
 
       console.log(error);

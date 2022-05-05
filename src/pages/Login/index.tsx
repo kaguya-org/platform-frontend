@@ -63,7 +63,7 @@ export function Login() {
         addToast({
           title: 'Erro na autenticação',
           description: error?.response?.data.message,
-          type: 'error',
+          appearance: 'error',
         })
       }
     } finally {

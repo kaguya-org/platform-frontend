@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(to right bottom, ${COLORS.SECONDARY}, ${COLORS.TERTIARY});
+  background: linear-gradient(to right bottom, ${COLORS.SECONDARY}, ${COLORS.TERNARY});
   padding: 0.4rem;
   border-radius: 50%;
 

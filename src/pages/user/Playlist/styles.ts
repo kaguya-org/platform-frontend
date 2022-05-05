@@ -211,7 +211,7 @@ export const Classe = styled(Link)<ClasseType>`
   font-size: 1.4rem;
 
   ${props => props.isCompleted && css`
-    color: ${COLORS.TERTIARY};
+    color: ${COLORS.TERNARY};
   `}
 
   ${props => props.$isCurrent && css`

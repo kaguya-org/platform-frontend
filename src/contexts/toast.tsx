@@ -10,7 +10,7 @@ export type ToastContextProps = {
 
 export type ToastMessage = {
   id: string;
-  type?: 'info' | 'success' | 'error';
+  appearance?: 'info' | 'success' | 'error';
   title: string;
   description?: string;
 }
@@ -21,12 +21,12 @@ const ToastProvider: React.FC = ({ children }) => {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const addToast = useCallback(
-    ({ type, title, description }: Omit<ToastMessage, 'id'>) => {
+    ({ appearance, title, description }: Omit<ToastMessage, 'id'>) => {
       const id = uuid();
 
       const newToast = {
         id,
-        type,
+        appearance,
         title,
         description,
       };
