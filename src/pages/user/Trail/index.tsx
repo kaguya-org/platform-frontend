@@ -24,6 +24,7 @@ import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 import * as S from './styles';
 import { parseToSlugLowerCase } from '@/utils/formatText';
 import { Cover } from '@/components/Cover';
+import { NoContent } from '@/components/NoContent';
 
 type LocationParams = {
   trail_name?: string;
@@ -185,29 +186,7 @@ export function Trail() {
               <div className="line_separator"/>
 
               <S.PlayListAndExerciciesContainer>
-                {playlists_by_trail.length >= 1 && !playlists_by_trail_loading.state ? (
-                  playlists_by_trail.map((playlist, index) => (
-                    <S.PlayListAndExercicie key={playlist.id}>
-                      <S.PlayList to={`/trail/${parseToSlugLowerCase(trail_info?.name)}/playlist/${parseToSlugLowerCase(playlist.name)}`}>
-                        <div className="playlist_index">
-                          <span>{index + 1}</span>
-                        </div>
-                        <div className="playlist_info">
-                          <div>
-                            <h2 className="playlist_title">{playlist.name}</h2>
-                            {user_trail && (
-                              <span className="playlist_classes_total">122 de 144 aulas assistidas</span>
-                            )}
-                          </div>
-                          <p className="playlist_description">{playlist.description}</p>
-                        </div>
-                        {user_trail && (
-                          <ProgressBar percent={user_trail.user_trail.progress}/>
-                        )}
-                      </S.PlayList>
-                    </S.PlayListAndExercicie>
-                  ))
-                ): (
+                {playlists_by_trail_loading.state ? (
                   <Cover
                     style={{
                       position: 'relative',
@@ -216,6 +195,35 @@ export function Trail() {
                     }}
                     hasLoading={playlists_by_trail_loading.state}
                   />    
+                 
+                ): (
+                  <>
+                    {playlists_by_trail.length >= 1 ? (
+                      playlists_by_trail.map((playlist, index) => (
+                        <S.PlayListAndExercicie key={playlist.id}>
+                          <S.PlayList to={`/trail/${parseToSlugLowerCase(trail_info?.name)}/playlist/${parseToSlugLowerCase(playlist.name)}`}>
+                            <div className="playlist_index">
+                              <span>{index + 1}</span>
+                            </div>
+                            <div className="playlist_info">
+                              <div>
+                                <h2 className="playlist_title">{playlist.name}</h2>
+                                {user_trail && (
+                                  <span className="playlist_classes_total">122 de 144 aulas assistidas</span>
+                                )}
+                              </div>
+                              <p className="playlist_description">{playlist.description}</p>
+                            </div>
+                            {user_trail && (
+                              <ProgressBar percent={user_trail.user_trail.progress}/>
+                            )}
+                          </S.PlayList>
+                        </S.PlayListAndExercicie>
+                      ))
+                    ) : (
+                      <NoContent text="Aguarde a criação de novas playlists"/>
+                    )}
+                  </>
                 )}
               </S.PlayListAndExerciciesContainer>
           </S.TrailInfoContainer>

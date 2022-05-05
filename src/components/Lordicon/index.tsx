@@ -1,7 +1,7 @@
 
 type Icons = 'helpCenter' | 'info' | 'notificationBell' | 'warning' | 'chat' | 'clock' | 'autorenew' | 'article' | 'history' | 'trash' | 'play' | 'addCard' | 'thumbsUpDown' | 'cross' | 'spaFlower' | 'snake' | 'ruins' | 'privacyPolicy' | 'edit' | 'bin' | 'flatArrow'
 
-type LordiconProps = {
+export type LordiconProps = {
   icon?: Icons
   delay?: number
   colors?: {

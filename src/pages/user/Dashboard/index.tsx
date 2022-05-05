@@ -24,6 +24,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 import { useToast } from '@/hooks/useToast';
 import { Popover } from '@/components/PopoverContainer/Popover';
+import { NoContent } from '@/components/NoContent';
 
 type ApiError = {
   status: string;
@@ -257,10 +258,7 @@ export function Dashboard() {
                 ))}
               </S.MyTrailsContainer>
               {filter_user_trail.length === 0 && !user_trail_loading.state && (
-                <S.NoContent>
-                  <Lordicon size={100} icon='spaFlower' />
-                  <span>Você não possui trilhas</span>
-                </S.NoContent>
+                <NoContent />
               )}
             </S.MyTrailsSection>
           </S.LeftContent>
