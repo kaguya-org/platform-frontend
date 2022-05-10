@@ -3,7 +3,6 @@ import {
   Button, Navbar, ProgressBar, Tooltip
 } from '@/components';
 import { Cover } from '@/components/Cover';
-import { Lordicon } from '@/components/Lordicon';
 import { SeeMoreTrails } from '@/components/Modals/SeeMoreTrails';
 import { NoContent } from '@/components/NoContent';
 import { PopoverContainer } from '@/components/PopoverContainer';
@@ -20,6 +19,7 @@ import { parseToSlugLowerCase } from '@/utils/formatText';
 import { useModal } from '@tg0/react-modal';
 import { useEffect, useMemo, useState } from 'react';
 import { BiDotsHorizontalRounded, GoPlus, IoPlaySharp } from 'react-icons/all';
+import { Lordicon } from 'react-lordicon';
 import { Link, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
@@ -278,7 +278,7 @@ export function Dashboard() {
                           disableUserTrail(trail.id);
                         }} 
                       >
-                        <Lordicon size={20} icon='trash' />
+                        <Lordicon size={20} trigger='hover' icon='trash'  />
                       </Button>
                     </header>
                     <span>{trail.name}</span>

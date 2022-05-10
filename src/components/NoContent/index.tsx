@@ -1,4 +1,4 @@
-import { Lordicon, LordiconProps } from '../Lordicon';
+import { Lordicon, LordiconProps } from 'react-lordicon';
 
 import * as S from './styles';
 
