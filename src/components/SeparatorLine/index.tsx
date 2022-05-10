@@ -10,10 +10,8 @@ export function SeparatorLine({
   ...rest
 }: SeparatorLineProps) {
   return (
-    <Container>
-      <div
-        {...rest}
-      />
+    <Container {...rest} >
+      <div />
       {children && (
         <span>{children}</span>
       )}

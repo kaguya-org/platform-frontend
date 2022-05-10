@@ -1,5 +1,4 @@
-import { SeparatorLine } from '@/components/LineSeparator';
-import { Lordicon } from '@/components/Lordicon';
+import { SeparatorLine } from '@/components/SeparatorLine';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';

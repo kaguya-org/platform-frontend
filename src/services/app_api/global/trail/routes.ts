@@ -10,13 +10,12 @@ import {
 } from './params';
 
 import {
-  ListTrailsResponse,
-  ShowTrailResponse
+  TrailsResponse,
 } from './response';
 
 export const trail = {
   list: (data?: ListTrailParams) => {
-    return baseApi.get<ListTrailsResponse[]>('/trails/list-all', {
+    return baseApi.get<TrailsResponse[]>('/trails/list-all', {
       params: {
         order: data?.order || 'asc',
         exclude_my_trails: data?.exclude_my_trails || false,
@@ -25,7 +24,7 @@ export const trail = {
       }
     });
   },
-  getInfo: (data?: ShowTrailParams): Promise<AxiosResponse<ShowTrailResponse>> => {
+  getInfo: (data?: ShowTrailParams): Promise<AxiosResponse<TrailsResponse>> => {
     return baseApi.get('/trails/show', {
       params: data?.query,
     });

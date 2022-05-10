@@ -1,5 +1,4 @@
-import { useBoolean } from '@/hooks';
-import { HtmlHTMLAttributes, RefObject, useEffect, useLayoutEffect, useRef } from 'react';
+import { HtmlHTMLAttributes, useEffect, useRef } from 'react';
 import { Button } from '../Commons/Button';
 import { Popover, PopoverHandles } from './Popover';
 import { Container } from './styles';
@@ -13,11 +12,10 @@ const PopoverContainer: React.FC<PopoverProps> = ({ content, triggerContent, ...
     const popoverRef = useRef<PopoverHandles>(null);
 
     const callEvent = (event: MouseEvent) => {
-        const target = event.target as PopoverHandles | null;
-   
-        if (
-            target !== popoverRef.current
-        ) {
+        const target = event.target as HTMLElement | null;
+        const wasClickedOutOfThePopover = !popoverRef.current?.contains(target);
+        
+        if (wasClickedOutOfThePopover) {
             return popoverRef.current?.closePopover();
         }
     }
@@ -38,7 +36,7 @@ const PopoverContainer: React.FC<PopoverProps> = ({ content, triggerContent, ...
             >
                 {triggerContent}
             </Button>
-            <Popover ref={popoverRef} content={content} />
+            <Popover id="popover"  ref={popoverRef} content={content} />
         </Container>
     );
 }

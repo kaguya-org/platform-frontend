@@ -1,20 +1,23 @@
 import { useBoolean } from '@/hooks';
-import { forwardRef, ForwardRefRenderFunction, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, ForwardRefRenderFunction, HtmlHTMLAttributes, useEffect, useImperativeHandle, useRef } from 'react';
 import * as S from './styles';
 
 export type PopoverHandles = {
     openPopover: () => void;
     closePopover: () => void;
     changePopover: () => void;
-}
+    contains: (target: HTMLElement | null) => boolean;
+};
 
 type PopoverProps = {
     content: string | JSX.Element;
-}
+} & HtmlHTMLAttributes<HTMLDivElement>;
 
-const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ content }, ref) => {
+const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ content, id }, ref) => {
+
     const isAnimate = useBoolean(false);
     const isOpen = useBoolean(false);
+    const popoverRef = useRef<HTMLElement | null>(null);
     
     const openPopover = () => {
         isAnimate.changeToTrue();
@@ -36,11 +39,16 @@ const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ con
         }
     }
 
+    function contains(target: HTMLElement | null) {
+      return !!popoverRef.current?.contains(target);
+    }
+
     useImperativeHandle(ref, () => ({
         closePopover,
         openPopover,
         changePopover,
-    }), [openPopover, closePopover, changePopover]);
+        contains,
+    }), [contains, openPopover, closePopover, changePopover]);
 
     useEffect(() => {
         if(!isAnimate.state) {
@@ -53,11 +61,9 @@ const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ con
     return (
         <>
             {isOpen.state && (
-                <>
-                    <S.Container fadeout={!isAnimate.state} >
-                        {content}
-                    </S.Container>
-                </>
+                <S.Container ref={popoverRef}  id={id} fadeout={!isAnimate.state} >
+                    {content}
+                </S.Container>
             )}
         </>
     );
