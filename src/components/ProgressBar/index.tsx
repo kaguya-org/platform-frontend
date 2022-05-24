@@ -1,6 +1,6 @@
 import { BsCheck } from 'react-icons/all';
 
-import { Container, Background, Progress } from './styles';
+import { BackgroundProgress, Progress } from './styles';
 
 type ProgressBarProps = {
   percent: number;
@@ -8,15 +8,18 @@ type ProgressBarProps = {
 
 export function ProgressBar({ percent }: ProgressBarProps): JSX.Element {
   return (
-    <Container percent={percent}>
+    <BackgroundProgress percent={percent}>
+      <Progress percent={percent}>
+        <span>{percent}%</span>
+        <span>
+          {percent >= 90 && (
+            <BsCheck size={15} />
+          )}
+        </span>
+      </Progress>
       <span>
-        <p>{percent}% </p>
+        <BsCheck size={18} />
       </span>
-      <Background />
-      <Progress percent={percent} />
-      <strong>
-        <BsCheck />
-      </strong>
-    </Container>
+    </BackgroundProgress>
   );
 }

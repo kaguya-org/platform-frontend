@@ -1,95 +1,82 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from "styled-components";
 
-type ProgressBarProps = {
-  percent: number | 0;
-};
+type ProgressProps = {
+  percent: number;
+}
 
-export const Container = styled.div<ProgressBarProps>`
-  height: 8px;
-  width: 90%;
-
+export const BackgroundProgress = styled.div<ProgressProps>`
+  background: var(--third-background);
   position: relative;
-  margin: 0 auto;
-
-  span {
-    p {
-      position: absolute;
-      top: -24px;
-      left: ${({ percent }) => percent - 2}%;
-
-      font-size: 12px;
-      letter-spacing: 0.8px;
-    }
-  }
-
-  strong {
-    &:before {
-      content: '';
-      z-index: 10;
-
-      border-radius: 50%;
-      border: 1px solid var(--second-color);
-      background: var(--third-background);
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      left: -16px;
-      top: -6px;
-    }
-
-    &:after {
-      content: '';
-      z-index: 10;
-
-      border-radius: 50%;
-
-      ${props => props.percent === 100 ? css`
-        background: var(--second-color);
-      ` : css`
-        background: var(--third-background);
-      `}
-
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      right: -16px;
-      top: -6px;
-
-    }
-
+  border-radius: 50rem;
+  height: 7px;
+  width: 100%;
+  > span {
+    transform: translate(0, -50%);
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    right: -10px;
     svg {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      top: -4px;
-      right: -14px;
-      z-index: 11;
-
       path {
-        ${props => props.percent === 100 ? css`
-        color: var(--third-background);
-      ` : css`
-        color: var(--second-color);
-      `}
+        color: var(--second-color); 
       }
     }
+    margin: 0 !important;
+    border-radius: 50%;
+    background: var(--third-background);
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    ${props => props.percent >= 90 && css`
+      display: none;
+    `}
   }
 `;
 
-const BaseBox = styled.div`
-  height: 100%;
+
+
+export const Progress = styled.div<ProgressProps>`
   position: absolute;
-  left: 0;
+  border-radius: 50rem;
   top: 0;
-  border-radius: 3px;
-`;
-
-export const Background = styled(BaseBox)`
-  background: var(--third-background);
-  width: 100%;
-`;
-
-export const Progress = styled(BaseBox)<ProgressBarProps>`
+  left: 0;
   background: var(--second-color);
+  box-shadow: 0 0 0 1px var(--second-color);
   width: ${props => props.percent}%;
+  height: 100%;
+  span {
+    &:nth-child(2) {
+      transform: translate(0, -50%);
+      top: 50%;
+      right: -10px;
+      margin: 0 !important;
+      z-index: 1;
+      border-radius: 50%;
+      border: 2px solid var(--second-color);
+      background: var(--third-background);
+      position: absolute;
+      min-width: 23px;
+      height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        path {
+          color: var(--second-color); 
+        }
+      }
+    }
+
+    &:nth-child(1) {
+      font-size: 15px;
+      margin: 0;
+      white-space: nowrap;
+      right: -17px;
+      top: -29px;
+      position: absolute;
+    }
+  }
 `;
+
