@@ -30,9 +30,9 @@ export function Routers() {
       {/* Users private */}
       <Route element={<PrivateRoute />}>
         <Route element={<User.Dashboard />} path="/dashboard" />
-        <Route element={<User.Trail />} path="/trail/:trail_name" />
-        <Route element={<User.Playlist />} path="/trail/:trail_name/playlist/:playlist_name">
-          <Route element={<User.Playlist />} path="block/:block_name/classe/:classe_name" />
+        <Route element={<User.Trail />} path="/trail/:trail_slug" />
+        <Route element={<User.Playlist />} path="/trail/:trail_slug/playlist/:playlist_slug">
+          <Route element={<User.Playlist />} path="block/:block_slug/lesson/:lesson_slug" />
         </Route>
       </Route>
 

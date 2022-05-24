@@ -6,6 +6,7 @@ import {
 
 import {
   AddTrailInUserParams,
+  listTrailsFromUserParams,
   RemoveTrailInUserParams
 } from './params';
 
@@ -14,14 +15,18 @@ import {
 } from './response';
 
 export const trail = {
-  listTrailsFromUser: () => {
-    return baseApi.get<ListTrailFromUserResponse[]>('/user-trails/list-all');
+  listTrailsFromUser: (params?: listTrailsFromUserParams) => {
+    return baseApi.get<ListTrailFromUserResponse[]>('/user-trails/list-all', {
+      params
+    });
   },
   addTrailInUser: (data: AddTrailInUserParams) => {
     return baseApi.post<ListTrailFromUserResponse>('/user-trails', data);
   },
   removeTrailInUser: (data: RemoveTrailInUserParams): Promise<void> => {
-    return baseApi.delete(`/user-trails?user_trail_id=${data.user_trail_id}`);
+    return baseApi.delete(`/user-trails`, {
+      params: data
+    });
   },
   changeEnabled: (trail_id: string): Promise<void> => {
     return baseApi.patch(`/user-trails/change-enabled`, {

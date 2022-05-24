@@ -1,14 +1,13 @@
+import {
+  BACKGROUND,
+  COLORS,
+  FONTS,
+  FONTS_COLORS
+} from '@/theme';
+import { shade } from 'polished';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { 
-  BACKGROUND, 
-  COLORS, 
-  FONTS, 
-  FONTS_COLORS,
-  GLOBAL_COLORS,
-} from '@/theme';
-import { shade, tint } from 'polished';
 
 export const Container = styled.div`
 
@@ -20,20 +19,28 @@ type NoContentProps = {
 export const NoContent = styled.div<NoContentProps>`
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: center;
   flex: 1;
   align-items: center;
   span {
+    margin-top: 14px;
+    text-align: center;
+    max-width: 200px;
+    padding: 0 10px;
     font-size: ${({ fontSize }) => fontSize || '1.5rem'};
   }
 `;
 
 export const Content = styled.main`
   display: flex;
-  justify-content: space-between;
-  gap: 24px;
+  align-items: center;
 
   width: 100%;
+
+  @media screen and (max-width: 1150px) {
+    flex-wrap: wrap;
+  }
 
   height: 100%;
 `;
@@ -41,9 +48,8 @@ export const Content = styled.main`
 export const LeftContent = styled.div`
   width: 100%;
   max-width: 980px;
-
-  margin: 64px;
-  margin-right: 0;
+  height: 100%;
+  padding: 30px 24px;
 `;
 
 export const Welcome = styled.section`
@@ -71,7 +77,7 @@ export const Welcome = styled.section`
   }
 `;
 
-export const LastClasse = styled(Link)`
+export const LastLesson = styled(Link)`
   margin: 3.2rem 0;
   padding: 3.2rem;
   border-radius: 8px;
@@ -96,7 +102,7 @@ export const LastClasse = styled(Link)`
     box-shadow: -2px 2px 2px ${COLORS.SECONDARY};
   }
 
-  div.last_classe_information {
+  div.last_lesson_information {
     display: flex;
     gap: 16px;
 
@@ -195,6 +201,8 @@ export const MyTrailsSection = styled.section`
 
 export const MyTrailsContainer = styled.div`
   display: grid;
+  padding-bottom: 5px;
+  overflow-x: auto;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 
@@ -204,7 +212,8 @@ export const MyTrailsContainer = styled.div`
 export const MyTrail = styled(Link)`
   padding: 24px;
   position: relative;
-  height: 200px;
+  min-width: 250px;
+  height: 210px;
 
   display: flex;
   align-items: center;
@@ -233,7 +242,10 @@ export const MyTrail = styled(Link)`
       right: 10px;
     }
   }
-
+  > span {
+    margin-top: 7px !important;
+    margin-bottom: 40px !important;
+  }
   span {
     word-wrap: break-word;
     text-align: center;
@@ -256,7 +268,9 @@ export const MyTrail = styled(Link)`
 export const RightContent = styled.section`
   max-width: 480px;
   width: 100%;
-
+  @media screen and (max-width: 1150px) {
+    display: none;
+  }
   // viewport - navbar height
   height: calc(100vh - 70px);
 
@@ -372,6 +386,7 @@ export const OtherTrail = styled.div<OtherTrailProps>`
     align-items: flex-end;
   }
   .trail_information {
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;

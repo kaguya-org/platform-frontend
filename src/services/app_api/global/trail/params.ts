@@ -9,6 +9,6 @@ export type ListTrailParams = {
 export type ShowTrailParams = {
   query?: {
     trail_id?: string;
-    name?: string;
+    slug?: string;
   }
 }

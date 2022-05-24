@@ -1,59 +1,61 @@
+import { Cover } from '@/components/Cover';
+import { TabContainer, TabItem } from '@/components/Tab';
+import { useToast } from '@/hooks/useToast';
+import { modifyYoutubeUrl } from '@/utils/formatText';
 import { useEffect, useState } from 'react';
-import { 
-  AiFillDislike, 
-  AiFillLike, 
-  AiOutlineDislike, 
-  AiOutlineLike, 
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
   IoIosArrowDown,
   IoIosArrowUp
 } from 'react-icons/all';
-import { useParams, useNavigate } from 'react-router';
-
+import { useNavigate, useParams } from 'react-router';
 import {
   BoxProgressBarStep,
   Navbar,
   PagePath
 } from '../../../components';
-
 import { useBoolean } from '../../../hooks';
-import { TabContainer, TabItem } from '@/components/Tab';
-import { modifyYoutubeUrl, parseToSlugLowerCase } from '@/utils/formatText';
-
-import { Cover } from '@/components/Cover';
-
 import { api, GlobalType } from '../../../services/api';
-
 import * as S from './styles';
 
 type Params = {
-  playlist_name: string;
-  trail_name: string;
-  block_name?: string;
-  classe_name?: string;
+  playlist_slug: string;
+  trail_slug: string;
+  block_slug?: string;
+  lesson_slug?: string;
 }
 
 export function Playlist() {
   const { 
-    trail_name,
-    playlist_name, 
-    block_name,
-    classe_name
+    trail_slug,
+    playlist_slug, 
+    block_slug,
+    lesson_slug
   } = useParams<Params>();
+  const { addToast } = useToast();
   const navigate_to = useNavigate();
 
   const isLiked = useBoolean(true);
 
-  const get_current_classe_loading = useBoolean(true);
-
+  const get_current_lesson_loading = useBoolean(true);
+  
   const [blocks, setBlocks] = useState<GlobalType.Block[]>([]);
   
+  const liked = useBoolean(false);
+  const disliked = useBoolean(false);
+  const [likes, setLikes] = useState<number>(0);
+  const [dislikes, setDislikes] = useState<number>(0);
+  
   const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse | null>(null);
-  const [trail, setTrail] = useState<GlobalType.ShowTrailResponse | null>(null);
+  const [trail, setTrail] = useState<GlobalType.TrailsResponse | null>(null);
 
   const [currentBlock, setCurrentBlock] = useState<GlobalType.Block | null>(null);
-  const [currentClasse, setCurrentClasse] = useState<GlobalType.Classe | null>(null);
+  const [currentLesson, setCurrentLesson] = useState<GlobalType.ShowLessonResponse | null>(null);
 
-  async function getBlocks(playlist: GlobalType.ShowPlaylistResponse, get_trail: GlobalType.ShowTrailResponse) {
+  async function getBlocks(playlist: GlobalType.ShowPlaylistResponse, get_trail: GlobalType.TrailsResponse) {
     try {
       const response = await api.global.playlist_block.listBlocks({
         query: {
@@ -61,19 +63,31 @@ export function Playlist() {
         }
       });
 
-      setCurrentBlock(response.data[0]);
+      const currentBlock = response.data[0]
 
-      setBlocks(response.data);
-
-      if(response.data[0].classes[0]) {
-        setCurrentClasse(response.data[0].classes[0]);
-        get_current_classe_loading.changeToFalse();
-      } else {
-        navigate_to(`/trail/${get_trail?.name}`)
+      if(!currentBlock) {
+        throw new Error('No block found')
       }
 
-    } catch (error: any) {
-      console.log(error);
+      const currentLesson = response.data[0].lessons[0]
+
+      if(!currentLesson) {
+        throw new Error('No lesson found')
+      }
+      console.log('getCurrentLesson:', currentLesson.id)
+      await getCurrentLesson(currentLesson.id)
+
+      setCurrentBlock(currentBlock);
+
+      setBlocks(response.data);
+    } catch (error) {
+      addToast({
+        appearance: 'error',
+        description: 'Não foi possível carregar os blocos',
+        title: 'Erro'
+      })
+
+      navigate_to('/dashboard')
     }
   }
 
@@ -81,7 +95,7 @@ export function Playlist() {
     try {
       const get_trail = await api.global.trail.getInfo({
         query: {
-          name: trail_name
+          slug: trail_slug
         }
       });
 
@@ -92,8 +106,8 @@ export function Playlist() {
       if(trail) {
         const response = await api.global.playlist.getInfo({
           query: {
-            playlist_slug: playlist_name,
-            trail_slug: trail_name
+            playlist_slug: playlist_slug,
+            trail_slug: trail_slug
           }
         });
 
@@ -106,32 +120,44 @@ export function Playlist() {
     }
   }
 
-  async function getCurrentClasse() {
-    if(block_name && classe_name) {
-      const block = blocks.find((where) => {
-        return parseToSlugLowerCase(where.name) === parseToSlugLowerCase(block_name);
-      });
+  async function getCurrentLesson(lesson_id?: string) {
+    try {
+        if((block_slug && lesson_slug) || lesson_id) {
+          const { data: lesson  } = await api.global.lesson.show({
+            query: {
+              ...(lesson_id ? {
+                lesson_id
+              } : {
+                block_slug,
+                lesson_slug
+              })
+            }
+          })
 
-      if(block) {
-        const current_classe = block.classes.find((where) => {
-          return parseToSlugLowerCase(where.name) === parseToSlugLowerCase(classe_name)
-        });
-        
-        if(current_classe) {
-          setCurrentClasse(current_classe);
-          get_current_classe_loading.changeToFalse();
+          setLikes(lesson._count.likes);
+          setDislikes(lesson._count.dislikes);
+
+          setCurrentLesson(lesson);
         }
+      } catch {
+        addToast({
+          title: 'Ops!',
+          description: 'Ocorreu um erro ao carregar a aula, tente novamente mais tarde.',
+          appearance: 'error'
+        })
+
+        navigate_to(`/dashboard`)
       }
-    }
+      get_current_lesson_loading.changeToFalse();
   }
 
   useEffect(() => {
     getPlaylist();
-  }, [playlist_name, trail_name]);
+  }, [playlist_slug, trail_slug]);
 
   useEffect(() => {
-    getCurrentClasse();
-  }, [block_name, classe_name, blocks]);
+    getCurrentLesson();
+  }, [block_slug, lesson_slug]);
 
   function handleSetCurrentBlock(block: GlobalType.Block) {
     setCurrentBlock(prevState => {
@@ -143,17 +169,17 @@ export function Playlist() {
     })
   }
 
-  function setCurrentPath(block: GlobalType.Block, classe: GlobalType.Classe) {
-    const base_url = `/trail/${parseToSlugLowerCase(trail?.name)}/playlist/${parseToSlugLowerCase(playlist?.name)}`;
-    const block_url = `block/${parseToSlugLowerCase(block.name)}`;
-    const classe_url = `classe/${parseToSlugLowerCase(classe.name)}`;
+  function setCurrentPath(block: GlobalType.Block, lesson: GlobalType.ShowLessonResponse) {
+    const base_url = `/trail/${trail?.slug}/playlist/${playlist?.slug}`;
+    const block_url = `block/${block.slug}`;
+    const lesson_url = `lesson/${lesson.slug}`;
 
-    return `${base_url}/${block_url}/${classe_url}`;
+    return `${base_url}/${block_url}/${lesson_url}`;
   }
 
   return (
     <Cover
-      hasLoading={get_current_classe_loading.state}
+      hasLoading={get_current_lesson_loading.state}
     >
       <S.Container>
         <Navbar />
@@ -168,7 +194,7 @@ export function Playlist() {
               },
               {
                 title: `${trail?.name}`,
-                to: `/trail/${trail?.name}`,
+                to: `/trail/${trail?.slug}`,
                 order: 2,
               }
             ]}
@@ -177,56 +203,60 @@ export function Playlist() {
             }}
           />
           <S.MainContent>
-            <S.CurrentClasseContainer>
-              <S.CurrentClasse>
+            <S.CurrentLessonContainer>
+              <S.CurrentLesson>
                 <iframe 
-                  src={modifyYoutubeUrl(currentClasse?.link)}
-                  title={currentClasse?.name}
+                  src={modifyYoutubeUrl(currentLesson?.link)}
+                  title={currentLesson?.name}
                   frameBorder="0"
                   allowFullScreen 
                 />
 
-                <div className="classe_counts_container">
-                  <span className="views_count">315 visualizações</span>
+                <div className="lesson_counts_container">
+                  <span className="views_count">{currentLesson?._count?.views} visualizações</span>
 
                   <div className="likes_deslikes">
                     <span
-                      className={isLiked ? 'classe_liked' : ''}>
+                      className={isLiked ? 'lesson_liked' : ''}>
                         {isLiked ? <AiFillLike /> : <AiOutlineLike />} 
-                        20
+                        <span>
+                          {likes}
+                        </span>
                     </span>
                     <span
-                      className={!isLiked ? 'classe_desliked' : ''}>
+                      className={!isLiked ? 'lesson_desliked' : ''}>
                         {!isLiked ? <AiFillDislike /> : <AiOutlineDislike />} 
-                        32
+                        <span>
+                          {dislikes}
+                        </span>
                     </span>
                   </div>
                 </div>
-              </S.CurrentClasse>
-              <S.ClasseInfo>
-                <h1 className="current_classe_title">{currentClasse?.name}</h1>
+              </S.CurrentLesson>
+              <S.LessonInfo>
+                <h1 className="current_lesson_title">{currentLesson?.name}</h1>
                 <TabContainer>
                   <TabItem tabTitle="Descrição">
-                    <p>{currentClasse?.description}</p>
+                    <p>{currentLesson?.description}</p>
                   </TabItem>
                   <TabItem tabTitle="Artigos">
                     <p>TODO - adicionar artigos mais pra frente</p>
                   </TabItem>
                 </TabContainer>
-              </S.ClasseInfo>
-            </S.CurrentClasseContainer>
+              </S.LessonInfo>
+            </S.CurrentLessonContainer>
 
-            <S.BlocksAndClassesContainer>
+            <S.BlocksAndLessonsContainer>
               {blocks.map(block => (
-                <S.BlockAndClasses 
+                <S.BlockAndLessons 
                   key={block.id}
                 >
                   <S.Block onClick={() => handleSetCurrentBlock(block)}>
                     <div className="block_info">
                       <h2 className="block_title">{block.name}</h2>
-                      <span className="block_classes_count">
-                        {block.classes.length} 
-                        {block.classes.length === 1 ? ' aula' : ' aulas'}
+                      <span className="block_lessons_count">
+                        {block.lessons.length} 
+                        {block.lessons.length === 1 ? ' aula' : ' aulas'}
                       </span>
                     </div>
                     {block.id === currentBlock?.id ? (
@@ -235,28 +265,28 @@ export function Playlist() {
                       <IoIosArrowDown />
                     )}
                   </S.Block>
-                  <S.ClassesContainer
+                  <S.LessonsContainer
                     selectedBlock={block.id === currentBlock?.id}
                   >
-                    <ul className="classes">
-                      {block.classes.map(classe => (
+                    <ul className="lessons">
+                      {block.lessons.map(lesson => (
                         <BoxProgressBarStep
-                          key={classe.id}
-                          isCurrent={classe.id === currentClasse?.id}
+                          key={lesson.id}
+                          isCurrent={lesson.id === currentLesson?.id}
                         > 
-                          <S.Classe
-                            $isCurrent={classe.id === currentClasse?.id}
-                            to={setCurrentPath(block, classe)}
+                          <S.Lesson
+                            $isCurrent={lesson.id === currentLesson?.id}
+                            to={setCurrentPath(block, lesson)}
                           >
-                            {classe.name}
-                          </S.Classe>
+                            {lesson.name}
+                          </S.Lesson>
                         </BoxProgressBarStep>
                       ))}
                     </ul>
-                  </S.ClassesContainer>
-                </S.BlockAndClasses>
+                  </S.LessonsContainer>
+                </S.BlockAndLessons>
               ))}
-            </S.BlocksAndClassesContainer>
+            </S.BlocksAndLessonsContainer>
           </S.MainContent>
         </S.Content>
       </S.Container>

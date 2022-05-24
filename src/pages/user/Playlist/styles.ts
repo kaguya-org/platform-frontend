@@ -22,7 +22,7 @@ export const MainContent = styled.main`
   gap: 16px;
 `;
 
-export const CurrentClasseContainer = styled.main`
+export const CurrentLessonContainer = styled.main`
   width: 100%;
 
   display: flex;
@@ -30,7 +30,7 @@ export const CurrentClasseContainer = styled.main`
   gap: 1.8rem;
 `;
 
-export const CurrentClasse = styled.section`
+export const CurrentLesson = styled.section`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -49,7 +49,7 @@ export const CurrentClasse = styled.section`
     height: 470px;
   }
 
-  > div.classe_counts_container {
+  > div.lesson_counts_container {
     width: 100%;
 
     display: flex;
@@ -91,13 +91,13 @@ export const CurrentClasse = styled.section`
           }
         }
 
-        &.classe_liked {
+        &.lesson_liked {
           svg path {
             color: ${COLORS.SECONDARY};
           }
         }
 
-        &.classe_desliked {
+        &.lesson_desliked {
           svg path {
             color: ${COLORS.SECONDARY};
           }
@@ -107,7 +107,7 @@ export const CurrentClasse = styled.section`
   }
 `;
 
-export const ClasseInfo = styled.section`
+export const LessonInfo = styled.section`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -119,7 +119,7 @@ export const ClasseInfo = styled.section`
   border-radius: 8px;
 `;
 
-export const BlocksAndClassesContainer = styled.aside`
+export const BlocksAndLessonsContainer = styled.aside`
   background: ${BACKGROUND.SECONDARY};
 
   display: flex;
@@ -131,7 +131,7 @@ export const BlocksAndClassesContainer = styled.aside`
   border-radius: 8px;
 `;
 
-export const BlockAndClasses = styled.div`
+export const BlockAndLessons = styled.div`
   &:not(:first-child) {
     margin-top: 8px;
   }
@@ -159,7 +159,7 @@ export const Block = styled.button`
       font-size: 1.8rem;
     }
 
-    span.block_classes_count {
+    span.block_lessons_count {
       font-size: 1.4rem;
       margin-top: 8px;
       color: ${FONTS_COLORS.SECONDARY};
@@ -172,18 +172,18 @@ export const Block = styled.button`
   }
 `;
 
-type BlockAndClassesType = {
+type BlockAndLessonsType = {
   selectedBlock: boolean;
 }
 
-export const ClassesContainer = styled.div<BlockAndClassesType>`
+export const LessonsContainer = styled.div<BlockAndLessonsType>`
   transition: height 0.3s ease 0s;
 
   height: 0;
 
   overflow: hidden;
 
-  > ul.classes {
+  > ul.lessons {
     padding: 24px;
 
     li:not(:first-child) {
@@ -197,12 +197,12 @@ export const ClassesContainer = styled.div<BlockAndClassesType>`
   `};
 `;
 
-type ClasseType = {
+type LessonType = {
   isCompleted?: boolean;
   $isCurrent?: boolean;
 }
 
-export const Classe = styled(Link)<ClasseType>`
+export const Lesson = styled(Link)<LessonType>`
   display: flex;
   align-items: center;
 

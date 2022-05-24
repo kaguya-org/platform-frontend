@@ -94,10 +94,10 @@ export const GlobalStyle = createGlobalStyle`
 
   ::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
   }
   
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
     border-radius: 10px;
   }
   

@@ -4,12 +4,12 @@ import { baseApi } from '../../../api'
 import {
   ListBlocksParams,
   ShowBlockParams,
-  ShowClasseParams
+  ShowLessonParams
 } from './params';
 
 import {
   Block, 
-  Classe
+  Lesson
 } from './response';
 
 export const playlist_block = {
@@ -18,8 +18,8 @@ export const playlist_block = {
       params: data.query,
     })
   },
-  showClasse: (data: ShowClasseParams) => {
-    return baseApi.get<Classe>('/classes/show', {
+  showLesson: (data: ShowLessonParams) => {
+    return baseApi.get<Lesson>('/lessons/show', {
       params: data.query,
     })
   },

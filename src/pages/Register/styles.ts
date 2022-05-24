@@ -49,8 +49,8 @@ export const Content = styled.main`
 `;
 
 export const FormContainer = styled.div`
+  width: 100%;
   max-width: 46.0rem;
-  min-width: 500px;
 
   border-radius: 0.8rem;
   background: ${BACKGROUND.SECONDARY};

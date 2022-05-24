@@ -1,6 +1,9 @@
-export type Classe = {
+import { ShowLessonResponse } from "../types";
+
+export type Lesson = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   link: string;
   block_id: string;
@@ -11,8 +14,9 @@ export type Classe = {
 export type Block = {
   id: string;
   name: string;
+  slug: string;
   playlist_id: string;
   created_at: string;
   updated_at: string;
-  classes: Classe[];
+  lessons: ShowLessonResponse[];
 }

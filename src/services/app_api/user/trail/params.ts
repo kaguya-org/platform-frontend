@@ -1,7 +1,13 @@
+export type Filters = {
+  take?: number;
+  skip?: number;
+}
+export type listTrailsFromUserParams = {} & Filters;
+
 export type AddTrailInUserParams = {
   trail_id: string;
 }
 
 export type RemoveTrailInUserParams = {
-  user_trail_id: string;
+  trail_id: string;
 }

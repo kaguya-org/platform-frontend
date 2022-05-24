@@ -75,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       getUserProfile();
     }
   }
-
+  
   useEffect(() => {
     baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

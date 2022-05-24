@@ -1,33 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-
-import { 
-  BiListPlus, 
-  BiListMinus,
-  HiOutlineArrowNarrowRight,
-} from 'react-icons/all';
-
-import {
-  ProgressBar,
-  Navbar,
-  Button,
-  PagePath,
-  Loading
-} from '../../../components';
-
-import { api, UserType, GlobalType } from '../../../services/api';
-
-import { useAuth, useBoolean } from '../../../hooks';
-
-import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
-
-import * as S from './styles';
-import { parseToSlugLowerCase } from '@/utils/formatText';
 import { Cover } from '@/components/Cover';
 import { NoContent } from '@/components/NoContent';
+import { useEffect, useState } from 'react';
+import {
+  HiOutlineArrowNarrowRight
+} from 'react-icons/all';
+import Lordicon from 'react-lordicon';
+import { useParams } from 'react-router';
+import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
+import {
+  Button, Navbar, PagePath, ProgressBar
+} from '../../../components';
+import { useAuth, useBoolean } from '../../../hooks';
+import { api, GlobalType, UserType } from '../../../services/api';
+import * as S from './styles';
 
 type LocationParams = {
-  trail_name?: string;
+  trail_slug?: string;
 }
   
 export function Trail() {
@@ -35,30 +23,35 @@ export function Trail() {
 
   const loadingAddTrail = useBoolean(false);
   const loadingRemoveTrail = useBoolean(false);
-  const user_has_trail = useBoolean(false);
+  const userHasTrail = useBoolean(false);
 
-  const trail_info_loading = useBoolean(true);
-  const playlists_by_trail_loading = useBoolean(true);
+  const trailInfoLoading = useBoolean(true);
+  const playlistsByTrailLoading = useBoolean(true);
 
-  const { trail_name } = useParams<LocationParams>();
-  const [user_trail, setUserTrail] = useState<UserType.ListTrailFromUserResponse | null>(null);
-  const [trail_info, setTrailInfo] = useState<GlobalType.ShowTrailResponse | null>(null);
-  const [playlists_by_trail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
+  const { trail_slug } = useParams<LocationParams>();
+  const [userTrail, setUserTrail] = useState<UserType.ListTrailFromUserResponse | null>(null);
+  const [trailInfo, setTrailInfo] = useState<GlobalType.TrailsResponse | null>(null);
+  const [playlistsByTrail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
 
   async function getTrailInfo() {
     try {
-      const response = await api.global.trail.getInfo({
+      const { data: trail } = await api.global.trail.getInfo({
         query: {
-          name: trail_name
+          slug: trail_slug
         }
       });
 
-      setTrailInfo(response.data);
+      setTrailInfo(trail);
 
-    } catch (error: any) {
+      console.log('sjahgdjhags', trail.user_trail)
+      if(trail.user_trail && trail.user_trail.enabled) {
+        userHasTrail.changeToTrue();
+      }
+
+    } catch (error) {
       console.log(error);
     } finally {
-      trail_info_loading.changeToFalse();
+      trailInfoLoading.changeToFalse();
     }
   }
   
@@ -66,7 +59,7 @@ export function Trail() {
     try {
       const response = await api.global.playlist.listAllByTrail({
         query: {
-          trail_id: trail_info?.id,
+          trail_id: trailInfo?.id,
         }
       });
 
@@ -74,7 +67,7 @@ export function Trail() {
     } catch (error: any) {
       console.log(error);
     } finally {
-      playlists_by_trail_loading.changeToFalse();
+      playlistsByTrailLoading.changeToFalse();
     }
   }
 
@@ -83,46 +76,45 @@ export function Trail() {
   }, []);
 
   useEffect(() => {
-    if(trail_info) {
+    if(trailInfo) {
       getPlaylistsByTrail();
     }
-  }, [trail_info]);
+  }, [trailInfo]);
 
-  async function handleCreateUserTrail() {
+  async function createUserTrail() {
     try {
-      if(trail_info) {
-        const response = await api.user.trail.addTrailInUser({
-          trail_id: trail_info?.id
+      if(trailInfo) {
+        const { data: trail } = await api.user.trail.addTrailInUser({
+          trail_id: trailInfo?.id
         });
+        
 
-        if(response.data) {
-          user_has_trail.changeToTrue();
+        if(trail.user_trail && trail.user_trail.enabled) {
+          userHasTrail.changeToTrue();
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   }
 
-  async function handleDisabledUserTrail() {
+  async function disableUserTrail() {
     try {
-      if(trail_info) {
-        const response = await api.user.trail.addTrailInUser({
-          trail_id: trail_info?.id
-        });
-
-        if(response.data) {
-          user_has_trail.changeToTrue();
-        }
+      if(trailInfo) {
+        await api.user.trail.changeEnabled(trailInfo.id);
+        
+        userHasTrail.changeToFalse();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   }
+
+  console.log(userHasTrail.state)
 
   return (
     <Cover
-      hasLoading={trail_info_loading.state && !loading_page}
+      hasLoading={trailInfoLoading.state && !loading_page}
     >
       <S.Container>
         <Navbar />
@@ -131,13 +123,13 @@ export function Trail() {
           <PagePath
             previousPages={[
               {
-                title: 'Dashborad',
+                title: 'Dashboard',
                 to: '/dashboard',
                 order: 1,
               }
             ]}
             currentPage={{
-              title: trail_info?.name
+              title: trailInfo?.name
             }}
           />
           <S.MainContent>
@@ -148,37 +140,44 @@ export function Trail() {
                     <img 
                       className="trail_image"
                       src={
-                        trail_info?.avatar_url ||
+                        trailInfo?.avatar_url ||
                         DEFAULT_TRAIL_IMAGE} 
-                      alt={trail_info?.name} 
+                      alt={trailInfo?.name} 
                     />
 
                     <div className="trail_name_and_user_action">
                       <h1 className="trail_title">Trilha de 
                         <span className="trail_title">
-                          {trail_info?.name}
+                          {trailInfo?.name}
                         </span>
                       </h1>
-                      {user_has_trail.state && !user_trail?.user_trail.enabled ? (
+                      {userHasTrail.state ? (
                         <Button 
                           isLoading={loadingRemoveTrail.state}
-                          title="Desativar trilha"
+                          title={`Remover trilha`}
+                          onClick={() => disableUserTrail()}
                         >
-                          <BiListMinus/> <span>Desativar trilha</span>
+                          <Lordicon 
+                            trigger='hover'
+                            icon='trash'
+                          /> <span>Remover trilha</span>
                         </Button>
                       ) : (
                         <Button 
                           isLoading={loadingAddTrail.state}
                           title="Adicionar trilha"
-                          onClick={handleCreateUserTrail}
+                          onClick={createUserTrail}
                         >
-                          <BiListPlus/> <span>Adicionar trilha</span>
+                          <Lordicon 
+                            trigger='hover'
+                            icon='addCard'
+                          /> <span>Adicionar trilha</span>
                         </Button>
                       )}
                     </div>
                   </header>
                   <p className="trail_description">
-                    {trail_info?.description}
+                    {trailInfo?.description}
                   </p>
                 </S.TrailInfo>
               </S.PrincipalTrailInfo>
@@ -186,36 +185,36 @@ export function Trail() {
               <div className="line_separator"/>
 
               <S.PlayListAndExerciciesContainer>
-                {playlists_by_trail_loading.state ? (
+                {playlistsByTrailLoading.state ? (
                   <Cover
                     style={{
                       position: 'relative',
                       left: '50%',
                       transform: 'translateX(-50%)',
                     }}
-                    hasLoading={playlists_by_trail_loading.state}
+                    hasLoading={playlistsByTrailLoading.state}
                   />    
                  
                 ): (
                   <>
-                    {playlists_by_trail.length >= 1 ? (
-                      playlists_by_trail.map((playlist, index) => (
+                    {playlistsByTrail.length >= 1 ? (
+                      playlistsByTrail.map((playlist, index) => (
                         <S.PlayListAndExercicie key={playlist.id}>
-                          <S.PlayList to={`/trail/${parseToSlugLowerCase(trail_info?.name)}/playlist/${parseToSlugLowerCase(playlist.name)}`}>
+                          <S.PlayList to={`/trail/${trailInfo?.slug}/playlist/${playlist.slug}`}>
                             <div className="playlist_index">
                               <span>{index + 1}</span>
                             </div>
                             <div className="playlist_info">
                               <div>
                                 <h2 className="playlist_title">{playlist.name}</h2>
-                                {user_trail && (
-                                  <span className="playlist_classes_total">122 de 144 aulas assistidas</span>
+                                {userTrail && (
+                                  <span className="playlist_lessons_total">122 de 144 aulas assistidas</span>
                                 )}
                               </div>
                               <p className="playlist_description">{playlist.description}</p>
                             </div>
-                            {user_trail && (
-                              <ProgressBar percent={user_trail.user_trail.progress}/>
+                            {userTrail && (
+                              <ProgressBar percent={userTrail.user_trail.progress}/>
                             )}
                           </S.PlayList>
                         </S.PlayListAndExercicie>
@@ -235,15 +234,15 @@ export function Trail() {
 
               <div className="others_trail_info_container">
                 <p>
-                  <HiOutlineArrowNarrowRight /> Contém {trail_info?._count.playlists} playlists e {trail_info?._count.classes} aulas no total.
+                  <HiOutlineArrowNarrowRight /> Contém {trailInfo?._count.playlists} playlists e {trailInfo?._count.lessons} aulas no total.
                 </p>
-                {trail_info?._count.users && trail_info?._count.users <= 1 ? (
+                {trailInfo?._count.users && trailInfo?._count.users <= 1 ? (
                   <p>
-                    <HiOutlineArrowNarrowRight /> Atualmente {trail_info?._count.users} aluno faz está trilha, <span>que tal se juntar a ele?</span>
+                    <HiOutlineArrowNarrowRight /> Atualmente {trailInfo?._count.users} aluno faz está trilha, <span>que tal se juntar a ele?</span>
                   </p>
                 ) : (
                   <p>
-                    <HiOutlineArrowNarrowRight /> Atualmente {trail_info?._count.users} alunos fazem está trilha, <span>que tal se juntar a eles?</span>
+                    <HiOutlineArrowNarrowRight /> Atualmente {trailInfo?._count.users} alunos fazem está trilha, <span>que tal se juntar a eles?</span>
                   </p>
                 )}
               </div>

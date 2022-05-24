@@ -2,6 +2,7 @@
 export type ListAllPlaylistsByTrailResponse = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   trail_id: string;
   avatar: string | null;
@@ -13,6 +14,7 @@ export type ListAllPlaylistsByTrailResponse = {
 export type ShowPlaylistResponse = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   trail_id: string;
   avatar: null | string;

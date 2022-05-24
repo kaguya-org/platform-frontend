@@ -1,9 +1,10 @@
 import DEFAULT_TRAIL_IMAGE from '@/assets/images/default_trail.jpg';
 import {
-  Button, Navbar, ProgressBar, Tooltip
+  Button, Navbar, ProgressBar
 } from '@/components';
 import { Cover } from '@/components/Cover';
-import { SeeMoreTrails } from '@/components/Modals/SeeMoreTrails';
+import { ModalContainer } from '@/components/ModalContainer';
+import { SeeMoreTrails } from '@/components/ModalContainer/SeeMoreTrails';
 import { NoContent } from '@/components/NoContent';
 import { PopoverContainer } from '@/components/PopoverContainer';
 import { SeparatorLine } from '@/components/SeparatorLine';
@@ -14,11 +15,8 @@ import {
   GlobalType,
   UserType
 } from '@/services/api';
-import { SHADOW_COLORS } from '@/theme';
-import { parseToSlugLowerCase } from '@/utils/formatText';
-import { useModal } from '@tg0/react-modal';
-import { useEffect, useMemo, useState } from 'react';
-import { BiDotsHorizontalRounded, GoPlus, IoPlaySharp } from 'react-icons/all';
+import { useEffect, useState } from 'react';
+import { BiDotsHorizontalRounded, IoPlaySharp, MdRefresh } from 'react-icons/all';
 import { Lordicon } from 'react-lordicon';
 import { Link, useNavigate } from 'react-router-dom';
 import * as S from './styles';
@@ -29,44 +27,42 @@ type ApiError = {
   statusCode: number;
 }
 
+type GetUserTrailsParams = {
+  skip?: number;
+  take?: number;
+}
+
 export function Dashboard() {
   const { user, isSubAdmin } = useAuth();
-
-  const seeMoreTrailsModal = useModal(false);
 
   const navigate = useNavigate();
   const { addToast } = useToast();
 
+  const [disableUserTrailUniqLoading, setDisableUserTrailUniqLoading] = useState<string | null>(null);
+
   const userTrailLoading = useBoolean(true);
-  const disableUserTrailLoading = useBoolean(false);
   const destroyOtherTrailLoading = useBoolean(false);
   const addTrailToMyTrailsLoading = useBoolean(false);
 
   const [userTrails, setUserTrails] = useState<UserType.ListTrailFromUserResponse[]>([]);
   const [otherTrails, setOtherTrails] = useState<GlobalType.TrailsResponse[]>([]);
+  const [trailsCache, setTrailsCache] = useState<GlobalType.TrailsResponse[]>([]);
+  const [history, setHistory] = useState<GlobalType.ShowHistoryResponse | null>(null);
 
-  const filteredUserTrails = useMemo(() => {
-    return userTrails.filter(where => {
-      return where.user_trail.enabled;
-    });
-  }, [userTrails]);
 
   async function addTrailToMyTrails(trail_id: string) {
     try {
       addTrailToMyTrailsLoading.changeToTrue();
 
-      const response = await api.user.trail.addTrailInUser({
+      const { data: myTrail } = await api.user.trail.addTrailInUser({
         trail_id
       })
 
-      const myTrail = response.data;
-
-      const filteredOtherTrails = otherTrails.filter(trail => {
-        return trail.id !== myTrail.id
-      });
-
-      setOtherTrails([...filteredOtherTrails]);
-      setUserTrails([...userTrails, myTrail]);
+      await getTrails()
+      
+      if(userTrails.length < 3) {
+        setUserTrails([...userTrails, myTrail]);
+      }
 
       addToast({
         appearance: 'success',
@@ -83,12 +79,19 @@ export function Dashboard() {
     }
   }
 
-  async function getUserTrails() {
+  async function getUserTrails(data?: GetUserTrailsParams) {
     try {
-      // TODO: Passar params take para pegar no máximo 3
-      const response = await api.user.trail.listTrailsFromUser();
+      const response = await api.user.trail.listTrailsFromUser({
+        ...(data ? {
+          skip: data.skip || 0,
+          take: data.take || 3
+        } : {
+          skip: 0,
+          take: 3
+        })
+      });
 
-      setUserTrails(response.data);
+      setUserTrails([...response.data]);
 
       return {
         data: response.data
@@ -130,22 +133,18 @@ export function Dashboard() {
       })
     }
   }
-  
 
   async function disableUserTrail(trail_id: string) {
     try {
-      disableUserTrailLoading.changeToTrue()
+      setDisableUserTrailUniqLoading(trail_id);
       
-      const trailIndex = filteredUserTrails.findIndex(trail => trail.id === trail_id);
+      const trailIndex = userTrails.findIndex(trail => trail.id === trail_id);
 
       if(trailIndex !== -1) {
-        const newUserTrails = [...filteredUserTrails];
-
-        newUserTrails[trailIndex].user_trail.enabled = false;
         
-        setUserTrails(newUserTrails);
-
         await api.user.trail.changeEnabled(trail_id);
+
+        await getUserTrails()
 
 
         const { data: trail } = await api.global.trail.getInfo({
@@ -154,7 +153,10 @@ export function Dashboard() {
           }
         });
 
-        setOtherTrails([trail, ...otherTrails]);
+
+        if(otherTrails.length < 6) {
+          setOtherTrails([trail, ...otherTrails]);
+        }
       }
     } catch (error) {
       addToast({
@@ -163,7 +165,7 @@ export function Dashboard() {
         description: 'Ocorreu um erro ao disabilitar a trilha, tente novamente mais tarde.'
       })
     } finally {
-      disableUserTrailLoading.changeToFalse()
+      setDisableUserTrailUniqLoading(null)
     }
   }
 
@@ -171,13 +173,12 @@ export function Dashboard() {
     try {
       destroyOtherTrailLoading.changeToTrue()
 
-      const filteredOtherTrails = otherTrails.filter(trail => trail.id !== trail_id);
-
-      setOtherTrails(filteredOtherTrails);
-
       await api.admin.trail.delete({
         trail_id
       })
+
+
+      await getTrails()
 
     } catch {
       addToast({
@@ -200,29 +201,43 @@ export function Dashboard() {
 
       setOtherTrails(response.data);
 
-      return {
-        data: response.data
-      }
-    } catch (error: any) {
-      return {
-        error: error as ApiError
-      }
+    } catch (error) {
+      addToast({
+        appearance: 'error',
+        title: 'Erro ao listar trilhas',
+        description: 'Ocorreu um erro ao listar as trilhas, tente novamente mais tarde.'
+      })
+    }
+  }
+
+  async function getHistory() {
+    try {
+      const { data: _history } = await api.global.history.show();
+
+
+      setHistory(_history)
+
+    } catch (error) {
+      addToast({
+        appearance: 'error',
+        title: 'Erro ao carregar histórico',
+        description: 'Ocorreu um erro ao carregar o histórico, tente novamente mais tarde.'
+      })
     }
   }
 
   async function initializePage() {
-    const userTrails = await getUserTrails();
-    const trails = await getTrails();
+    await getUserTrails();
+    await getTrails();
+    await getHistory();
 
-    if(userTrails && trails) {
-      userTrailLoading.changeToFalse();
-    }
+    userTrailLoading.changeToFalse();
   }
 
   useEffect(() => {
     initializePage();
   }, []);
-  
+
   return (
     <Cover 
       hasLoading={userTrailLoading.state}
@@ -241,21 +256,21 @@ export function Dashboard() {
             </S.Welcome>
 
             {/* TODO - create a history api */}
-            <S.LastClasse to="#">
-              <div className="last_classe_information">
-                <img src={DEFAULT_TRAIL_IMAGE} alt="a" />
+            <S.LastLesson to={history?.redirect || '#'}>
+              <div className="last_lesson_information">
+                <img src={history?.trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt="a" />
                 <div>
-                  <h2 className="title">Entendendo const/let/var</h2>
-                  <span className="trail_name">Javascript</span>
+                  <h2 className="title">{history?.lesson.name}</h2>
+                  <span className="trail_name">{history?.playlist.name}</span>
                 </div>
               </div>
               <strong>
-                Continuar Assistindo
+                {history?.auto_generated ? 'Recomendamos para você' : 'Continuar Assistindo'}
                 <span>
                   <IoPlaySharp />
                 </span>
               </strong>
-            </S.LastClasse>
+            </S.LastLesson>
 
             <div className="line_separator" />
 
@@ -267,14 +282,16 @@ export function Dashboard() {
                 )}
               </header>
               <S.MyTrailsContainer>
-                {filteredUserTrails.map((trail) => (
-                  <S.MyTrail to={`/trail/${trail.name}`} key={trail.id}>
+                {userTrails.map((trail) => (
+                  <S.MyTrail to={`/trail/${trail.slug}`} key={trail.id}>
                     <header>
                       <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
                       <Button  
-                        disabled={disableUserTrailLoading.state}
+                        loadingType='circle'
+                        isLoading={disableUserTrailUniqLoading === trail.id}
                         onClick={(event) => {
                           event.preventDefault();
+
                           disableUserTrail(trail.id);
                         }} 
                       >
@@ -287,7 +304,7 @@ export function Dashboard() {
                   </S.MyTrail>
                 ))}
               </S.MyTrailsContainer>
-              {filteredUserTrails.length === 0 && !userTrailLoading.state && (
+              {userTrails.length === 0 && !userTrailLoading.state && (
                 <NoContent />
               )}
             </S.MyTrailsSection>
@@ -312,12 +329,12 @@ export function Dashboard() {
 
                     <div className="trail_information_container">
                       <Link 
-                        to={`/trail/${parseToSlugLowerCase(trail.name)}`} className="trail_information"
+                        to={`/trail/${trail.slug}`} className="trail_information"
                       >
                         <h2 className="title">{trail.name}</h2>
 
                         <span>{trail._count.playlists} playlists</span>
-                        <span>{trail._count.classes} aulas</span>
+                        <span>{trail._count.lessons} aulas</span>
                       </Link>
 
                       <div className="trail_actions">
@@ -332,7 +349,7 @@ export function Dashboard() {
                                     styleType='quaternary' 
                                     onClick={() => addTrailToMyTrails(trail.id)}
                                   >
-                                    <span>Adicionar as minhas trilhas</span>
+                                    <span>Adicionar a "Minhas trilhas"</span>
                                     <Lordicon icon='addCard' trigger='hover' size={40} />
                                   </Button>
                                   {isSubAdmin && (
@@ -360,7 +377,7 @@ export function Dashboard() {
                             
                         <Button 
                           onClick={() => 
-                            navigate(`/trail/${parseToSlugLowerCase(trail.name)}`)
+                            navigate(`/trail/${trail.slug}`)
                           }
                         >
                           <Lordicon 
@@ -381,35 +398,21 @@ export function Dashboard() {
                 </S.NoContent>
               )}
             {otherTrails.length === 6 && (
-              <div style={{
-                position: 'relative',
-                zIndex: 3,
-                top: '-20px',
-              }}>
-                <Tooltip showIcon={false} title='Ver mais' >
-                  <Button
-                    style={{
-                      boxShadow: `2px 2px 10px ${SHADOW_COLORS.BLACK_OPACITY_10}, -2px -2px 10px ${SHADOW_COLORS.BLACK_OPACITY_10}`,
-                    }}
-                    className="see_more_trails"
-                    onClick={() => seeMoreTrailsModal.handleOpen()}
-                  >
-                    <GoPlus />
-                  </Button>
-                </Tooltip>
-              </div>
+        
+                <ModalContainer 
+                  triggerContent={<MdRefresh />} 
+                  content={
+                    <SeeMoreTrails 
+                      trailsCache={trailsCache} 
+                      setTrailsCache={setTrailsCache}  
+                    />
+                  }
+                />
             )}
             </S.OtherTrailsSection>
           </S.RightContent>
 
         </S.Content>
-
-        <SeeMoreTrails 
-          isOpen={seeMoreTrailsModal.state}
-          handleClose={seeMoreTrailsModal.handleClose}
-          trails={otherTrails}
-        />
-
       </S.Container>
     </Cover>
   );

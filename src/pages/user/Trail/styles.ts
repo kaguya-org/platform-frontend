@@ -14,8 +14,9 @@ export const Content = styled.div`
 
 export const MainContent = styled.main`
   display: flex;
-  gap: 64px;
-
+  flex-wrap: wrap;
+  gap: 30px;
+  
   margin-top: 32px; 
 `;
 
@@ -26,7 +27,7 @@ export const TrailInfoContainer = styled.aside`
   gap: 24px;
 
   width: 100%;
-  max-width: 920px;
+  max-width: 820px;
   height: min-content;
 `;
 
@@ -81,6 +82,7 @@ export const TrailInfo = styled.div`
 
   .trail_info_header {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.6rem;
 
     width: 100%;
@@ -93,27 +95,25 @@ export const TrailInfo = styled.div`
     
     .trail_name_and_user_action {
       display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      flex: 1;
       justify-content: space-between;
 
-      height: max-content;
-      width: 100%;
 
       .trail_title {
         font-size: 2.6rem;
         font-family: var(--second-font);
-      }
-
-      .trail_title {
-        margin-bottom: 1.2rem;
-        white-space: nowrap;
-          
+        margin-bottom: .8rem;
         span {
           color: var(--second-color);
           margin-left: 0.4rem;
         }
       }
 
+
       button {
+        margin-left: 15px;
         svg {
           width: 2.2rem;
           height: 2.2rem;
@@ -204,7 +204,7 @@ export const PlayList = styled(Link)`
         font-size: 1.8rem;
       }
 
-      span.playlist_classes_total {
+      span.playlist_lessons_total {
         font-size: 1.4rem;
         color: ${FONTS_COLORS.SECONDARY}  
       }
@@ -229,7 +229,7 @@ export const PlayList = styled(Link)`
           font-size: 1.6rem;
         }
 
-        span.playlist_classes_total {
+        span.playlist_lessons_total {
           margin-top: 0.4rem;
           font-size: 1.2rem;
         }
@@ -357,7 +357,7 @@ export const Exercicie = styled.div`
 
 export const OtherTrailInfo = styled.section`
   width: 100%;
-
+  flex: 1;
   header {
     margin-bottom: 0.8rem;
   }

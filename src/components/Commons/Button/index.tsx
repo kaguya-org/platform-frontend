@@ -11,6 +11,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   isLoading?: boolean;
   styleType?: 'primary' | 'secondary' | 'ternary' | 'quaternary';
   loadingSize?: number;
+  loadingType?: 'circle' | 'square';
   iconConfig?: {
     icon?: React.ReactElement<IconType>;
     isSide?: 'right' | 'left';
@@ -22,6 +23,7 @@ export const Button: React.FC<ButtonProps> = ({
   isLoading, 
   styleType = 'primary',
   loadingSize,
+  loadingType = 'square',
   iconConfig,
   type,
   ...rest
@@ -35,7 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...rest}
     >
       {isLoading ? (
-        <Loading size={loadingSize} type="square" />         
+        <Loading size={loadingSize} type={loadingType} />         
       ) : (
         <>
         {iconConfig && iconConfig.isSide === 'left' && (

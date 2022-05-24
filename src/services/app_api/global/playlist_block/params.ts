@@ -4,11 +4,11 @@ export type ListBlocksParams = {
   }
 }
 
-export type ShowClasseParams = {
+export type ShowLessonParams = {
   query?: {
     name: string;
     block_id: string;
-    classe_id?: string;
+    lesson_id?: string;
   }
 }
 

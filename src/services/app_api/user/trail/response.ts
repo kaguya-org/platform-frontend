@@ -13,6 +13,7 @@ export type UserTrail = {
 export type ListTrailFromUserResponse = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   avatar: string | null;
   avatar_url: string | null;
@@ -23,7 +24,7 @@ export type ListTrailFromUserResponse = {
   _count: {
     playlists: number;
     users: number;
-    classes: number;
+    lessons: number;
   };
 
   user_trail: UserTrail;
