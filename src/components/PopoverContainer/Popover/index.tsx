@@ -5,7 +5,7 @@ import * as S from './styles';
 export type PopoverHandles = {
     openPopover: () => void;
     closePopover: () => void;
-    changePopover: () => void;
+    togglePopover: () => void;
     contains: (target: HTMLElement | null) => boolean;
 };
 
@@ -13,26 +13,26 @@ type PopoverProps = {
     content: string | JSX.Element;
 } & HtmlHTMLAttributes<HTMLDivElement>;
 
-const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ content, id }, ref) => {
-
-    const isAnimate = useBoolean(false);
-    const isOpen = useBoolean(false);
+const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ content }, ref) => {
+    const fadeIn = useBoolean(false);
+    const open = useBoolean(false);
     const popoverRef = useRef<HTMLElement | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     
     const openPopover = () => {
-        isAnimate.changeToTrue();
-        isOpen.changeToTrue();
+        fadeIn.changeToTrue();
+        open.changeToTrue();
     }
     
     const closePopover = (force?: boolean) => {
         if (force) {
-            isOpen.changeToFalse();
+            open.changeToFalse();
         }
-        isAnimate.changeToFalse();
+        fadeIn.changeToFalse();
     }
 
-    function changePopover() {
-        if(isOpen.state) {
+    function togglePopover() {
+        if(open.state) {
             closePopover(true)
         } else {
             openPopover();
@@ -46,22 +46,28 @@ const PopoverFC: ForwardRefRenderFunction<PopoverHandles, PopoverProps> = ({ con
     useImperativeHandle(ref, () => ({
         closePopover,
         openPopover,
-        changePopover,
+        togglePopover,
         contains,
-    }), [contains, openPopover, closePopover, changePopover]);
+    }), [contains, openPopover, closePopover, togglePopover]);
 
+    const timeForComponentAnimationEnding = 310
+    
     useEffect(() => {
-        if(!isAnimate.state) {
-            setTimeout(() => {
-                closePopover(true);
-            }, 310)
+        if(timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
         }
-    }, [isAnimate.state])
+
+        if(!fadeIn.state) {
+            timeoutRef.current = setTimeout(() => {
+                closePopover(true);
+            }, timeForComponentAnimationEnding)
+        }
+    }, [fadeIn.state])
 
     return (
         <>
-            {isOpen.state && (
-                <S.Container ref={popoverRef}  id={id} fadeout={!isAnimate.state} >
+            {open.state && (
+                <S.Container ref={popoverRef} fadeout={!fadeIn.state} >
                     {content}
                 </S.Container>
             )}

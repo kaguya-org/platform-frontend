@@ -31,12 +31,12 @@ const PopoverContainer: React.FC<PopoverProps> = ({ content, triggerContent, ...
     return (
         <Container {...rest}>
             <Button 
-                onClick={() => popoverRef.current?.changePopover()}  
+                onClick={() => popoverRef.current?.togglePopover()}  
                 styleType='ternary'
             >
                 {triggerContent}
             </Button>
-            <Popover id="popover"  ref={popoverRef} content={content} />
+            <Popover ref={popoverRef} content={content} />
         </Container>
     );
 }
