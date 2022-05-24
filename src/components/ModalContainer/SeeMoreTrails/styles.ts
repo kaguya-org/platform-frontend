@@ -10,8 +10,9 @@ export const Container = styled.div`
   
   display: flex;
   flex-direction: column;
+  
 
-  margin: 6.4rem auto 0;
+  margin: 0 auto;
 
 `;
 
@@ -24,8 +25,6 @@ export const TrailsSection = styled.section`
   padding: 3.2rem;
 
   width: 100%;
-
-  background: ${BACKGROUND.SECONDARY};
 
   > header {
     display: flex;
@@ -74,8 +73,9 @@ export const TrailsSection = styled.section`
 `;
 
 export const TrailsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.2rem;
 `;
 
