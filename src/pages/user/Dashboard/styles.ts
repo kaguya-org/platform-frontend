@@ -34,7 +34,7 @@ export const NoContent = styled.div<NoContentProps>`
 
 export const Content = styled.main`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
 
   width: 100%;
 
@@ -47,9 +47,9 @@ export const Content = styled.main`
 
 export const LeftContent = styled.div`
   width: 100%;
-  max-width: 980px;
+  max-width: 100%;
   height: 100%;
-  padding: 30px 24px;
+  padding: 30px 24px 30px 64px;
 `;
 
 export const Welcome = styled.section`
@@ -266,7 +266,7 @@ export const MyTrail = styled(Link)`
 `;
 
 export const RightContent = styled.section`
-  max-width: 480px;
+  max-width: 580px;
   width: 100%;
   @media screen and (max-width: 1150px) {
     display: none;
