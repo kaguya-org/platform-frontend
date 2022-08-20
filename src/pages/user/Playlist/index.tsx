@@ -1,6 +1,7 @@
 import { Cover } from '@/components/Cover';
 import { TabContainer, TabItem } from '@/components/Tab';
 import { useToast } from '@/hooks/useToast';
+import { LessonState } from '@/services/app_api/global/types';
 import { modifyYoutubeUrl } from '@/utils/formatText';
 import { useEffect, useState } from 'react';
 import {
@@ -18,7 +19,7 @@ import {
   PagePath
 } from '../../../components';
 import { useBoolean } from '../../../hooks';
-import { api, GlobalType } from '../../../services/api';
+import { api, baseApi, GlobalType } from '../../../services/api';
 import * as S from './styles';
 
 type Params = {
@@ -38,16 +39,9 @@ export function Playlist() {
   const { addToast } = useToast();
   const navigate_to = useNavigate();
 
-  const isLiked = useBoolean(true);
-
   const get_current_lesson_loading = useBoolean(true);
   
   const [blocks, setBlocks] = useState<GlobalType.Block[]>([]);
-  
-  const liked = useBoolean(false);
-  const disliked = useBoolean(false);
-  const [likes, setLikes] = useState<number>(0);
-  const [dislikes, setDislikes] = useState<number>(0);
   
   const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse | null>(null);
   const [trail, setTrail] = useState<GlobalType.TrailsResponse | null>(null);
@@ -74,7 +68,7 @@ export function Playlist() {
       if(!currentLesson) {
         throw new Error('No lesson found')
       }
-      console.log('getCurrentLesson:', currentLesson.id)
+
       await getCurrentLesson(currentLesson.id)
 
       setCurrentBlock(currentBlock);
@@ -134,9 +128,6 @@ export function Playlist() {
             }
           })
 
-          setLikes(lesson._count.likes);
-          setDislikes(lesson._count.dislikes);
-
           setCurrentLesson(lesson);
         }
       } catch {
@@ -177,6 +168,76 @@ export function Playlist() {
     return `${base_url}/${block_url}/${lesson_url}`;
   }
 
+  async function handleLikeDislike(state: 'like' | 'dislike' | 'none') {
+    try {
+      const states: Record<string, LessonState> = {
+        like: 'liked',
+        dislike: 'disliked',
+        none: 'none'
+      };
+
+      await baseApi.post('/likes', {
+        lesson_id: currentLesson?.id,
+        state
+      });
+
+      setCurrentLesson(prevState => {
+        if(prevState) {
+          let likes = prevState._count.likes;
+          let dislikes = prevState._count.dislikes;
+
+          switch (prevState.state) {
+            case 'disliked':
+              if(states[state] === 'liked') {
+                dislikes -= 1;
+                likes += 1;
+              }
+  
+              if(states[state] === 'none') {
+                dislikes -= 1;
+              }
+              break;
+            case 'liked':
+              if(states[state] === 'disliked') {
+                likes -= 1;
+                dislikes += 1;
+              }
+              
+              if(states[state] === 'none') {
+                likes -= 1;
+              }
+              break;
+            case 'none':
+              if(states[state] === 'liked') {
+                likes += 1;
+              }
+  
+              if(states[state] === 'disliked') {
+                dislikes += 1;
+              }
+              break;
+            default:
+              break;
+          }
+
+          return {
+            ...prevState,
+            state: states[state],
+            _count: {
+              ...prevState._count,
+              likes,
+              dislikes,
+            }
+          }
+        }
+
+        return prevState;
+      })
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
+
   return (
     <Cover
       hasLoading={get_current_lesson_loading.state}
@@ -215,21 +276,37 @@ export function Playlist() {
                 <div className="lesson_counts_container">
                   <span className="views_count">{currentLesson?._count?.views} visualizações</span>
 
-                  <div className="likes_deslikes">
-                    <span
-                      className={isLiked ? 'lesson_liked' : ''}>
-                        {isLiked ? <AiFillLike /> : <AiOutlineLike />} 
+                  <div className="likes_dislikes">
+                    {currentLesson?.state === 'liked' ? (
+                      <button className={'lesson_liked'} onClick={() => handleLikeDislike('none')}>
+                        {<AiFillLike />} 
                         <span>
-                          {likes}
+                          {currentLesson._count.likes}
                         </span>
-                    </span>
-                    <span
-                      className={!isLiked ? 'lesson_desliked' : ''}>
-                        {!isLiked ? <AiFillDislike /> : <AiOutlineDislike />} 
+                      </button>
+                    ) : (
+                      <button onClick={() => handleLikeDislike('like')}>
+                        <AiOutlineLike />
                         <span>
-                          {dislikes}
+                          {currentLesson?._count.likes}
                         </span>
-                    </span>
+                      </button>
+                    )}
+                    {currentLesson?.state === 'disliked' ? (
+                      <button className={'lesson_disliked'}  onClick={() => handleLikeDislike('none')}>
+                        {<AiFillDislike />}
+                        <span>
+                          {currentLesson._count.dislikes}
+                        </span>
+                      </button>
+                    ) : (
+                      <button onClick={() => handleLikeDislike('dislike')}>
+                        <AiOutlineDislike />
+                        <span>
+                          {currentLesson?._count.dislikes}
+                        </span>
+                      </button>
+                    )}
                   </div>
                 </div>
               </S.CurrentLesson>

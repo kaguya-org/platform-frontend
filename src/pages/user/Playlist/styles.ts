@@ -62,12 +62,12 @@ export const CurrentLesson = styled.section`
       font-size: 1.6rem;
     }
 
-    > div.likes_deslikes {
+    > div.likes_dislikes {
       display: flex;
       align-items: center;
       gap: 24px;
 
-      span {
+      button {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -97,7 +97,7 @@ export const CurrentLesson = styled.section`
           }
         }
 
-        &.lesson_desliked {
+        &.lesson_disliked {
           svg path {
             color: ${COLORS.SECONDARY};
           }

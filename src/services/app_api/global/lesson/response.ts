@@ -1,3 +1,4 @@
+export type LessonState = 'liked' | 'disliked' | 'none';
 
 export type ShowLessonResponse = {
 	id: string;
@@ -12,5 +13,6 @@ export type ShowLessonResponse = {
 		dislikes: number;
 		likes: number;
 		views: number;	
-	}
+	};
+	state: LessonState;
 };
