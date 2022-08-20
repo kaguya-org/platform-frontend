@@ -16,7 +16,7 @@ import {
   UserType
 } from '@/services/api';
 import { useEffect, useState } from 'react';
-import { BiDotsHorizontalRounded, IoPlaySharp, MdRefresh } from 'react-icons/all';
+import { BiDotsHorizontalRounded, BiPlus, IoPlaySharp } from 'react-icons/all';
 import { Lordicon } from 'react-lordicon';
 import { Link, useNavigate } from 'react-router-dom';
 import * as S from './styles';
@@ -261,7 +261,7 @@ export function Dashboard() {
                 <img src={history?.trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt="a" />
                 <div>
                   <h2 className="title">{history?.lesson.name}</h2>
-                  <span className="trail_name">{history?.playlist.name}</span>
+                  <span className="trail_name">{history?.playlist.name}</span>''
                 </div>
               </div>
               <strong>
@@ -400,7 +400,12 @@ export function Dashboard() {
             {otherTrails.length === 6 && (
         
                 <ModalContainer 
-                  triggerContent={<MdRefresh />} 
+                  triggerContent={
+                    <>
+                      <BiPlus />
+                      Ver mais
+                    </>
+                  } 
                   content={
                     <SeeMoreTrails 
                       trailsCache={trailsCache} 
