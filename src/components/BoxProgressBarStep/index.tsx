@@ -9,9 +9,10 @@ type Props = {
   isCurrent?: boolean;
 
   children?: ReactNode;
+  buttonProps?: React.HTMLAttributes<HTMLButtonElement>;
 };
 
-export function BoxProgressBarStep({isCurrent, isCompleted, children}: Props) {
+export function BoxProgressBarStep({isCurrent, isCompleted, buttonProps, children}: Props) {
   return (
     <Container 
       isCompleted={isCompleted} 
@@ -20,7 +21,7 @@ export function BoxProgressBarStep({isCurrent, isCompleted, children}: Props) {
       <ProgressBarStep 
         isCompleted={isCompleted} 
         isCurrent={isCurrent}
-        type="button" 
+        {...buttonProps}
       />
       {children}
     </Container>
