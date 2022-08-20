@@ -155,8 +155,14 @@ export const Block = styled.button`
     align-items: flex-start;
     flex-direction: column;
 
-    h2.block_title {
+    .block_title {
       font-size: 1.8rem;
+      text-align: left;
+      font-weight: normal;
+
+      &.selected {
+        font-weight: bold;
+      }
     }
 
     span.block_lessons_count {
