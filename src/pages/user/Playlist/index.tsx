@@ -1,6 +1,7 @@
 import { Cover } from '@/components/Cover';
 import { TabContainer, TabItem } from '@/components/Tab';
 import { useToast } from '@/hooks/useToast';
+import { Block, Lesson } from '@/services/app_api/global/playlist_block/response';
 import { LessonState } from '@/services/app_api/global/types';
 import { modifyYoutubeUrl } from '@/utils/formatText';
 import { useEffect, useState } from 'react';
@@ -41,12 +42,12 @@ export function Playlist() {
 
   const get_current_lesson_loading = useBoolean(true);
   
-  const [blocks, setBlocks] = useState<GlobalType.Block[]>([]);
+  const [blocks, setBlocks] = useState<Block[]>([]);
   
   const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse | null>(null);
   const [trail, setTrail] = useState<GlobalType.TrailsResponse | null>(null);
 
-  const [currentBlock, setCurrentBlock] = useState<GlobalType.Block | null>(null);
+  const [currentBlock, setCurrentBlock] = useState<Block | null>(null);
   const [currentLesson, setCurrentLesson] = useState<GlobalType.ShowLessonResponse | null>(null);
 
   async function getBlocks(playlist: GlobalType.ShowPlaylistResponse, get_trail: GlobalType.TrailsResponse) {
@@ -57,23 +58,51 @@ export function Playlist() {
         }
       });
 
-      const currentBlock = response.data[0]
+      const blocks = response.data;
 
-      if(!currentBlock) {
-        throw new Error('No block found')
+      setBlocks(blocks);
+
+      if(block_slug) {
+        const currentBlock = blocks.find(block => block.slug === block_slug);
+
+        if(currentBlock) {
+          setCurrentBlock(currentBlock);
+        }
+
+        if(lesson_slug) {
+          const currentLesson = currentBlock?.lessons.find(lesson => lesson.slug === lesson_slug);
+  
+          if(currentLesson) {
+            setCurrentLesson(currentLesson);
+          }
+        }
+
+        return;
       }
 
-      const currentLesson = response.data[0].lessons[0]
+      if(!block_slug && !lesson_slug) {
+        function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): number {
+          let length = array.length;
+          while (length--) {
+            if (predicate(array[length], length, array))
+              return length;
+          }
+          return -1;
+        }
 
-      if(!currentLesson) {
-        throw new Error('No lesson found')
+        const b = blocks.find(block => {
+          const a = findLastIndex(block.lessons, lesson => lesson.completed);
+          
+          if(blocks[a + 1] || blocks[a]) {
+            console.log(a);
+            return true;
+          }
+          return false;
+        });
+
+        console.log({b});
       }
 
-      await getCurrentLesson(currentLesson.id)
-
-      setCurrentBlock(currentBlock);
-
-      setBlocks(response.data);
     } catch (error) {
       addToast({
         appearance: 'error',
@@ -150,7 +179,7 @@ export function Playlist() {
     getCurrentLesson();
   }, [block_slug, lesson_slug]);
 
-  function handleSetCurrentBlock(block: GlobalType.Block) {
+  function handleSetCurrentBlock(block: Block) {
     setCurrentBlock(prevState => {
       if(prevState?.id === block.id) {
         return null;
@@ -160,7 +189,7 @@ export function Playlist() {
     })
   }
 
-  function setCurrentPath(block: GlobalType.Block, lesson: GlobalType.ShowLessonResponse) {
+  function setCurrentPath(block: Block, lesson: GlobalType.ShowLessonResponse) {
     const base_url = `/trail/${trail?.slug}/playlist/${playlist?.slug}`;
     const block_url = `block/${block.slug}`;
     const lesson_url = `lesson/${lesson.slug}`;
@@ -238,6 +267,41 @@ export function Playlist() {
     }
   }
 
+  async function handleCompleteLesson(blockParam: Block, lessonParam: Lesson) {
+    try {
+      function mappedBlocks(blocks: Block[]) {
+        return blocks.map(block => {
+          if(block.id === blockParam.id) {
+            return {
+              ...block,
+              lessons: block.lessons.map(lesson => {
+                if(lesson.id === lessonParam.id) {
+                  return {
+                    ...lesson,
+                    completed: !lesson.completed
+                  }
+                }
+
+                return lesson;
+              })
+            }
+          }
+
+          return block;
+        });
+      }
+
+      setBlocks(mappedBlocks);
+
+      await baseApi.post('/lessons/change-complete-lesson', {
+        lesson_id: lessonParam.id
+      });
+
+    } catch (error: any) {
+      console.log({error})
+    }
+  }
+
   return (
     <Cover
       hasLoading={get_current_lesson_loading.state}
@@ -281,14 +345,14 @@ export function Playlist() {
                       <button className={'lesson_liked'} onClick={() => handleLikeDislike('none')}>
                         {<AiFillLike />} 
                         <span>
-                          {currentLesson._count.likes}
+                          {currentLesson?._count.likes}
                         </span>
                       </button>
                     ) : (
                       <button onClick={() => handleLikeDislike('like')}>
                         <AiOutlineLike />
                         <span>
-                          {currentLesson?._count.likes}
+                          {currentLesson?._count?.likes}
                         </span>
                       </button>
                     )}
@@ -296,14 +360,14 @@ export function Playlist() {
                       <button className={'lesson_disliked'}  onClick={() => handleLikeDislike('none')}>
                         {<AiFillDislike />}
                         <span>
-                          {currentLesson._count.dislikes}
+                          {currentLesson?._count.dislikes}
                         </span>
                       </button>
                     ) : (
                       <button onClick={() => handleLikeDislike('dislike')}>
                         <AiOutlineDislike />
                         <span>
-                          {currentLesson?._count.dislikes}
+                          {currentLesson?._count?.dislikes}
                         </span>
                       </button>
                     )}
@@ -330,7 +394,7 @@ export function Playlist() {
                 >
                   <S.Block onClick={() => handleSetCurrentBlock(block)}>
                     <div className="block_info">
-                      <h2 className="block_title">{block.name}</h2>
+                      <h2 className={`block_title ${block.id === currentBlock?.id && 'selected'}`}>{block.name}</h2>
                       <span className="block_lessons_count">
                         {block.lessons.length} 
                         {block.lessons.length === 1 ? ' aula' : ' aulas'}
@@ -348,7 +412,11 @@ export function Playlist() {
                     <ul className="lessons">
                       {block.lessons.map(lesson => (
                         <BoxProgressBarStep
+                          buttonProps={{
+                            onClick: () => handleCompleteLesson(block, lesson)
+                          }}
                           key={lesson.id}
+                          isCompleted={lesson.completed}
                           isCurrent={lesson.id === currentLesson?.id}
                         > 
                           <S.Lesson
