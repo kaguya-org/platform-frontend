@@ -90,17 +90,27 @@ export function Playlist() {
           return -1;
         }
 
-        const b = blocks.find(block => {
-          const a = findLastIndex(block.lessons, lesson => lesson.completed);
+        const lessons = blocks.map(block => block.lessons).flat()
           
-          if(blocks[a + 1] || blocks[a]) {
-            console.log(a);
-            return true;
-          }
-          return false;
-        });
+        const lastLessonIndex = findLastIndex(lessons, lesson => lesson.completed);
 
-        console.log({b});
+        const lastLesson = lessons[lastLessonIndex + 1] || lessons[lastLessonIndex]
+
+        if(lastLesson) {
+          const lastBlock = blocks.find(block => block.id === lastLesson.block_id)
+
+          if(lastBlock) {
+            setCurrentBlock(lastBlock)
+            setCurrentLesson(lastLesson)
+            
+            const path = setCurrentPath({
+              block: lastBlock, 
+              lesson: lastLesson,
+            })
+
+            navigate_to(path)
+          }
+        }
       }
 
     } catch (error) {
@@ -189,8 +199,18 @@ export function Playlist() {
     })
   }
 
-  function setCurrentPath(block: Block, lesson: GlobalType.ShowLessonResponse) {
-    const base_url = `/trail/${trail?.slug}/playlist/${playlist?.slug}`;
+  function setCurrentPath({
+    block,
+    lesson,
+    playlist,
+    trail
+  }: {
+    block: Block, 
+    lesson: GlobalType.ShowLessonResponse,
+    trail?: GlobalType.Trail,
+    playlist?: GlobalType.ShowPlaylistResponse,
+  }) {
+    const base_url = `/trail/${trail?.slug || trail_slug}/playlist/${playlist?.slug || playlist_slug}`;
     const block_url = `block/${block.slug}`;
     const lesson_url = `lesson/${lesson.slug}`;
 
@@ -421,7 +441,7 @@ export function Playlist() {
                         > 
                           <S.Lesson
                             $isCurrent={lesson.id === currentLesson?.id}
-                            to={setCurrentPath(block, lesson)}
+                            to={setCurrentPath({ trail, playlist, block, lesson})}
                           >
                             {lesson.name}
                           </S.Lesson>
