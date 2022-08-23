@@ -1,9 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
-import { 
-  FONTS_COLORS,
-  FONTS,
+import {
   BACKGROUND,
-  COLORS
+  COLORS, FONTS, FONTS_COLORS
 } from '../theme';
 
 export const GlobalStyle = createGlobalStyle`
@@ -63,12 +61,20 @@ export const GlobalStyle = createGlobalStyle`
 
   body, html, #root {
     position: relative;
-
     font-size: 62.5%;
 
     background: ${BACKGROUND.PRIMARY};
 
     height: 100vh;
+  }
+  body, html {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  #root {
+    width: 100%;
+    max-width: 1470px;
   }
   
   input:-webkit-autofill,

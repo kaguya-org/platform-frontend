@@ -1,14 +1,14 @@
-import { SHADOW_COLORS } from '@/theme';
 import { useEffect, useRef } from 'react';
 import { Button } from '../Commons/Button';
 import { Modal, ModalHandles } from './Modal';
 
 type ModalProps = {
     content: string | JSX.Element;
+    type: 'primary' | 'secondary' | 'ternary' | 'quaternary' | 'quiternary';
     triggerContent: string | JSX.Element;
 };
 
-const ModalContainer: React.FC<ModalProps> = ({ content, triggerContent }) => {
+const ModalContainer: React.FC<ModalProps> = ({ content, type, triggerContent }) => {
     const modalRef = useRef<ModalHandles>(null);
 
     const callEvent = (event: MouseEvent) => {
@@ -31,6 +31,7 @@ const ModalContainer: React.FC<ModalProps> = ({ content, triggerContent }) => {
     return (
         <>
             <Button
+                styleType={type}
                 onClick={() => modalRef.current?.toggleModal()}
             >
                 {triggerContent}

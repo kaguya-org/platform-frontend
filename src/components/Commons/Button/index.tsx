@@ -1,15 +1,14 @@
-import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { IconType } from 'react-icons/lib';
 import { Loading } from '../..';
 
-import { 
-  ContainerButton 
+import {
+  ContainerButton
 } from './styles';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   isLoading?: boolean;
-  styleType?: 'primary' | 'secondary' | 'ternary' | 'quaternary';
+  styleType?: 'primary' | 'secondary' | 'ternary' | 'quaternary' | 'quiternary';
   loadingSize?: number;
   loadingType?: 'circle' | 'square';
   iconConfig?: {

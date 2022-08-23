@@ -4,9 +4,11 @@ import { BACKGROUND, COLORS, FONTS_COLORS } from '../../../theme';
 export const Container = styled.header`
   position: fixed;
   top: 0;
-  left: 0;
-  background: linear-gradient(to left, ${BACKGROUND.TERNARY}, ${BACKGROUND.PRIMARY});
   width: 100%;
+  max-width: 1470px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to left, ${BACKGROUND.TERNARY}, ${BACKGROUND.PRIMARY});
 `;
 
 const appearFromLeft = keyframes`

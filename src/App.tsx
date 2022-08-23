@@ -1,4 +1,4 @@
-import { AppRoutes } from './routes';
+import { AppRoutes } from './pages/routes';
 import { GlobalStyle } from './styles/global';
 
 export function App() {

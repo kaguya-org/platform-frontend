@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
 type ButtonProps = {
-  styleType: 'primary' | 'secondary' | 'ternary' | 'quaternary'
-}
+  styleType: 'primary' | 'secondary' | 'ternary' | 'quaternary' | 'quiternary'
+} 
 export const ContainerButton = styled.button<ButtonProps>`
   background: #242731;
   color: var(--text-color);
@@ -28,6 +28,9 @@ export const ContainerButton = styled.button<ButtonProps>`
   ${props => props.styleType === 'quaternary' && css`
     padding: 0;
     background-color: transparent;
+  `}
+  ${props => props.styleType === 'quiternary' && css`
+    max-width: 200px;
   `}
 
   &:disabled {

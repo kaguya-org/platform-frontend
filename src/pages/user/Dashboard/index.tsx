@@ -398,8 +398,8 @@ export function Dashboard() {
                 </S.NoContent>
               )}
             {otherTrails.length === 6 && (
-        
                 <ModalContainer 
+                  type='quiternary'
                   triggerContent={
                     <>
                       <BiPlus />
