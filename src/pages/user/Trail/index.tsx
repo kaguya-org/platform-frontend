@@ -43,13 +43,11 @@ export function Trail() {
 
       setTrailInfo(trail);
 
-      console.log('sjahgdjhags', trail.user_trail)
       if(trail.user_trail && trail.user_trail.enabled) {
         userHasTrail.changeToTrue();
       }
 
     } catch (error) {
-      console.log(error);
     } finally {
       trailInfoLoading.changeToFalse();
     }
@@ -65,7 +63,6 @@ export function Trail() {
 
       setPlaylistsByTrail(response.data);
     } catch (error: any) {
-      console.log(error);
     } finally {
       playlistsByTrailLoading.changeToFalse();
     }
@@ -94,7 +91,6 @@ export function Trail() {
         }
       }
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -106,11 +102,9 @@ export function Trail() {
         userHasTrail.changeToFalse();
       }
     } catch (error) {
-      console.log(error);
     }
   }
 
-  console.log(userHasTrail.state)
 
   return (
     <Cover

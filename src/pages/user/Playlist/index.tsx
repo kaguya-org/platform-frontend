@@ -149,7 +149,6 @@ export function Playlist() {
         setPlaylist(response.data);
       }
     } catch (error: any) {
-      console.log(error);
     }
   }
 
@@ -283,7 +282,6 @@ export function Playlist() {
         return prevState;
       })
     } catch (error: any) {
-      console.log(error);
     }
   }
 
@@ -318,7 +316,6 @@ export function Playlist() {
       });
 
     } catch (error: any) {
-      console.log({error})
     }
   }
 

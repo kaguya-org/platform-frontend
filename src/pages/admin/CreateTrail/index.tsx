@@ -6,25 +6,19 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import {
-  AdminSideBar,
-  InputFile,
-  Input,
-  Button,
-  ContainerPage
+  AdminSideBar, Button,
+  ContainerPage, Input, InputFile
 } from '../../../components';
 
 import { useBoolean } from '../../../hooks';
 
-import { api, AdminType, GlobalType } from '../../../services/api';
+import { AdminType, api, GlobalType } from '../../../services/api';
 
 import { getValidationErrors } from '../../../utils/getValidationErrors';
 
-import { 
-  Content,
-  FormContainer,
-  AllTrailsContainer,
-  Trails,
-  Trail
+import {
+  AllTrailsContainer, Content,
+  FormContainer, Trail, Trails
 } from './styles';
 
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
@@ -62,7 +56,6 @@ export function CreateTrail() {
       const { id } = trailResponse.data;
 
       if(trailResponse.data && data.avatar) {
-        // console.log(data.avatar);
         const formData = new FormData();
         
         formData.append('trail_id', id);

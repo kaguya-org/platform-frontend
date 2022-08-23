@@ -3,15 +3,14 @@ import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';
 import { useRef, useState } from 'react';
-import { MdEmail, FaLock, FaUser, AiFillGithub, FcGoogle } from 'react-icons/all';
+import { AiFillGithub, FaLock, FaUser, FcGoogle, MdEmail } from 'react-icons/all';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import {
-  Header,
-  Input,
   Button,
-  ContainerPage
+  ContainerPage, Header,
+  Input
 } from '../../components';
 
 import { InputCheckbox } from '../../components';
@@ -84,7 +83,6 @@ export function Register() {
         appearance: 'error',
       })
 
-      console.log(error);
     } finally {
       loading.changeToFalse();
     }

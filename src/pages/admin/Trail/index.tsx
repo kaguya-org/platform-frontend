@@ -1,34 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { useModal } from '@tg0/react-modal';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { AxiosError } from 'axios';
-import { useParams, useHistory } from 'react-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { useHistory, useParams } from 'react-router';
 
 import {
-  AiFillEdit, 
-  FiAlertCircle, 
-  BsCheckCircle,
-  FiPlus,
+  AiFillEdit, BsCheckCircle, FiAlertCircle, FiPlus
 } from 'react-icons/all';
 
 import {
   AdminSideBar,
   ContainerPage,
   Input,
-  InputFile,
+  InputFile
 } from '../../../components';
 
 import {
-  Content,
-  FormContainer,
-  inputTrailName,
-  inputTrailDescription,
-  AllPlaylistTrailContainer,
-  Playlists,
-  Playlist,
-  PlaylistDraggable
+  AllPlaylistTrailContainer, Content,
+  FormContainer, inputTrailDescription, inputTrailName, Playlist,
+  PlaylistDraggable, Playlists
 } from './styles';
 
 import { PlaylistContainer } from './Partials/PlaylistContainer';
@@ -70,11 +62,9 @@ export function Trail() {
       setPlaylistsByTrail(playlistsByTrail);
     }
 
-    console.log(playlistsByTrail)
   }, [playlistsByTrail]);
 
   function handleUpdateTrailInfo(data: any) {
-    console.log(data);
   }
 
   useEffect(() => {

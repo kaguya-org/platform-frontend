@@ -1,6 +1,6 @@
-import { useBoolean } from '../hooks/useBoolean';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { UserType, kaguyaApiToken, baseApi, api } from '../services/api';
+import { useBoolean } from '../hooks/useBoolean';
+import { api, baseApi, kaguyaApiToken, UserType } from '../services/api';
 
 type AuthContextData = {
   user: UserType.User | null;
@@ -50,7 +50,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       };
     } catch(error) {
       signOut();
-      console.log(error);
     } finally {
       loading_page.changeToFalse();
     }
@@ -62,7 +61,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       
       setUser(response.data);
     } catch(error) {
-      console.log(error);
     } finally {
       return loading_page.changeToFalse();
     }

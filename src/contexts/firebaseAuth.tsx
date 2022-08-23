@@ -15,7 +15,6 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
   async function popupSignInWithGithub() {
     try {
       const response = await firebaseAuth.signInWithPopup(firebaseAuthConfig, providers.github.instace_provider);
-      console.log('popupSignInWithGithub: ', response)
 
     } catch {
       addToast({
@@ -29,7 +28,6 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
   async function popupSignInWithGoogle() {
     try {
       const response = await firebaseAuth.signInWithPopup(firebaseAuthConfig, providers.google.instace_provider);
-      console.log('popupSignInWithGoogle: ', response)
 
     } catch {
       addToast({
