@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BACKGROUND, COLORS, FONTS_COLORS } from '../../../theme';
+import { COLORS, FONTS_COLORS } from '../../../theme';
 
 type ContainerProps = {
   isError: boolean;
@@ -33,7 +33,7 @@ export const Container = styled.label<ContainerProps>`
     padding: 0.4rem;
     border-radius: 0.2rem;
 
-    background-color: ${BACKGROUND.WHITE};
+    background-color: #fff;
     border: 0.1rem solid gray;
 
     &::after{

@@ -1,17 +1,16 @@
 import { Cover } from '@/components/Cover';
 import { NoContent } from '@/components/NoContent';
+import Lordicon from '@/components/ReactLordicon';
 import { useEffect, useState } from 'react';
-import {
-  HiOutlineArrowNarrowRight
-} from 'react-icons/all';
-import Lordicon from 'react-lordicon';
-import { useParams } from 'react-router';
+import { BsDiscord } from 'react-icons/bs';
+import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
+import { useParams } from 'react-router-dom';
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 import {
   Button, Navbar, PagePath, ProgressBar
 } from '../../../components';
 import { useAuth, useBoolean } from '../../../hooks';
-import { api, GlobalType, UserType } from '../../../services/api';
+import { api, GlobalType } from '../../../services/api';
 import * as S from './styles';
 
 type LocationParams = {
@@ -29,7 +28,6 @@ export function Trail() {
   const playlistsByTrailLoading = useBoolean(true);
 
   const { trail_slug } = useParams<LocationParams>();
-  const [userTrail, setUserTrail] = useState<UserType.ListTrailFromUserResponse | null>(null);
   const [trailInfo, setTrailInfo] = useState<GlobalType.TrailsResponse | null>(null);
   const [playlistsByTrail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
 
@@ -43,13 +41,11 @@ export function Trail() {
 
       setTrailInfo(trail);
 
-      console.log('sjahgdjhags', trail.user_trail)
       if(trail.user_trail && trail.user_trail.enabled) {
         userHasTrail.changeToTrue();
       }
 
     } catch (error) {
-      console.log(error);
     } finally {
       trailInfoLoading.changeToFalse();
     }
@@ -65,7 +61,6 @@ export function Trail() {
 
       setPlaylistsByTrail(response.data);
     } catch (error: any) {
-      console.log(error);
     } finally {
       playlistsByTrailLoading.changeToFalse();
     }
@@ -94,7 +89,6 @@ export function Trail() {
         }
       }
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -106,11 +100,9 @@ export function Trail() {
         userHasTrail.changeToFalse();
       }
     } catch (error) {
-      console.log(error);
     }
   }
 
-  console.log(userHasTrail.state)
 
   return (
     <Cover
@@ -155,7 +147,16 @@ export function Trail() {
                         <Button 
                           isLoading={loadingRemoveTrail.state}
                           title={`Remover trilha`}
-                          onClick={() => disableUserTrail()}
+                          onClick={async () => {
+                            await disableUserTrail();
+                            playlistsByTrailLoading.changeToTrue()
+
+                            getTrailInfo().finally(() => {
+                              getPlaylistsByTrail().finally(() => {
+                                playlistsByTrailLoading.changeToFalse()
+                              })
+                            })
+                          }}
                         >
                           <Lordicon 
                             trigger='hover'
@@ -166,7 +167,16 @@ export function Trail() {
                         <Button 
                           isLoading={loadingAddTrail.state}
                           title="Adicionar trilha"
-                          onClick={createUserTrail}
+                          onClick={async () => { 
+                            await createUserTrail();  
+                            playlistsByTrailLoading.changeToTrue()
+
+                            getTrailInfo().finally(() => {
+                              getPlaylistsByTrail().finally(() => {
+                                playlistsByTrailLoading.changeToFalse()
+                              })
+                            })
+                          }}
                         >
                           <Lordicon 
                             trigger='hover'
@@ -177,76 +187,102 @@ export function Trail() {
                     </div>
                   </header>
                   <p className="trail_description">
-                    {trailInfo?.description}
+                    {`${trailInfo?.description}`}
                   </p>
+                  <p>
+                    <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }} /> Contém {trailInfo?._count.playlists} playlists e {trailInfo?._count.lessons} aulas no total.
+                  </p>
+                  {trailInfo?._count.users && trailInfo?._count.users <= 1 ? (
+                    <p>
+                      <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
+                    </p>
+                  ) : (
+                    <p>
+                      <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
+                    </p>
+                  )}
                 </S.TrailInfo>
               </S.PrincipalTrailInfo>
 
               <div className="line_separator"/>
+              <div style={{ 
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%'
+              }}>
+                <S.PlayListAndExerciciesContainer>
+                  {playlistsByTrailLoading.state ? (
+                    <Cover
+                      style={{
+                        position: 'relative',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                      }}
+                      hasLoading={playlistsByTrailLoading.state}
+                    />    
+                  
+                  ): (
+                    <>
 
-              <S.PlayListAndExerciciesContainer>
-                {playlistsByTrailLoading.state ? (
-                  <Cover
-                    style={{
-                      position: 'relative',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                    }}
-                    hasLoading={playlistsByTrailLoading.state}
-                  />    
-                 
-                ): (
-                  <>
-                    {playlistsByTrail.length >= 1 ? (
-                      playlistsByTrail.map((playlist, index) => (
-                        <S.PlayListAndExercicie key={playlist.id}>
-                          <S.PlayList to={`/trail/${trailInfo?.slug}/playlist/${playlist.slug}`}>
-                            <div className="playlist_index">
-                              <span>{index + 1}</span>
-                            </div>
-                            <div className="playlist_info">
-                              <div>
-                                <h2 className="playlist_title">{playlist.name}</h2>
-                                {userTrail && (
-                                  <span className="playlist_lessons_total">122 de 144 aulas assistidas</span>
-                                )}
+                     {!trailInfoLoading.state && trailInfo && !(trailInfo.user_trail?.enabled) && (
+                      <>
+                        <Lordicon 
+                          colors={{
+                            primary: '#fff',
+                            secondary: '#fff',
+                          }}
+                          icon="error"
+                          size={100}
+                          delay={1000}
+                          trigger='loop'  
+                      />
+                      <strong style={{fontSize: 15}}>Adicione esta trilha antes de acessar as playlists</strong>
+                      </>
+
+                     )}
+                      {playlistsByTrail.length >= 1 ? (
+                        playlistsByTrail.map((playlist, index) => (
+                          <S.PlayListAndExercicie key={playlist.id}>
+                            <S.PlayList disabled={!trailInfo?.user_trail?.enabled} to={`/trail/${trailInfo?.slug}/playlist/${playlist.slug}`}>
+                              <div className="playlist_index">
+                                <span>{index + 1}</span>
                               </div>
-                              <p className="playlist_description">{playlist.description}</p>
-                            </div>
-                            {userTrail && (
-                              <ProgressBar percent={userTrail.user_trail.progress}/>
-                            )}
-                          </S.PlayList>
-                        </S.PlayListAndExercicie>
-                      ))
-                    ) : (
-                      <NoContent text="Aguarde a criação de novas playlists"/>
-                    )}
-                  </>
-                )}
-              </S.PlayListAndExerciciesContainer>
-          </S.TrailInfoContainer>
-
-            <S.OtherTrailInfo>
-              <header>
-                <h1>Outras informações desta trilha</h1>
-              </header>
-
-              <div className="others_trail_info_container">
-                <p>
-                  <HiOutlineArrowNarrowRight /> Contém {trailInfo?._count.playlists} playlists e {trailInfo?._count.lessons} aulas no total.
-                </p>
-                {trailInfo?._count.users && trailInfo?._count.users <= 1 ? (
-                  <p>
-                    <HiOutlineArrowNarrowRight /> Atualmente {trailInfo?._count.users} aluno faz está trilha, <span>que tal se juntar a ele?</span>
-                  </p>
-                ) : (
-                  <p>
-                    <HiOutlineArrowNarrowRight /> Atualmente {trailInfo?._count.users} alunos fazem está trilha, <span>que tal se juntar a eles?</span>
-                  </p>
-                )}
+                              <div className="playlist_info">
+                                <div>
+                                  <h2 className="playlist_title">{playlist.name}</h2>
+                                  {/* {userTrail && (
+                                    <span className="playlist_lessons_total">122 de 144 aulas assistidas</span>
+                                  )} */}
+                                </div>
+                                <p className="playlist_description">{`${playlist.description}`}</p>
+                              </div>
+                              {(trailInfo?.user_trail?.enabled) && (
+                                <ProgressBar percent={playlist.user_playlist?.progress || 0}/>
+                              )}
+                            </S.PlayList>
+                          </S.PlayListAndExercicie>
+                        ))
+                      ) : (
+                        <NoContent text="Aguarde a criação de novas playlists"/>
+                      )}
+                    </>
+                  )}
+                </S.PlayListAndExerciciesContainer>
+                <S.FloatRight>
+                  <h1>
+                  <Lordicon size={60} icon='confetti' trigger='loop' delay={3000} style={{ marginRight: 15 }} />
+                    Faça parte da nossa comunidade!</h1>
+                  <a href="https://discord.gg/3wdCtmMTSx" target={"_blank"}><BsDiscord /> Discord</a>
+                </S.FloatRight>
               </div>
-            </S.OtherTrailInfo>
+              
+          </S.TrailInfoContainer>
 
           </S.MainContent>
         </S.Content>

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
-import { Input } from '../../../components/Commons/Input';
 
 type ContainerProps = {
   isLoading?: boolean;
@@ -340,7 +339,7 @@ const PlaylistStyle = css`
   border-radius: 8px;
 
   &:not(:first-child) {
-    margin-top: 16px;x
+    margin-top: 16px;
   }
 `;
 

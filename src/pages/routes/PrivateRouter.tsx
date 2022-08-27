@@ -1,7 +1,7 @@
-import { Navigate, Outlet } from 'react-router-dom';
 
 import { Cover } from '@/components/Cover';
 import { useAuth } from '@/hooks';
+import { Navigate, Outlet } from 'react-router-dom';
 
 export type PrivateRouteProps = {
   redirect_to?: string;

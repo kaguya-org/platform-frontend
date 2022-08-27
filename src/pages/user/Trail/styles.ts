@@ -1,6 +1,7 @@
+import { tint } from 'polished';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { BACKGROUND, COLORS, FONTS_COLORS, GLOBAL_COLORS, SHADOW_COLORS } from '../../../theme';
+import styled, { css } from 'styled-components';
+import { BACKGROUND, COLORS, FONTS_COLORS, GLOBAL_COLORS } from '../../../theme';
 
 export const Container = styled.div`
 `;
@@ -27,7 +28,6 @@ export const TrailInfoContainer = styled.aside`
   gap: 24px;
 
   width: 100%;
-  max-width: 820px;
   height: min-content;
 `;
 
@@ -36,7 +36,7 @@ export const PrincipalTrailInfo = styled.section`
   align-items: flex-start;
   gap: 24px;
 
-  background: var(--second-background);
+  background: #16171c;
   padding: 32px;
   border-radius: 8px;
 
@@ -121,9 +121,19 @@ export const TrailInfo = styled.div`
       }
     }
   }
+  p {
+    font-size: 1.4rem !important;
+    margin: 5px 0;
+    span {
+      color: #a90f64; 
+      font-weight: bold;
+    }
+  }
 
   .trail_description {
     margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
+
     letter-spacing: 0.8px;
     font-size: 1.6rem;
     color: #c4c4c4;
@@ -132,10 +142,45 @@ export const TrailInfo = styled.div`
 
 
 export const PlayListAndExerciciesContainer = styled.main`
-  width: 100%;
-
+  width: 820px;
+  
+  
   margin-top: 32px;
 `;
+export const FloatRight = styled.aside`
+  margin-top: 32px;
+  margin-left: 22px;
+  padding: 40px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+
+  background: #16171c;
+  width: 500px;
+  h1 {
+    margin-bottom: 50px;
+  }
+  a {
+    display: inline-flex;
+    padding: 20px 40px;
+    border-radius: 0.8rem;
+    font-weight: bold;
+    align-items: center;
+    background-color: #5865f2;
+    svg {
+      font-size: 30px;
+      margin-right: 7px;
+    }
+    font-size: 20px;
+  }
+  border-radius: 0.8rem;
+
+  @media screen and (max-width: 960px) {
+    display: none;
+  }
+`
 
 export const PlayListAndExercicie = styled.div`
   &:not(:first-child) {
@@ -143,25 +188,32 @@ export const PlayListAndExercicie = styled.div`
   }
 `;
 
-export const PlayList = styled(Link)`
+type PlaylistProps = {
+  disabled: boolean
+}
+export const PlayList = styled(Link)<PlaylistProps>`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-
+  border: 1px solid transparent;
+  transition-property: border-color;
+  transition: all 0.5s;
+  &:hover 
+  {
+    border-color: #FF69F9;
+    ${props => props.disabled && css`
+      border-color: #ddd;
+    `}
+  }
   position: relative;
 
-  background: var(--second-background);
+  background: ${tint(.02)('#0D0E12')};
 
   padding: 32px;
 
   border-radius: 0.8rem;
-  transition: all 0.2s;
   cursor: pointer;
-
-  &:hover {
-    filter: bridgness()
-  }
 
   div.playlist_index {
     background: ${BACKGROUND.PRIMARY};
@@ -247,7 +299,7 @@ export const Exercicie = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
-  background: var(--second-background);
+  background: ${tint(.02)('#0D0E12')};
 
   padding: 3.2rem;
   margin-top: 1.6rem;
@@ -363,7 +415,7 @@ export const OtherTrailInfo = styled.section`
   }
 
   .others_trail_info_container {
-    background: var(--second-background);
+    background: ${tint(.02)('#0D0E12')};
     padding: 3.2rem;
     border-radius: 0.8rem;
 

@@ -1,32 +1,35 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { BACKGROUND, COLORS, GLOBAL_COLORS, FONTS_COLORS } from '../../../theme';
+import { COLORS, FONTS_COLORS } from '../../../theme';
 
-export const Container = styled.div``;
-
-export const Content = styled.div`
-  max-width: 1200px;
-  width: 100%;
-
-  margin: 64px auto;
-
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
+`;
+
+export const Content = styled.div`
+  width: 100%;
+  padding: 0 20px;
+  margin: 64px auto;
+  max-width: 1300px;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 export const MainContent = styled.main`
+  margin-top: 40px;
   display: flex;
-  justify-content: center;
+  width: 100%;
   gap: 16px;
 `;
 
 export const CurrentLessonContainer = styled.main`
-  width: 100%;
-
   display: flex;
   flex-direction: column;
+
+
   gap: 1.8rem;
 `;
 
@@ -38,16 +41,17 @@ export const CurrentLesson = styled.section`
 
   width: 100%;
 
-  background: ${BACKGROUND.SECONDARY};
-  border-radius: 0.8rem;
+  background: #16171c;
+  border-radius: 4px;
 
   iframe {
-    border-radius: 8px 8px 0 0;
+    border-radius: 4px;
     border: none;
-
-    width: 830px;
-    height: 470px;
+    width: max(280px, min(850px, 50vw));
+    height: max(158.48px, min(478.125px, 28.3vw));
   }
+
+
 
   > div.lesson_counts_container {
     width: 100%;
@@ -56,7 +60,7 @@ export const CurrentLesson = styled.section`
     justify-content: space-between;
     align-items: center;
 
-    padding: 16px;
+    padding: 30px 16px;
 
     > span.views_count {
       font-size: 1.6rem;
@@ -115,20 +119,19 @@ export const LessonInfo = styled.section`
 
   padding: 32px;
 
-  background: ${BACKGROUND.SECONDARY};
-  border-radius: 8px;
+  background: #16171c;
+  border-radius: 4px;
 `;
 
 export const BlocksAndLessonsContainer = styled.aside`
-  background: ${BACKGROUND.SECONDARY};
+  background: #16171c;
 
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  width: 400px;
 
-  max-width: 360px;
-  width: 100%;
-
-  border-radius: 8px;
+  border-radius: 4px;
 `;
 
 export const BlockAndLessons = styled.div`
@@ -139,16 +142,18 @@ export const BlockAndLessons = styled.div`
 
 export const Block = styled.button`
   display: flex;
+  position: relative;
+  z-index: 10;
   align-items: center;
   justify-content: space-between;
-  background: #262832;
+  background: #1a1b22;
 
   padding: 24px;
 
   height: 96px;
   width: 100%;
 
-  border-radius: 8px 8px 0 0;
+  border-radius: 4px;
 
   > div.block_info {
     display: flex;
@@ -180,10 +185,11 @@ export const Block = styled.button`
 
 type BlockAndLessonsType = {
   selectedBlock: boolean;
+  height: number;
 }
 
 export const LessonsContainer = styled.div<BlockAndLessonsType>`
-  transition: height 0.3s ease 0s;
+  transition: height 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   height: 0;
 
@@ -198,7 +204,7 @@ export const LessonsContainer = styled.div<BlockAndLessonsType>`
   }
 
   ${props => props.selectedBlock && css`
-    height: auto;
+    height: ${props.height}px;
     overflow: visible;
   `};
 `;
@@ -211,17 +217,31 @@ type LessonType = {
 export const Lesson = styled(Link)<LessonType>`
   display: flex;
   align-items: center;
-
+  
   color: ${FONTS_COLORS.SECONDARY};
-
+  
   font-size: 1.4rem;
-
+  
   ${props => props.isCompleted && css`
     color: ${COLORS.TERNARY};
-  `}
-
+    `}
+    
   ${props => props.$isCurrent && css`
-    color: ${FONTS_COLORS.PRIMARY};
-    font-weight: bold;
+  color: ${FONTS_COLORS.PRIMARY};
+  font-weight: bold;
   `}
-`;
+  `;
+  
+export const News = styled.section`
+  margin-top: 70px;
+  text-align: center;
+  border-radius: 4px;
+  padding: 0 40px;
+  border: 2px solid #c9346440;
+  cursor: not-allowed;
+  h1 {
+    font-size: 3rem;
+    color: #c93464 !important;
+  }
+
+`

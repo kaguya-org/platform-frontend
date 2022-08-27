@@ -1,41 +1,38 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { useModal } from '@tg0/react-modal';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { AxiosError } from 'axios';
-import { useParams, useHistory } from 'react-router';
+import { Form } from '@unform/web';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
-  AiFillEdit, 
-  FiAlertCircle, 
-  BsCheckCircle,
-  FiPlus,
-} from 'react-icons/all';
+  AiFillEdit
+} from 'react-icons/ai';
+import {
+  BsCheckCircle
+} from 'react-icons/bs';
+import {
+  FiAlertCircle, FiPlus
+} from 'react-icons/fi';
 
 import {
   AdminSideBar,
   ContainerPage,
   Input,
-  InputFile,
+  InputFile
 } from '../../../components';
 
 import {
-  Content,
-  FormContainer,
-  inputTrailName,
-  inputTrailDescription,
-  AllPlaylistTrailContainer,
-  Playlists,
-  Playlist,
-  PlaylistDraggable
+  AllPlaylistTrailContainer, Content,
+  FormContainer, inputTrailDescription, inputTrailName, Playlist,
+  PlaylistDraggable, Playlists
 } from './styles';
 
 import { PlaylistContainer } from './Partials/PlaylistContainer';
 
 import { useBoolean } from '../../../hooks';
 
-import { api, GlobalType } from '../../../services/api';
+import { GlobalType } from '../../../services/api';
 
 type LocationParams = {
   trail_id: string;
@@ -44,7 +41,7 @@ type LocationParams = {
 export function Trail() {
   const updateTrailFormRef = useRef<FormHandles>(null);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const { trail_id } = useParams<LocationParams>();
 
   const [playlistsByTrail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
@@ -70,34 +67,32 @@ export function Trail() {
       setPlaylistsByTrail(playlistsByTrail);
     }
 
-    console.log(playlistsByTrail)
   }, [playlistsByTrail]);
 
   function handleUpdateTrailInfo(data: any) {
-    console.log(data);
   }
 
   useEffect(() => {
-    api.global.playlist.listAllByTrail({
-      trail_id,
-    }).then(response => {
-      setPlaylistsByTrail(response.data);
-      loadingPage.changeToFalse();
-    }).catch((err: AxiosError) => {
-      if(err) {
-        loadingPage.changeToFalse();
-        history.push('/admin/trail/create');
-      }
-    });
+    // api.global.playlist.listAllByTrail({
+    //   trail_id,
+    // }).then(response => {
+    //   setPlaylistsByTrail(response.data);
+    //   loadingPage.changeToFalse();
+    // }).catch((err: AxiosError) => {
+    //   if(err) {
+    //     loadingPage.changeToFalse();
+    //     navigate.push('/admin/trail/create');
+    //   }
+    // });
 
-    return () => loadingPage.changeToFalse();
-  }, [history, trail_id]);
+    // return () => loadingPage.changeToFalse();
+  }, [navigate, trail_id]);
 
   return (
     <ContainerPage
       isLoading={loadingPage.state}
       loadingProps={{
-        size: '64px',
+        size: 64,
       }}
     >
       <AdminSideBar />

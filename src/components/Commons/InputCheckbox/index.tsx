@@ -1,6 +1,6 @@
+import { Tooltip } from '@/components/Tooltip';
 import { useField } from '@unform/core';
 import { useEffect, useRef } from 'react';
-import { Tooltip } from '../..';
 import {
   Container
 } from './styles';

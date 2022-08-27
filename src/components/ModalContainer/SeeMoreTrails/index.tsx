@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   GoPlus
-} from 'react-icons/all';
+} from 'react-icons/go';
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 import { api } from '../../../services/api';
 import { GlobalType } from '../../../services/app_api';
@@ -23,7 +23,7 @@ export const SeeMoreTrails: React.FC<SeeMoreTrailsProps> = ({
   const getTrails = useCallback(async () => {
     const { data: __trails } = await api.global.trail.list({
       exclude_my_trails: true,
-      take: 6,
+      take: 30,
       skip: trails.length
     })
 

@@ -4,7 +4,7 @@ import {
   FONTS,
   FONTS_COLORS
 } from '@/theme';
-import { shade } from 'polished';
+import { shade, tint } from 'polished';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
@@ -200,7 +200,8 @@ export const MyTrailsSection = styled.section`
 `;
 
 export const MyTrailsContainer = styled.div`
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   padding-bottom: 5px;
   overflow-x: auto;
   grid-template-columns: repeat(3, 1fr);
@@ -213,6 +214,8 @@ export const MyTrail = styled(Link)`
   padding: 24px;
   position: relative;
   min-width: 250px;
+  width: 100%;
+  max-width: 250px;
   height: 210px;
 
   display: flex;
@@ -275,7 +278,8 @@ export const RightContent = styled.section`
   height: calc(100vh - 70px);
 
 
-  background: ${BACKGROUND.SECONDARY};
+  background: linear-gradient(to right, ${tint(.01)('#0D0E12')}, #0D0E12);
+  
 `;
 
 export const OtherTrailsSection = styled.section`
@@ -377,7 +381,6 @@ export const OtherTrail = styled.div<OtherTrailProps>`
   div.trail_information_container {
     display: flex;
     width: 100%;
-    align-items: center;
     justify-content: space-between;
   }
   div.trail_actions {

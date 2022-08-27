@@ -1,42 +1,36 @@
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { useEffect, useRef, useState } from 'react';
-import { IoIosArrowForward } from 'react-icons/all';
-import { useHistory } from 'react-router-dom';
+import { IoIosArrowForward } from 'react-icons/io';
 import * as Yup from 'yup';
 
 import {
-  AdminSideBar,
-  InputFile,
-  Input,
-  Button,
-  ContainerPage
+  AdminSideBar, Button,
+  ContainerPage, Input, InputFile
 } from '../../../components';
 
 import { useBoolean } from '../../../hooks';
 
-import { api, AdminType, GlobalType } from '../../../services/api';
+import { AdminType, api, GlobalType } from '../../../services/api';
 
 import { getValidationErrors } from '../../../utils/getValidationErrors';
 
-import { 
-  Content,
-  FormContainer,
-  AllTrailsContainer,
-  Trails,
-  Trail
+import {
+  AllTrailsContainer, Content,
+  FormContainer, Trail, Trails
 } from './styles';
 
+import { useNavigate } from 'react-router-dom';
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 
 export function CreateTrail() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const createTrailFormRef = useRef<FormHandles>(null);
 
   const createTrailLoading = useBoolean(false);
   const listAllTrailsLoading = useBoolean(true);
 
-  const [listAllTrail, setListAllTrail] = useState<GlobalType.ListAllTrailsResponse[]>([]);
+  const [listAllTrail, setListAllTrail] = useState<GlobalType.TrailsResponse[]>([]);
 
   async function handleCreateTrailSubmit(data: AdminType.CreateTrailParams) {
     createTrailLoading.changeToTrue();
@@ -62,7 +56,6 @@ export function CreateTrail() {
       const { id } = trailResponse.data;
 
       if(trailResponse.data && data.avatar) {
-        // console.log(data.avatar);
         const formData = new FormData();
         
         formData.append('trail_id', id);
@@ -75,7 +68,7 @@ export function CreateTrail() {
         if(updateAvatarResponse.data) {
           createTrailLoading.changeToFalse();
 
-          history.push(`/admin/trail/${id}`);
+          navigate(`/admin/trail/${id}`);
           return;
         }
       }
@@ -97,13 +90,13 @@ export function CreateTrail() {
   }
 
   useEffect(() => {
-    api.global.trail.listAll().then(response => {
-      setListAllTrail(response.data);
+    // api.global.trail.listAll().then(response => {
+    //   setListAllTrail(response.data);
 
-      listAllTrailsLoading.changeToFalse();
-    }).catch(error => {
-      listAllTrailsLoading.changeToFalse();
-    });
+    //   listAllTrailsLoading.changeToFalse();
+    // }).catch(error => {
+    //   listAllTrailsLoading.changeToFalse();
+    // });
 
     return () => listAllTrailsLoading.changeToFalse();
   }, []);
@@ -112,7 +105,7 @@ export function CreateTrail() {
     <ContainerPage 
       isLoading={listAllTrailsLoading.state} 
       loadingProps={{
-        size: '64px',
+        size: 64,
       }}
     >
       <AdminSideBar />
