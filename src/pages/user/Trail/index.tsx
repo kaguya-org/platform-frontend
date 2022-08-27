@@ -4,7 +4,7 @@ import Lordicon from '@/components/ReactLordicon';
 import { useEffect, useState } from 'react';
 import { BsDiscord } from 'react-icons/bs';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import DEFAULT_TRAIL_IMAGE from '../../../assets/images/default_trail.jpg';
 import {
   Button, Navbar, PagePath, ProgressBar
