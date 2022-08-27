@@ -3,7 +3,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   AiFillEdit
