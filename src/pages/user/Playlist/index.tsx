@@ -1,10 +1,12 @@
 import { Cover } from '@/components/Cover';
+import { KaguyaError } from '@/components/Error';
+import Lordicon from '@/components/ReactLordicon';
 import { TabContainer, TabItem } from '@/components/Tab';
 import { useToast } from '@/hooks/useToast';
 import { Block, Lesson } from '@/services/app_api/global/playlist_block/response';
 import { LessonState } from '@/services/app_api/global/types';
 import { modifyYoutubeUrl } from '@/utils/formatText';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   AiFillDislike,
   AiFillLike,
@@ -47,6 +49,7 @@ export function Playlist() {
   const [playlist, setPlaylist] = useState<GlobalType.ShowPlaylistResponse | null>(null);
   const [trail, setTrail] = useState<GlobalType.TrailsResponse | null>(null);
 
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [currentBlock, setCurrentBlock] = useState<Block | null>(null);
   const [currentLesson, setCurrentLesson] = useState<GlobalType.ShowLessonResponse | null>(null);
 
@@ -59,7 +62,11 @@ export function Playlist() {
       });
 
       const blocks = response.data;
-
+      
+      if(blocks.length === 0) {
+        setErrorMessage('Não há aulas nessa playlist, aguarde e iremos criar aulas para você!')
+      }
+      
       setBlocks(blocks);
 
       if(block_slug) {
@@ -73,7 +80,7 @@ export function Playlist() {
           const currentLesson = currentBlock?.lessons.find(lesson => lesson.slug === lesson_slug);
   
           if(currentLesson) {
-            setCurrentLesson(currentLesson);
+            await getCurrentLesson(currentLesson.id);
           }
         }
 
@@ -101,7 +108,7 @@ export function Playlist() {
 
           if(lastBlock) {
             setCurrentBlock(lastBlock)
-            setCurrentLesson(lastLesson)
+            await getCurrentLesson(lastLesson.id)
             
             const path = setCurrentPath({
               block: lastBlock, 
@@ -120,9 +127,20 @@ export function Playlist() {
         title: 'Erro'
       })
 
+
+      setErrorMessage('Não foi possível carregar os blocos da playlist')
+
       navigate_to('/dashboard')
     }
   }
+
+
+  const lessonsContainerHeight = useMemo(() => {
+    if(!currentBlock) return 0
+
+
+    return currentBlock.lessons.length * 54
+  }, [currentBlock])
 
   async function getPlaylist() {
     try {
@@ -144,11 +162,12 @@ export function Playlist() {
           }
         });
 
-        getBlocks(response.data, trail);
+        await getBlocks(response.data, trail);
 
         setPlaylist(response.data);
       }
     } catch (error: any) {
+      setErrorMessage('Não conseguimos obter essa playlist para você, aguarde e vamos verificar o problema!')
     }
   }
 
@@ -174,19 +193,25 @@ export function Playlist() {
           description: 'Ocorreu um erro ao carregar a aula, tente novamente mais tarde.',
           appearance: 'error'
         })
+        
+        setErrorMessage('Ocorreu um erro ao carregar a aula, tente novamente mais tarde.')
 
         navigate_to(`/dashboard`)
-      }
-      get_current_lesson_loading.changeToFalse();
+      } 
   }
 
   useEffect(() => {
-    getPlaylist();
-  }, [playlist_slug, trail_slug]);
+    const promises = [
+      getPlaylist(),
+      getCurrentLesson()
+    ]
 
-  useEffect(() => {
-    getCurrentLesson();
-  }, [block_slug, lesson_slug]);
+    Promise.all(promises).finally(() => {
+      get_current_lesson_loading.changeToFalse();
+    })
+  }, [playlist_slug, trail_slug, block_slug, lesson_slug]);
+
+
 
   function handleSetCurrentBlock(block: Block) {
     setCurrentBlock(prevState => {
@@ -206,8 +231,8 @@ export function Playlist() {
   }: {
     block: Block, 
     lesson: GlobalType.ShowLessonResponse,
-    trail?: GlobalType.Trail,
-    playlist?: GlobalType.ShowPlaylistResponse,
+    trail?: GlobalType.Trail | null,
+    playlist?: GlobalType.ShowPlaylistResponse | null,
   }) {
     const base_url = `/trail/${trail?.slug || trail_slug}/playlist/${playlist?.slug || playlist_slug}`;
     const block_url = `block/${block.slug}`;
@@ -282,6 +307,11 @@ export function Playlist() {
         return prevState;
       })
     } catch (error: any) {
+      addToast({
+        title: 'Ops!',
+        description: 'Ocorreu um erro ao mostrar métricas da aula.',
+        appearance: 'error'
+      })
     }
   }
 
@@ -316,8 +346,15 @@ export function Playlist() {
       });
 
     } catch (error: any) {
+      addToast({
+        title: 'Ops!',
+        description: 'Não foi possivel completar essa aula.',
+        appearance: 'error'
+      })
     }
   }
+
+
 
   return (
     <Cover
@@ -344,6 +381,14 @@ export function Playlist() {
               title: `${playlist?.name}`,
             }}
           />
+
+          <KaguyaError 
+            close={() => {
+              setErrorMessage('')
+            }}
+            message={errorMessage}
+            open={!!errorMessage}
+          />
           <S.MainContent>
             <S.CurrentLessonContainer>
               <S.CurrentLesson>
@@ -353,9 +398,8 @@ export function Playlist() {
                   frameBorder="0"
                   allowFullScreen 
                 />
-
                 <div className="lesson_counts_container">
-                  <span className="views_count">{currentLesson?._count?.views} visualizações</span>
+                  <span className="views_count"><Lordicon icon='clock' trigger='loop' size={20}  style={{ marginRight: 10 }}/> {currentLesson?._count?.views || 0} visualizações</span>
 
                   <div className="likes_dislikes">
                     {currentLesson?.state === 'liked' ? (
@@ -397,9 +441,9 @@ export function Playlist() {
                   <TabItem tabTitle="Descrição">
                     <p>{currentLesson?.description}</p>
                   </TabItem>
-                  <TabItem tabTitle="Artigos">
+                  {/* <TabItem tabTitle="Artigos">
                     <p>TODO - adicionar artigos mais pra frente</p>
-                  </TabItem>
+                  </TabItem> */}
                 </TabContainer>
               </S.LessonInfo>
             </S.CurrentLessonContainer>
@@ -409,7 +453,9 @@ export function Playlist() {
                 <S.BlockAndLessons 
                   key={block.id}
                 >
-                  <S.Block onClick={() => handleSetCurrentBlock(block)}>
+                  <S.Block onClick={() => {
+                      handleSetCurrentBlock(block)
+                    }}>
                     <div className="block_info">
                       <h2 className={`block_title ${block.id === currentBlock?.id && 'selected'}`}>{block.name}</h2>
                       <span className="block_lessons_count">
@@ -424,6 +470,7 @@ export function Playlist() {
                     )}
                   </S.Block>
                   <S.LessonsContainer
+                    height={lessonsContainerHeight}
                     selectedBlock={block.id === currentBlock?.id}
                   >
                     <ul className="lessons">
@@ -440,6 +487,7 @@ export function Playlist() {
                             $isCurrent={lesson.id === currentLesson?.id}
                             to={setCurrentPath({ trail, playlist, block, lesson})}
                           >
+                            <Lordicon icon='play' trigger='morph' size={20}  style={{ marginRight: 10 }}/>
                             {lesson.name}
                           </S.Lesson>
                         </BoxProgressBarStep>
@@ -450,6 +498,20 @@ export function Playlist() {
               ))}
             </S.BlocksAndLessonsContainer>
           </S.MainContent>
+          <S.News>
+            <h1>
+              <Lordicon 
+                colors={{
+                  primary: '#c93464',
+                  secondary: '#c93464',
+                }} 
+                icon='error' 
+                trigger='loop' 
+                size={80}  
+                delay={2000}
+              />
+              Sessão de comentários será adicionada em breve!</h1>
+          </S.News>
         </S.Content>
       </S.Container>
     </Cover>

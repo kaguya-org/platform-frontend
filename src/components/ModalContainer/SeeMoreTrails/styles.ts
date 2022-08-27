@@ -75,7 +75,7 @@ export const TrailsSection = styled.section`
 export const TrailsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1.2rem;
 `;
 
@@ -83,7 +83,7 @@ export const Trail = styled(Link)`
   display: flex;
   gap: 1.6rem;
 
-  padding: 1.6rem;
+  padding: 2.8rem;
 
   background: ${GLOBAL_COLORS.BLACK};
 

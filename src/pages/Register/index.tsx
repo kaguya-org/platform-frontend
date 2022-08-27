@@ -13,7 +13,6 @@ import {
   Input
 } from '../../components';
 
-import { InputCheckbox } from '../../components';
 
 import { useAuth, useBoolean } from '../../hooks';
 
@@ -162,12 +161,11 @@ export function Register() {
                   type="password"
                   icon={<FaLock />}
                 />
-                <InputCheckbox
-                  
+                {/* <InputCheckbox
                   name="terms" 
                   onChange={termsChange}
                   title="Aceitar os termos de uso"
-                /> 
+                />  */}
               </div>
               <Button type="submit" isLoading={loading.state}>Criar</Button>
             </FormTag>

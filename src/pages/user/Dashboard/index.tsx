@@ -60,9 +60,7 @@ export function Dashboard() {
 
       await getTrails()
       
-      if(userTrails.length < 3) {
-        setUserTrails([...userTrails, myTrail]);
-      }
+      setUserTrails([...userTrails, myTrail]);
 
       addToast({
         appearance: 'success',
@@ -81,15 +79,7 @@ export function Dashboard() {
 
   async function getUserTrails(data?: GetUserTrailsParams) {
     try {
-      const response = await api.user.trail.listTrailsFromUser({
-        ...(data ? {
-          skip: data.skip || 0,
-          take: data.take || 3
-        } : {
-          skip: 0,
-          take: 3
-        })
-      });
+      const response = await api.user.trail.listTrailsFromUser();
 
       setUserTrails([...response.data]);
 
@@ -261,7 +251,7 @@ export function Dashboard() {
                 <img src={history?.trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt="a" />
                 <div>
                   <h2 className="title">{history?.lesson.name}</h2>
-                  <span className="trail_name">{history?.playlist.name}</span>''
+                  <span className="trail_name">{history?.playlist.name}</span>
                 </div>
               </div>
               <strong>
@@ -277,9 +267,6 @@ export function Dashboard() {
             <S.MyTrailsSection>
               <header>
                 <h1> Minhas trilhas </h1>
-                {userTrails.length === 3 && (
-                  <button type="button">Ver todas</button>
-                )}
               </header>
               <S.MyTrailsContainer>
                 {userTrails.map((trail) => (

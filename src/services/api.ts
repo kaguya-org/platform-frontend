@@ -1,16 +1,11 @@
 import axios from 'axios';
 
 import {
-  user,
-  admin,
-  global,
-  AdminType,
-  GlobalType,
-  UserType
+  admin, AdminType, global, GlobalType, user, UserType
 } from './app_api';
 
 export const baseApi = axios.create({
-  baseURL: 'https://kaguya-it.herokuapp.com',
+  baseURL: 'http://kaguya-it.herokuapp.com',
 });
 
 export const kaguyaApiToken = '@kaguya:token';
@@ -29,4 +24,4 @@ export {
   AdminType,
   GlobalType,
   UserType
-}
+};

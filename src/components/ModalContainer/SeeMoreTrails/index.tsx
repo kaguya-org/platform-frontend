@@ -23,7 +23,7 @@ export const SeeMoreTrails: React.FC<SeeMoreTrailsProps> = ({
   const getTrails = useCallback(async () => {
     const { data: __trails } = await api.global.trail.list({
       exclude_my_trails: true,
-      take: 6,
+      take: 30,
       skip: trails.length
     })
 

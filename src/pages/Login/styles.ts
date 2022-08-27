@@ -64,12 +64,17 @@ export const FormTag = styled(Form)`
     width: 100%;
 
     span.forgot_password {
+      display: inline-block;
       color: ${FONTS_COLORS.SECONDARY};
+      opacity: 0.5;
+      cursor: not-allowed;
       font-size: 1.4rem;
 
       margin: 0.8rem 0 2.4rem;
 
       button {
+        pointer-events: none;
+
         color: ${FONTS_COLORS.SECONDARY};
         font-size: 1.4rem;
         margin-left: 0.2rem;

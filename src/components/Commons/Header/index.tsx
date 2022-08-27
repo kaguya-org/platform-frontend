@@ -13,9 +13,9 @@ export function Header() {
         </Link>
 
         <nav>
-          <Link to="/">Home</Link>
+          {/* <Link to="/">Home</Link>
           <Link to="/">Quem somos?</Link>
-          <Link to="/">Sobre o projeto</Link>
+          <Link to="/">Sobre o projeto</Link> */}
           {/* {links.includes(history.location.pathname) && (
             <Link to="/login" className="login animation-none">Login</Link>
           )} */}

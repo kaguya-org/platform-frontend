@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { 
-  BACKGROUND, 
+import {
+  BACKGROUND,
   COLORS,
   FONTS_COLORS,
   GLOBAL_COLORS,
-  SHADOW_COLORS,
+  SHADOW_COLORS
 } from '../../theme';
 
 export const Container = styled.header`
@@ -20,6 +20,7 @@ export const Container = styled.header`
   z-index: 1;
 
   background: linear-gradient(to left, ${BACKGROUND.TERNARY}, ${BACKGROUND.PRIMARY});
+  background: -webkit-gradient(linear,0 0,100% 0, from(${BACKGROUND.PRIMARY}), to(${BACKGROUND.PRIMARY}), color-stop(90%,${BACKGROUND.TERNARY}));
 
 `;
 

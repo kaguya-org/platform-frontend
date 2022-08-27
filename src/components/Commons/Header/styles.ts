@@ -9,6 +9,7 @@ export const Container = styled.header`
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(to left, ${BACKGROUND.TERNARY}, ${BACKGROUND.PRIMARY});
+  background: -webkit-gradient(linear,0 0,100% 0, from(${BACKGROUND.PRIMARY}), to(${BACKGROUND.PRIMARY}), color-stop(50%,${BACKGROUND.TERNARY}));
 `;
 
 const appearFromLeft = keyframes`
