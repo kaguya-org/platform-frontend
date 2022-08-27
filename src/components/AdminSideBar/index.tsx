@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import {
+  IoNotificationsSharp
+} from 'react-icons/io5';
+
 import {
   MdOndemandVideo,
   MdPlaylistPlay,
+  MdSettings
+} from 'react-icons/md';
+
+import {
   RiHistoryFill,
-  IoNotificationsSharp,
-  MdSettings,
-  RiLogoutCircleRLine,
-} from 'react-icons/all';
+  RiLogoutCircleRLine
+} from 'react-icons/ri';
 
 import {
   Container,
   Content
 } from './styles';
 
-import euImg from '../../assets/images/eu.jpg';
 import logoImg from '../../assets/images/default_trail.jpg';
+import euImg from '../../assets/images/eu.jpg';
 
 export function AdminSideBar() {
   return (

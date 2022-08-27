@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { BiErrorCircle } from 'react-icons/all';
 import { IconType } from 'react-icons';
+import { BiErrorCircle } from 'react-icons/bi';
 
 import { Container, TooltipType } from './styles';
 

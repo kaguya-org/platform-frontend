@@ -16,7 +16,8 @@ import {
   UserType
 } from '@/services/api';
 import { useEffect, useState } from 'react';
-import { BiDotsHorizontalRounded, BiPlus, IoPlaySharp } from 'react-icons/all';
+import { BiDotsHorizontalRounded, BiPlus } from 'react-icons/bi';
+import { IoPlaySharp } from 'react-icons/io5';
 import { Lordicon } from 'react-lordicon';
 import { Link, useNavigate } from 'react-router-dom';
 import * as S from './styles';

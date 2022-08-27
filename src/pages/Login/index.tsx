@@ -4,7 +4,10 @@ import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';
 import axios from 'axios';
 import { useRef } from 'react';
-import { AiFillGithub, FaLock, FcGoogle, MdEmail } from 'react-icons/all';
+import { AiFillGithub } from 'react-icons/ai';
+import { FaLock } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { MdEmail } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {

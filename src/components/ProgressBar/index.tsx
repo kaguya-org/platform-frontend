@@ -1,4 +1,4 @@
-import { BsCheck } from 'react-icons/all';
+import { BsCheck } from 'react-icons/bs';
 
 import { BackgroundProgress, Progress } from './styles';
 

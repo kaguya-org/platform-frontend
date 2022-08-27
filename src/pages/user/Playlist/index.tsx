@@ -11,10 +11,12 @@ import {
   AiFillDislike,
   AiFillLike,
   AiOutlineDislike,
-  AiOutlineLike,
+  AiOutlineLike
+} from 'react-icons/ai';
+import {
   IoIosArrowDown,
   IoIosArrowUp
-} from 'react-icons/all';
+} from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router';
 import {
   BoxProgressBarStep,

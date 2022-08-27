@@ -1,6 +1,6 @@
 import { useField } from '@unform/core';
 import { useEffect, useRef, useState } from 'react';
-import { AiFillCamera } from 'react-icons/all';
+import { AiFillCamera } from 'react-icons/ai';
 import { Tooltip } from '../..';
 import { ContainerFile } from './styles';
 

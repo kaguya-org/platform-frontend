@@ -1,7 +1,9 @@
-import { 
-  IoIosArrowForward,
+import {
   HiMenuAlt4
-} from 'react-icons/all';
+} from 'react-icons/hi';
+import {
+  IoIosArrowForward
+} from 'react-icons/io';
 
 import {
   PlaylistContainerStyled
