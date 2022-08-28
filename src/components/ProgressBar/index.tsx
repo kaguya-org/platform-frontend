@@ -8,7 +8,7 @@ type ProgressBarProps = {
 
 export function ProgressBar({ percent }: ProgressBarProps): JSX.Element {
   return (
-    <BackgroundProgress percent={percent}>
+    <BackgroundProgress percent={percent} className="bgProgress">
       <Progress percent={percent}>
         <span>{percent}%</span>
         <span>

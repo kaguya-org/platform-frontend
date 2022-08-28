@@ -66,7 +66,7 @@ export const Content = styled.section`
       flex-direction: column;
 
       a {
-        color: #c4c4c4;
+        color: #9a9ea3;
         padding: 16px 20px;
         border-radius: 8px 0 0 8px;
 
@@ -109,7 +109,7 @@ export const Content = styled.section`
         padding: 16px 20px;
         display: flex;
         align-items: center;
-        color: #c4c4c4;
+        color: #9a9ea3;
         gap: 16px;
 
         transition: color 0.3s;
@@ -140,7 +140,7 @@ export const Content = styled.section`
 
       p {
         text-overflow: ellipsis;
-        color: #c4c4c4;
+        color: #9a9ea3;
         width: 70%;
         padding-right: 12px;
         white-space: nowrap;

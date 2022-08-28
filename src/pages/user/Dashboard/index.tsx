@@ -15,6 +15,7 @@ import {
   GlobalType,
   UserType
 } from '@/services/api';
+import { borderRadius } from 'polished';
 import { useEffect, useState } from 'react';
 import { BiDotsHorizontalRounded, BiPlus } from 'react-icons/bi';
 import { IoPlaySharp } from 'react-icons/io5';
@@ -205,15 +206,9 @@ export function Dashboard() {
     try {
       const { data: _history } = await api.global.history.show();
 
-
       setHistory(_history)
-
     } catch (error) {
-      addToast({
-        appearance: 'error',
-        title: 'Erro ao carregar histórico',
-        description: 'Ocorreu um erro ao carregar o histórico, tente novamente mais tarde.'
-      })
+      
     }
   }
 
@@ -246,7 +241,6 @@ export function Dashboard() {
               </div>
             </S.Welcome>
 
-            {/* TODO - create a history api */}
             <S.LastLesson to={history?.redirect || '#'}>
               <div className="last_lesson_information">
                 <img src={history?.trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt="a" />
@@ -256,11 +250,11 @@ export function Dashboard() {
                 </div>
               </div>
               <strong>
-                {history?.auto_generated ? 'Recomendamos para você' : 'Continuar Assistindo'}
+                {!history ? 'Nenhuma aula cadastrada' : history?.auto_generated ? 'Recomendamos para você' : 'Continuar Assistindo'}
                 <span>
                   <IoPlaySharp />
                 </span>
-              </strong>
+              </strong> 
             </S.LastLesson>
 
             <div className="line_separator" />
@@ -274,16 +268,20 @@ export function Dashboard() {
                   <S.MyTrail to={`/trail/${trail.slug}`} key={trail.id}>
                     <header>
                       <img src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} alt={trail.name} />
-                      <Button  
+                      <Button 
                         loadingType='circle'
                         isLoading={disableUserTrailUniqLoading === trail.id}
                         onClick={(event) => {
                           event.preventDefault();
 
                           disableUserTrail(trail.id);
-                        }} 
+                        }}
+                        style={{
+                          padding: '8px 16px',
+                          borderRadius: "4px"
+                        }}
                       >
-                        <Lordicon size={20} trigger='hover' icon='trash'  />
+                        <Lordicon size={24} trigger='hover' icon='trash'  />
                       </Button>
                     </header>
                     <span>{trail.name}</span>
@@ -309,9 +307,9 @@ export function Dashboard() {
               </div>
               <S.OtherTrailsContainer>
                 {otherTrails.map((trail, index) => (
-                  <S.OtherTrail isSubAdmin={isSubAdmin} key={trail.id} >
+                  <S.OtherTrail isSubAdmin={isSubAdmin} key={trail.id}>
                     <img 
-                      src={trail.avatar || DEFAULT_TRAIL_IMAGE} 
+                      src={trail.avatar_url || DEFAULT_TRAIL_IMAGE} 
                       alt={trail.name} 
                     />
 
@@ -326,47 +324,50 @@ export function Dashboard() {
                       </Link>
 
                       <div className="trail_actions">
-                            <PopoverContainer 
-                              style={{
-                                marginBottom: 20
-                              }} 
-                              triggerContent={<BiDotsHorizontalRounded  />} 
-                              content={(
-                                <S.OtherTrailsActions>
+                        <PopoverContainer 
+                          style={{
+                            marginBottom: 20
+                          }} 
+                          triggerContent={<BiDotsHorizontalRounded  />} 
+                          content={(
+                            <S.OtherTrailsActions>
+                              <Button 
+                                styleType='quaternary' 
+                                onClick={() => addTrailToMyTrails(trail.id)}
+                              >
+                                <span>Adicionar a "Minhas trilhas"</span>
+                                <Lordicon icon='addCard' trigger='hover' size={40} />
+                              </Button>
+                              {isSubAdmin && (
+                                <>
                                   <Button 
                                     styleType='quaternary' 
-                                    onClick={() => addTrailToMyTrails(trail.id)}
+                                    onClick={() => updateOtherTrail(trail.id)}
                                   >
-                                    <span>Adicionar a "Minhas trilhas"</span>
-                                    <Lordicon icon='addCard' trigger='hover' size={40} />
+                                    <span>Editar trilha</span>
+                                    <Lordicon icon='edit' trigger='hover' size={40} />
                                   </Button>
-                                  {isSubAdmin && (
-                                    <>
-                                      <Button 
-                                        styleType='quaternary' 
-                                        onClick={() => updateOtherTrail(trail.id)}
-                                      >
-                                        <span>Editar trilha</span>
-                                        <Lordicon icon='edit' trigger='hover' size={40} />
-                                      </Button>
-                                      <Button 
-                                        disabled={destroyOtherTrailLoading.state}
-                                        styleType='quaternary' 
-                                        onClick={() => destroyOtherTrail(trail.id)}
-                                      >
-                                        <span>Deletar trilha</span>
-                                        <Lordicon icon='bin' trigger='hover' size={40}  />
-                                      </Button>
-                                    </>
-                                  )}
-                                </S.OtherTrailsActions>
-                              )} 
-                            />
+                                  <Button 
+                                    disabled={destroyOtherTrailLoading.state}
+                                    styleType='quaternary' 
+                                    onClick={() => destroyOtherTrail(trail.id)}
+                                  >
+                                    <span>Deletar trilha</span>
+                                    <Lordicon icon='bin' trigger='hover' size={40}  />
+                                  </Button>
+                                </>
+                              )}
+                            </S.OtherTrailsActions>
+                          )} 
+                        />
                             
                         <Button 
                           onClick={() => 
                             navigate(`/trail/${trail.slug}`)
                           }
+                          style={{
+                            padding: '4px 32px'
+                          }}
                         >
                           <Lordicon 
                             icon='flatArrow' 

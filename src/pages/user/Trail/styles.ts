@@ -7,7 +7,8 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  margin: 64px;
+  padding: max(16px, min(64px, 2vw));
+  margin-top: 32px;
 
   display: flex;
   flex-direction: column;
@@ -43,45 +44,20 @@ export const PrincipalTrailInfo = styled.section`
   position: relative;
 
   width: 100%;
-/* 
-  button.open_others_trail_info {
-    display: none;
-    position: absolute;
-    bottom: -1rem;
-    right: -1rem;
-    background: ${BACKGROUND.PRIMARY};
-    padding: 0.4rem;
-    border-radius: 50%;
 
-    &:hover {
-      svg path {
-        color: ${COLORS.SECONDARY};
-      }
-    }
-
-    svg {
-      width: 3.2rem;
-      height: 3.2rem;
-
-      path {
-        color: ${GLOBAL_COLORS.GRAY};
-        transition: all 0.2s;
-      }
-    }
+  @media(max-width: 425px) {
+    padding-left: 16px;
+    padding-right: 16px;
   }
-
-  @media(max-width: 1600px) {
-    button.open_others_trail_info {
-      display: flex;
-    }
-  } */
 `;
 
 export const TrailInfo = styled.div`
   width: 100%;
+  position: relative; 
 
   .trail_info_header {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 1.6rem;
 
@@ -98,22 +74,26 @@ export const TrailInfo = styled.div`
       align-items: center;
       flex-wrap: wrap;
       flex: 1;
-      justify-content: space-between;
-
+      gap: 16px;
+      justify-content: space-between; 
 
       .trail_title {
         font-size: 2.6rem;
         font-family: var(--second-font);
+        white-space: nowrap;
+        max-width: max(200px, min(800px, 50vw));
+        text-overflow: ellipsis;
+        overflow: hidden;
+
         margin-bottom: .8rem;
+
         span {
           color: var(--second-color);
           margin-left: 0.4rem;
         }
       }
 
-
       button {
-        margin-left: 15px;
         svg {
           width: 2.2rem;
           height: 2.2rem;
@@ -121,9 +101,11 @@ export const TrailInfo = styled.div`
       }
     }
   }
+
   p {
     font-size: 1.4rem !important;
     margin: 5px 0;
+
     span {
       color: #a90f64; 
       font-weight: bold;
@@ -131,22 +113,48 @@ export const TrailInfo = styled.div`
   }
 
   .trail_description {
-    margin-top: 1.6rem;
-    margin-bottom: 1.6rem;
+    padding: 16px 0 32px;
 
     letter-spacing: 0.8px;
     font-size: 1.6rem;
-    color: #c4c4c4;
+    line-height: 1.75;
+    color: #9a9ea3;
+  }
+
+  @media(max-width: 780px) {
+    .trail_info_header {
+      .trail_name_and_user_action {
+        button {
+          position: absolute;
+          top: -54px;
+          right: -16px;
+
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  
+  @media(max-width: 520px) {
+    .trail_info_header {
+      .trail_name_and_user_action {
+        justify-content: center;
+
+        .trail_title {
+
+        }
+      }
+    }
   }
 `;
 
-
 export const PlayListAndExerciciesContainer = styled.main`
   width: 820px;
-  
-  
   margin-top: 32px;
 `;
+
 export const FloatRight = styled.aside`
   margin-top: 32px;
   margin-left: 22px;
@@ -210,7 +218,8 @@ export const PlayList = styled(Link)<PlaylistProps>`
 
   background: ${tint(.02)('#0D0E12')};
 
-  padding: 32px;
+  padding: max(16px, min(64px, 2vw));
+  padding-top:48px;
 
   border-radius: 0.8rem;
   cursor: pointer;
@@ -264,11 +273,12 @@ export const PlayList = styled(Link)<PlaylistProps>`
     }
 
     p.playlist_description {
-      font-size: 1.4rem;
-      color: #c4c4c4;
-      width: 100%;
+      letter-spacing: 0.8px;
+      font-size: 1.6rem;
+      line-height: 1.75;
+      color: #9a9ea3;
 
-      margin: 0.8rem 0 1.6rem;
+      margin: 16px 0 0;
     }
   }
 
@@ -288,7 +298,7 @@ export const PlayList = styled(Link)<PlaylistProps>`
       }
 
       p.playlist_description {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
       }
     }
   }
@@ -329,7 +339,7 @@ export const Exercicie = styled.div`
 
       span {
         font-size: 1.4rem;
-        color: #c4c4c4;
+        color: #9a9ea3;
       }
     }
   }

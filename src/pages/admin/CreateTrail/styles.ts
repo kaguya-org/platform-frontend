@@ -118,7 +118,7 @@ export const Trail = styled(Link)`
       }
       p {
         word-break: break-all;
-        color: #c4c4c4;
+        color: #9a9ea3;
       }
     }
   }
@@ -129,7 +129,7 @@ export const Trail = styled(Link)`
     height: 36px;
     
     path {
-      color: #c4c4c4;
+      color: #9a9ea3;
     }
   }
 `;

@@ -14,7 +14,7 @@ export const COLORS = {
 export const GLOBAL_COLORS = {
   BLACK: '#0F0F11',
   WHITE: '#FFF',
-  GRAY: '#C4C4C4',
+  GRAY: '#9a9ea3',
 }
 
 export const BACKGROUND = {
@@ -28,7 +28,7 @@ export const BACKGROUND = {
 
 export const FONTS_COLORS = {
   PRIMARY: '#fff',
-  SECONDARY: '#c4c4c4',
+  SECONDARY: '#9a9ea3',
 }
 
 export const SHADOW_COLORS = {

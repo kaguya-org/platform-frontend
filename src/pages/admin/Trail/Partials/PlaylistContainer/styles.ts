@@ -39,7 +39,7 @@ width: 100%;
     p {
       margin-top: 8px;
       word-break: break-word;
-      color: #c4c4c4;
+      color: #9a9ea3;
     }
   }
 }
@@ -50,7 +50,7 @@ svg {
   height: 36px;
   
   path {
-    color: #c4c4c4;
+    color: #9a9ea3;
   }
 }
 `;

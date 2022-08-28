@@ -84,7 +84,7 @@ export const FormContainer = styled.section`
         align-items: flex-start;
 
         span {
-          color: #c4c4c4;
+          color: #9a9ea3;
           font-size: 12px;
           letter-spacing: 0.9px;
 
@@ -108,7 +108,7 @@ export const FormContainer = styled.section`
 
     > p {
       margin: 16px 0 32px;
-      color: #c4c4c4;
+      color: #9a9ea3;
     }
 
     div.control_buttons {
@@ -287,7 +287,7 @@ export const AllPlaylistTrailContainer = styled.section`
     }
 
     p {
-      color: #c4c4c4;
+      color: #9a9ea3;
       max-width: 480px;
       font-size: 14px;
     }

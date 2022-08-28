@@ -11,7 +11,7 @@ import {
 
 export const Container = styled.header`
   width: 100%;
-  padding: 0 64px;
+  padding: 0 max(16px, min(64px, 2vw));;
   display: flex;
   align-items: center;
   min-height: 70px;

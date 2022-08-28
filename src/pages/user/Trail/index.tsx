@@ -198,13 +198,13 @@ export function Trail() {
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
+                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha{!userHasTrail && <>,<span>que tal se juntar a ele?</span></>}
                     </p>
                   ) : (
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
+                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha{!userHasTrail && <>,<span>que tal se juntar a ele?</span></>}
                     </p>
                   )}
                 </S.TrailInfo>

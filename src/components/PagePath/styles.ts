@@ -43,5 +43,9 @@ export const Container = styled.div`
   .current_page {
     margin-left: 0.8rem;
     color: ${COLORS.PRIMARY};
+    white-space: nowrap;
+    max-width: max(200px, min(800px, 50vw));
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;

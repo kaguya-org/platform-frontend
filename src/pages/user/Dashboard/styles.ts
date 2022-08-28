@@ -49,7 +49,7 @@ export const LeftContent = styled.div`
   width: 100%;
   max-width: 100%;
   height: 100%;
-  padding: 30px 24px 30px 64px;
+  padding: max(16px, min(64px, 2vw));
 `;
 
 export const Welcome = styled.section`
@@ -187,14 +187,8 @@ export const MyTrailsSection = styled.section`
   }
 
   @media(max-width: 1100px) {
-    > header {
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      button {
-        font-size: 1.4rem;
-      }
+    > header button{
+      font-size: 1.4rem;
     }
   }
 `;
@@ -202,6 +196,7 @@ export const MyTrailsSection = styled.section`
 export const MyTrailsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   padding-bottom: 5px;
   overflow-x: auto;
   grid-template-columns: repeat(3, 1fr);
@@ -271,20 +266,25 @@ export const MyTrail = styled(Link)`
 export const RightContent = styled.section`
   max-width: 580px;
   width: 100%;
-  @media screen and (max-width: 1150px) {
-    display: none;
-  }
-  // viewport - navbar height
+
   height: calc(100vh - 70px);
 
-
   background: linear-gradient(to right, ${tint(.01)('#0D0E12')}, #0D0E12);
-  
+
+  @media screen and (max-width: 1150px) {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    
+    background: none;
+
+    padding-bottom: 32px;
+  }
 `;
 
 export const OtherTrailsSection = styled.section`
   position: relative;
-  padding: 16px;
+  padding: max(16px, min(64px, 2vw));
   padding-top: 30px;
   display: flex;
   flex-direction: column;
