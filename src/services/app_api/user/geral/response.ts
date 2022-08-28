@@ -26,6 +26,7 @@ export type User = {
 
 export type RegisterUserResponse = {
   user: User;
+  token: string;
 }
 
 export type TokenValidResponse = {

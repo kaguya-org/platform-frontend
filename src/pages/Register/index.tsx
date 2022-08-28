@@ -49,12 +49,12 @@ export function Register() {
         email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
         password: Yup.string().required('Senha obrigatória').min(8, 'Minimo de 8 digitos'),
         username: Yup.string().required('Username obrigatório').min(2, 'Minimo de 2 caracteres'),
-        terms: Yup.boolean().isTrue('Aceite os termos')
+        // terms: Yup.boolean().isTrue('Aceite os termos')
       });
 
       const customData = {
         ...data,
-        terms: termsAccepted,
+        // terms: termsAccepted,
       }
 
       const dataToRegister = {
@@ -170,7 +170,7 @@ export function Register() {
                   title="Aceitar os termos de uso"
                 />  */}
               </div>
-              <Button type="submit" isLoading={loading.state}>Criar</Button>
+              <Button type="submit" >Criar</Button>
             </FormTag>
           </section>
         </FormContainer>

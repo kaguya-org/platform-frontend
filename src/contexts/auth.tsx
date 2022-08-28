@@ -98,10 +98,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined> {
     const response = await api.user.geral.register(credentials);
 
-    const { user } = response.data;
+    const { token, user } = response.data;
 
+    baseApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    setToken(token);
     setUser(user);
     tokenIsValid.changeToTrue();
+    localStorage.setItem(kaguyaApiToken, token);
 
     return response.data;
   }
