@@ -1,6 +1,7 @@
 import { Cover } from '@/components/Cover';
 import { NoContent } from '@/components/NoContent';
 import Lordicon from '@/components/ReactLordicon';
+import { SeparatorLine } from '@/components/SeparatorLine';
 import { useEffect, useState } from 'react';
 import { BsDiscord } from 'react-icons/bs';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
@@ -128,6 +129,24 @@ export function Trail() {
             <S.TrailInfoContainer>
               <S.PrincipalTrailInfo>
                 <S.TrailInfo>
+                  {!trailInfoLoading.state && trailInfo && !(trailInfo.user_trail?.enabled) && (
+                      <>
+                        <Lordicon 
+                          colors={{
+                            primary: '#c93464',
+                            secondary: '#c93464',
+                          }}
+                          icon="error"
+                          size={100}
+                          delay={1000}
+                          trigger='loop'  
+                        />
+                        <strong style={{fontSize: 15, color: '#c93464'}}>Adicione esta trilha antes de acessar as playlists</strong>
+
+                        <SeparatorLine />
+                      </>
+
+                    )}
                   <header className="trail_info_header">
                     <img 
                       className="trail_image"
@@ -198,13 +217,13 @@ export function Trail() {
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha{!userHasTrail && <>,<span>que tal se juntar a ele?</span></>}
+                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
                     </p>
                   ) : (
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha{!userHasTrail && <>,<span>que tal se juntar a ele?</span></>}
+                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
                     </p>
                   )}
                 </S.TrailInfo>
@@ -214,6 +233,8 @@ export function Trail() {
               <div style={{ 
                 display: 'flex',
                 justifyContent: 'space-between',
+                gap: 16,
+                flexWrap: 'wrap-reverse',
                 width: '100%'
               }}>
                 <S.PlayListAndExerciciesContainer>
@@ -230,22 +251,8 @@ export function Trail() {
                   ): (
                     <>
 
-                     {!trailInfoLoading.state && trailInfo && !(trailInfo.user_trail?.enabled) && (
-                      <>
-                        <Lordicon 
-                          colors={{
-                            primary: '#fff',
-                            secondary: '#fff',
-                          }}
-                          icon="error"
-                          size={100}
-                          delay={1000}
-                          trigger='loop'  
-                      />
-                      <strong style={{fontSize: 15}}>Adicione esta trilha antes de acessar as playlists</strong>
-                      </>
-
-                     )}
+                    
+                     <h1>Playlists</h1>
                       {playlistsByTrail.length >= 1 ? (
                         playlistsByTrail.map((playlist, index) => (
                           <S.PlayListAndExercicie key={playlist.id}>
@@ -275,10 +282,34 @@ export function Trail() {
                   )}
                 </S.PlayListAndExerciciesContainer>
                 <S.FloatRight>
-                  <h1>
-                  <Lordicon size={60} icon='confetti' trigger='loop' delay={3000} style={{ marginRight: 15 }} />
-                    Faça parte da nossa comunidade!</h1>
-                  <a href="https://discord.gg/3wdCtmMTSx" target={"_blank"}><BsDiscord /> Discord</a>
+                  <h1>Informações da Trilha</h1>
+                  <p>
+                    <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }} />
+                      Contém {trailInfo?._count.playlists || 0} {trailInfo?._count.playlists === 1 ? 'playlist' : 'playlists'} e {trailInfo?._count.lessons || 0} {trailInfo?._count.lessons === 1 ? 'aula' : 'aulas'} no total.
+                  </p>
+                  {trailInfo?._count.users && trailInfo?._count.users <= 1 ? (
+                    <p>
+                      <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }}  />Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
+                    </p>
+                  ) : (
+                    <p>
+                      <HiOutlineArrowNarrowRight style={{
+                      marginRight: 10
+                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
+                    </p>
+                  )}
+                  <SeparatorLine />
+                  <S.Community>
+                    <h1>Comunidade <Lordicon size={40} icon='confetti' trigger='loop' delay={3000} /></h1>
+                    <p>Faça parte da nossa comunidade!</p>
+                    
+                    <a href="https://discord.gg/3wdCtmMTSx" target={"_blank"}><BsDiscord /> Discord</a>
+
+                  </S.Community>
                 </S.FloatRight>
               </div>
               

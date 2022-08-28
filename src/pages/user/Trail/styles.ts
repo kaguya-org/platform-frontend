@@ -156,10 +156,11 @@ export const PlayListAndExerciciesContainer = styled.main`
 `;
 
 export const FloatRight = styled.aside`
-  margin-top: 32px;
-  margin-left: 22px;
-  padding: 40px;
-  height: 300px;
+  p {
+    line-height: 24px;
+    font-size: 14px;
+  }
+  padding: 60px 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -170,6 +171,10 @@ export const FloatRight = styled.aside`
   h1 {
     margin-bottom: 50px;
   }
+  span {
+      color: #a90f64 !important; 
+      font-weight: bold;
+    }
   a {
     display: inline-flex;
     padding: 20px 40px;
@@ -186,10 +191,18 @@ export const FloatRight = styled.aside`
   border-radius: 0.8rem;
 
   @media screen and (max-width: 960px) {
-    display: none;
   }
 `
 
+export const Community = styled.div`
+  h1 {
+    margin-bottom: 10px;
+  }
+  
+  a {
+    margin-top: 50px;
+  }
+`
 export const PlayListAndExercicie = styled.div`
   &:not(:first-child) {
     margin-top: 3.2rem;

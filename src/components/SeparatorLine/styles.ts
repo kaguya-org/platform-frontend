@@ -4,6 +4,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
     position: relative;
     margin: 24px 0;
+    width: 100%;
     > div {
         height: 2px;
         background: -webkit-gradient(linear,0 0,100% 0, from(${BACKGROUND.SECONDARY}), to(${BACKGROUND.SECONDARY}), color-stop(50%, ${BACKGROUND.QUATERNARY}));
