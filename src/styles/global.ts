@@ -6,6 +6,7 @@ import {
 
 export const GlobalStyle = createGlobalStyle`
   * {
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -60,8 +61,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, html, #root {
+    min-width: 280px;
     position: relative;
     font-size: 62.5%;
+    overflow-x: hidden;
 
     background: ${BACKGROUND.PRIMARY};
 

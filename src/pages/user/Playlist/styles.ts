@@ -23,6 +23,10 @@ export const MainContent = styled.main`
   display: flex;
   width: 100%;
   gap: 16px;
+  @media screen and (max-width: 950px){
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 `;
 
 export const CurrentLessonContainer = styled.main`
@@ -47,16 +51,23 @@ export const CurrentLesson = styled.section`
   iframe {
     border-radius: 4px;
     border: none;
-    width: max(280px, min(850px, 50vw));
-    height: max(158.48px, min(478.125px, 28.3vw));
+    width: max(240px, min(850px, 50vw));
+    height: max(calc(240px * 0.5625), min(calc(850px * 0.5625), calc(50vw * 0.5625)));
+
+    @media screen and (max-width: 950px){
+      width: max(240px, min(850px, calc(100vw - 40px)));
+      height: max(calc(240px * 0.5625), min(calc(850px * 0.5625), calc((100vw - 40px) * 0.5625)));
+    }
+
   }
 
 
 
   > div.lesson_counts_container {
     width: 100%;
-
+    gap: 20px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 
@@ -119,17 +130,15 @@ export const LessonInfo = styled.section`
 
   padding: 32px;
 
-  background: #16171c;
   border-radius: 4px;
 `;
 
 export const BlocksAndLessonsContainer = styled.aside`
-  background: #16171c;
 
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  width: 400px;
+  overflow: hidden;
+  width: 100%;
 
   border-radius: 4px;
 `;
@@ -236,11 +245,17 @@ export const News = styled.section`
   margin-top: 70px;
   text-align: center;
   border-radius: 4px;
-  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px max(15px, min(30px, 5vw));
   border: 2px solid #c9346440;
   cursor: not-allowed;
+  @media screen and (max-width: 865px) {
+    flex-direction: column;
+  }
   h1 {
-    font-size: 3rem;
+    font-size: max(17px, min(20px, 5vw));
     color: #c93464 !important;
   }
 

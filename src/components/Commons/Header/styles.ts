@@ -33,6 +33,11 @@ export const Content = styled.div`
   width: 100%;
   padding: 1.6rem 0;
   margin: 0 auto;
+  > a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
   nav {
     display: flex;

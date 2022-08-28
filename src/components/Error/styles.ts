@@ -5,7 +5,7 @@ export const Container = styled.div`
   top: 0;
   overflow: none;
   left: 0;
-  z-index: 2;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,21 +16,25 @@ export const Container = styled.div`
   background: rgba(0,0,0,0.75);
 `
 export const Box = styled.div`
-  padding: 70px 60px;
+  padding: 70px max(10px, min(30px, 10vw));
   display: flex;
   flex-direction: column;
   justify-content: left;
+  margin: 0 20px;
   header {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    width: 100%;
     margin-bottom: 50px;
   }
   align-items: flex-end;
-  margin: 0 10px;
   border-radius: 10px;
   box-shadow: 2px 2px 10px #c93464,  -2px -2px 10px #c93464;
   span {
-    font-size: 3rem;
+    font-size: max(14px, min(20px, 5vw));
     color: #c93464;
     display: inline-block;
     width: 100%;

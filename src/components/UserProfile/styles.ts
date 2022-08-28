@@ -24,6 +24,13 @@ export const Content = styled.div`
   gap: 1.6rem;
         
   span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: max(30px, 20vw);
+    @media screen and (max-width: 350px) {
+      max-width: max(30px, 10vw);
+    }
     font-size: 1.6rem;
     color: ${FONTS_COLORS.SECONDARY};
   }

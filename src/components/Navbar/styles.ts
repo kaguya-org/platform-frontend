@@ -11,7 +11,7 @@ import {
 
 export const Container = styled.header`
   width: 100%;
-  padding: 0 max(16px, min(64px, 2vw));;
+  padding: 0 max(16px, min(64px, 2vw));
   display: flex;
   align-items: center;
   min-height: 70px;
@@ -29,6 +29,11 @@ export const Content = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  .app_logo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 `;
 
 export const LinksContainer = styled.div`
@@ -36,8 +41,7 @@ export const LinksContainer = styled.div`
   align-items: center;
   gap: 4px;
 
-  .app_logo {
-  }
+ 
 `;
 
 export const LinkItem = styled(Link)`

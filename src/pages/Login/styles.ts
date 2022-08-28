@@ -39,7 +39,8 @@ export const Content = styled.main`
   }
 
   section {
-    padding: 3.2rem;
+    padding: max(16px, min(27px, 2vw));
+    padding-top: 50px;
 
     h1 {
       margin-bottom: 2.4rem;
@@ -51,7 +52,7 @@ export const FormContainer = styled.div`
   width: 100%;
   max-width: 46.0rem;
   height: 650px;
-
+  margin: 0 max(16px, min(64px, 2vw));
   border-radius: 0.8rem;
   background: ${BACKGROUND.SECONDARY};
 `

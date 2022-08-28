@@ -148,13 +148,7 @@ export function Trail() {
 
                     )}
                   <header className="trail_info_header">
-                    <img 
-                      className="trail_image"
-                      src={
-                        trailInfo?.avatar_url ||
-                        DEFAULT_TRAIL_IMAGE} 
-                      alt={trailInfo?.name} 
-                    />
+                    
 
                     <div className="trail_name_and_user_action">
                       <h1 className="trail_title">Trilha de 
@@ -208,35 +202,19 @@ export function Trail() {
                   <p className="trail_description">
                     {`${trailInfo?.description}`}
                   </p>
-                  <p>
-                    <HiOutlineArrowNarrowRight style={{
-                      marginRight: 10
-                    }} /> Contém {trailInfo?._count.playlists} playlists e {trailInfo?._count.lessons} aulas no total.
-                  </p>
-                  {trailInfo?._count.users && trailInfo?._count.users <= 1 ? (
-                    <p>
-                      <HiOutlineArrowNarrowRight style={{
-                      marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
-                    </p>
-                  ) : (
-                    <p>
-                      <HiOutlineArrowNarrowRight style={{
-                      marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
-                    </p>
-                  )}
                 </S.TrailInfo>
               </S.PrincipalTrailInfo>
 
-              <div className="line_separator"/>
-              <div style={{ 
-                display: 'flex',
-                justifyContent: 'space-between',
-                gap: 16,
-                flexWrap: 'wrap-reverse',
-                width: '100%'
-              }}>
+              <S.Quotes>
+                <Lordicon size={70} icon='book' colors={{
+                  primary: '#a90f64',
+                  secondary: '#fff'
+                }} trigger='loop' delay={3000} />
+                <p>"Na casa de um rico não há lugar para se cuspir, a não ser em sua cara." <br /> <strong> <a href='https://pt.wikipedia.org/wiki/Diógenes_de_Sinope' target={'_blank'} >- Diógenes de Sínope <Lordicon size={40} icon='share' trigger='loop' delay={3000} /></a></strong></p>              
+              </S.Quotes>
+
+              <SeparatorLine />
+              <S.PlaylistContent>
                 <S.PlayListAndExerciciesContainer>
                   {playlistsByTrailLoading.state ? (
                     <Cover
@@ -251,7 +229,6 @@ export function Trail() {
                   ): (
                     <>
 
-                    
                      <h1>Playlists</h1>
                       {playlistsByTrail.length >= 1 ? (
                         playlistsByTrail.map((playlist, index) => (
@@ -282,7 +259,16 @@ export function Trail() {
                   )}
                 </S.PlayListAndExerciciesContainer>
                 <S.FloatRight>
-                  <h1>Informações da Trilha</h1>
+                  <div className="image_container">
+                    <img 
+                        
+                        src={
+                          trailInfo?.avatar_url ||
+                          DEFAULT_TRAIL_IMAGE} 
+                        alt={trailInfo?.name} 
+                      />
+                    <h1>Informações da Trilha</h1>
+                  </div>
                   <p>
                     <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
@@ -311,7 +297,7 @@ export function Trail() {
 
                   </S.Community>
                 </S.FloatRight>
-              </div>
+              </S.PlaylistContent>
               
           </S.TrailInfoContainer>
 

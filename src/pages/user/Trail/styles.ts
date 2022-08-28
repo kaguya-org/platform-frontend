@@ -20,14 +20,33 @@ export const MainContent = styled.main`
   gap: 30px;
   
   margin-top: 32px; 
-`;
+  `;
 
+export const Quotes = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 15px;
+  > lord-icon {
+    flex-shrink: 0;
+  }
+  p {
+    max-width: 500px;
+  }
+
+  line-height: 26px;
+  @media screen and (max-width: 400px) {
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+`
 export const TrailInfoContainer = styled.aside`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 24px;
-
   width: 100%;
   height: min-content;
 `;
@@ -37,7 +56,7 @@ export const PrincipalTrailInfo = styled.section`
   align-items: flex-start;
   gap: 24px;
 
-  background: #16171c;
+  background: linear-gradient(90deg, #0D0E12 0%, #181A2159 32%, #a90f64 300% );
   padding: 32px;
   border-radius: 8px;
 
@@ -94,6 +113,7 @@ export const TrailInfo = styled.div`
       }
 
       button {
+        background-color: #a90f6478;
         svg {
           width: 2.2rem;
           height: 2.2rem;
@@ -151,8 +171,12 @@ export const TrailInfo = styled.div`
 `;
 
 export const PlayListAndExerciciesContainer = styled.main`
-  width: 820px;
+  width: 870px;
+  padding-bottom: 60px;
   margin-top: 32px;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
 export const FloatRight = styled.aside`
@@ -160,17 +184,31 @@ export const FloatRight = styled.aside`
     line-height: 24px;
     font-size: 14px;
   }
-  padding: 60px 40px;
+  padding: 60px max(16px, min(64px, 2vw));
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
-
-  background: #16171c;
-  width: 500px;
-  h1 {
+  .image_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 50px;
+    @media screen and (max-width: 500px) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    img {
+      width: 100px;
+    }
   }
+
+  background: #181A21;
+  width: 500px;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
+
   span {
       color: #a90f64 !important; 
       font-weight: bold;
@@ -207,6 +245,7 @@ export const PlayListAndExercicie = styled.div`
   &:not(:first-child) {
     margin-top: 3.2rem;
   }
+  
 `;
 
 type PlaylistProps = {
@@ -287,11 +326,11 @@ export const PlayList = styled(Link)<PlaylistProps>`
 
     p.playlist_description {
       letter-spacing: 0.8px;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       line-height: 1.75;
       color: #9a9ea3;
 
-      margin: 16px 0 0;
+      margin: 16px 0 20px;
     }
   }
 
@@ -430,6 +469,15 @@ export const Exercicie = styled.div`
   }
 `;
 
+export const PlaylistContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  @media screen and (max-width: 1000px) {
+    flex-wrap: wrap-reverse;
+  }
+`
 export const OtherTrailInfo = styled.section`
   width: 100%;
   flex: 1;
@@ -463,3 +511,4 @@ export const OtherTrailInfo = styled.section`
     }
   }
 `;
+

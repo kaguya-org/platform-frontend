@@ -501,17 +501,17 @@ export function Playlist() {
             </S.BlocksAndLessonsContainer>
           </S.MainContent>
           <S.News>
+            <Lordicon 
+              colors={{
+                primary: '#c93464',
+                secondary: '#c93464',
+              }} 
+              icon='error' 
+              trigger='loop' 
+              size={80}  
+              delay={2000}
+            />
             <h1>
-              <Lordicon 
-                colors={{
-                  primary: '#c93464',
-                  secondary: '#c93464',
-                }} 
-                icon='error' 
-                trigger='loop' 
-                size={80}  
-                delay={2000}
-              />
               Sessão de comentários será adicionada em breve!</h1>
           </S.News>
         </S.Content>

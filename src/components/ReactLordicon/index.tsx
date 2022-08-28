@@ -11,11 +11,13 @@ export type LordiconIcons =
   | 'helpQuestion'
   | 'alarm'
   | 'arrowUp'
+  | 'wings'
   | 'arrowDown'
   | 'chat'
   | 'clock'
   | 'autorenew'
   | 'article'
+  | 'nightSky'
   | 'history'
   | 'trash'
   | 'play'
@@ -24,6 +26,8 @@ export type LordiconIcons =
   | 'thumbsUpDown'
   | 'cross'
   | 'spaFlower'
+  | 'book'
+  | 'share'
   | 'snake'
   | 'ruins'
   | 'privacyPolicy'
@@ -74,37 +78,41 @@ export const Lordicon: React.FC<LordiconProps> = ({
   const cdnLordiconBaseUrl = 'https://cdn.lordicon.com/'
 
   const lordiconIcons: Record<LordiconIcons, string> = {
-    confetti: 'lupuorrc.json',
-    bolt: 'giaigwkd.json',
-    helpCenter: 'njjuilvq.json',
-    info: 'aixyixpa.json',
-    notificationBell: 'ndydpcaq.json',
-    error: 'tdrtiskw.json',
-    warning: 'rslnizbt.json',
-    helpQuestion: 'keogyrep.json',
-    alarm: 'rinkvymq.json',
-    arrowUp: 'eflfmgmj.json',
-    arrowDown: 'xhdhjyqy.json',
-    chat: 'uvextprq.json',
-    clock: 'abgtphux.json',
-    autorenew: 'sihdhmit.json',
-    trash: 'dovoajyj.json',
-    article: 'sygggnra.json',
-    history: 'lefmybnc.json',
-    play: 'fetyzpiw.json',
-    addCard: 'auvicynv.json',
-    thumbsUpDown: 'rahcoaeu.json',
-    cross: 'vfzqittk.json',
-    spaFlower: 'dqunxaob.json',
-    snake: 'jlkaerma.json',
-    ruins: 'uixzulhh.json',
-    privacyPolicy: 'yyecauzv.json',
-    edit: 'wloilxuq.json',
-    bin: 'gsqxdxog.json',
-    flatArrow: 'iifryyua.json'
+    confetti: 'lupuorrc',
+    share: 'udwhdpod',
+    wings: 'hpxruznz',
+    bolt: 'giaigwkd',
+    book: 'wxnxiano',
+    helpCenter: 'njjuilvq',
+    info: 'aixyixpa',
+    notificationBell: 'ndydpcaq',
+    error: 'tdrtiskw',
+    warning: 'rslnizbt',
+    helpQuestion: 'keogyrep',
+    alarm: 'rinkvymq',
+    nightSky: 'tgnqhsfe',
+    arrowUp: 'eflfmgmj',
+    arrowDown: 'xhdhjyqy',
+    chat: 'uvextprq',
+    clock: 'abgtphux',
+    autorenew: 'sihdhmit',
+    trash: 'dovoajyj',
+    article: 'sygggnra',
+    history: 'lefmybnc',
+    play: 'fetyzpiw',
+    addCard: 'auvicynv',
+    thumbsUpDown: 'rahcoaeu',
+    cross: 'vfzqittk',
+    spaFlower: 'dqunxaob',
+    snake: 'jlkaerma',
+    ruins: 'uixzulhh',
+    privacyPolicy: 'yyecauzv',
+    edit: 'wloilxuq',
+    bin: 'gsqxdxog',
+    flatArrow: 'iifryyua'
   }
 
-  const lordiconIcon = lordiconIcons[icon]
+  const lordiconIcon = `${lordiconIcons[icon]}.json`
 
   const lordicon = (
     <lord-icon

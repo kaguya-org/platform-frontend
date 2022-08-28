@@ -1,3 +1,4 @@
+import Lordicon from '@/components/ReactLordicon';
 import { Link } from 'react-router-dom';
 import {
   Container,
@@ -9,6 +10,10 @@ export function Header() {
     <Container>
       <Content>
         <Link to="/dashboard">
+          <Lordicon size={50} icon='nightSky' colors={{
+            primary: '#fff',
+            secondary: '#a90f64'
+          }} trigger='loop' delay={3000} />
           <h2>Kaguya</h2>
         </Link>
 

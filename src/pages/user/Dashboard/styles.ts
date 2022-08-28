@@ -19,6 +19,7 @@ type NoContentProps = {
 export const NoContent = styled.div<NoContentProps>`
   display: flex;
   width: 100%;
+  padding: 40px 0;
   flex-direction: column;
   justify-content: center;
   flex: 1;
@@ -50,6 +51,7 @@ export const LeftContent = styled.div`
   max-width: 100%;
   height: 100%;
   padding: max(16px, min(64px, 2vw));
+  padding-top: 50px;
 `;
 
 export const Welcome = styled.section`
