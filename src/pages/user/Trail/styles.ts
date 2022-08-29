@@ -73,7 +73,13 @@ export const PrincipalTrailInfo = styled.section`
 export const TrailInfo = styled.div`
   width: 100%;
   position: relative; 
-
+  .warn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
   .trail_info_header {
     display: flex;
     justify-content: center;
@@ -184,7 +190,7 @@ export const FloatRight = styled.aside`
     line-height: 24px;
     font-size: 14px;
   }
-  padding: 60px max(16px, min(64px, 2vw));
+  padding: 40px max(16px, min(64px, 2vw));
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -199,11 +205,12 @@ export const FloatRight = styled.aside`
       justify-content: center;
     }
     img {
+      border-radius: 7px;
       width: 100px;
     }
   }
 
-  background: #181A21;
+  background: #111216;
   width: 500px;
   @media screen and (max-width: 1000px) {
     width: 100%;
@@ -213,23 +220,10 @@ export const FloatRight = styled.aside`
       color: #a90f64 !important; 
       font-weight: bold;
     }
-  a {
-    display: inline-flex;
-    padding: 20px 40px;
-    border-radius: 0.8rem;
-    font-weight: bold;
-    align-items: center;
-    background-color: #5865f2;
-    svg {
-      font-size: 30px;
-      margin-right: 7px;
-    }
-    font-size: 20px;
-  }
+
   border-radius: 0.8rem;
 
-  @media screen and (max-width: 960px) {
-  }
+
 `
 
 export const Community = styled.div`
@@ -237,8 +231,20 @@ export const Community = styled.div`
     margin-bottom: 10px;
   }
   
-  a {
-    margin-top: 50px;
+  a { 
+    display: inline-flex;
+    padding: 10px;
+    padding-right: 14px;
+    border-radius: 0.4rem;
+    font-weight: bold;
+    align-items: center;
+    background-color: #5865f2;
+    svg {
+      font-size: 20px;
+      margin-right: 7px;
+    }
+    font-size: 13px;
+    margin-top: 16px;
   }
 `
 export const PlayListAndExercicie = styled.div`

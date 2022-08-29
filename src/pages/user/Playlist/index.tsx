@@ -69,6 +69,10 @@ export function Playlist() {
         setErrorMessage('Não há aulas nessa playlist, aguarde e iremos criar aulas para você!')
       }
       
+      if(blocks.map(block => block.lessons).flat().length === 0) {
+        setErrorMessage('Não há aulas nessa playlist, aguarde e iremos criar aulas para você!')
+      }
+      
       setBlocks(blocks);
 
       if(block_slug) {

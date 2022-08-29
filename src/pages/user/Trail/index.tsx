@@ -2,7 +2,8 @@ import { Cover } from '@/components/Cover';
 import { NoContent } from '@/components/NoContent';
 import Lordicon from '@/components/ReactLordicon';
 import { SeparatorLine } from '@/components/SeparatorLine';
-import { useEffect, useState } from 'react';
+import { getRandomInt } from '@/utils/getRandomInt';
+import { useEffect, useMemo, useState } from 'react';
 import { BsDiscord } from 'react-icons/bs';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
@@ -31,6 +32,33 @@ export function Trail() {
   const { trail_slug } = useParams<LocationParams>();
   const [trailInfo, setTrailInfo] = useState<GlobalType.TrailsResponse | null>(null);
   const [playlistsByTrail, setPlaylistsByTrail] = useState<GlobalType.ListAllPlaylistsByTrailResponse[]>([]);
+
+  const quotes = [
+    {
+      quote: 'Na casa de um rico não há lugar para se cuspir, a não ser em sua cara.',
+      philosopher: 'Diógenes de Sínope',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Di%C3%B3genes_de_Sinope'
+    },
+    {
+      quote: 'Não se pode pisar duas vezes no mesmo rio.',
+      philosopher: 'Heráclito',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Heráclito'
+    },
+    {
+      quote: 'O homem só pode ser homem mediante a educação.',
+      philosopher: 'Immanuel Kant',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Immanuel_Kant'
+    }
+  ];
+
+  const generatedQuote = useMemo(() => {
+    const quoteIndex = getRandomInt(0, quotes.length - 1)
+
+    const quote = quotes[quoteIndex]
+    
+    return quote
+  }, [quotes])
+
 
   async function getTrailInfo() {
     try {
@@ -130,21 +158,21 @@ export function Trail() {
               <S.PrincipalTrailInfo>
                 <S.TrailInfo>
                   {!trailInfoLoading.state && trailInfo && !(trailInfo.user_trail?.enabled) && (
-                      <>
+                      <div className='warn'>
                         <Lordicon 
                           colors={{
                             primary: '#c93464',
                             secondary: '#c93464',
                           }}
                           icon="error"
-                          size={100}
+                          size={70}
                           delay={1000}
                           trigger='loop'  
                         />
                         <strong style={{fontSize: 15, color: '#c93464'}}>Adicione esta trilha antes de acessar as playlists</strong>
 
                         <SeparatorLine />
-                      </>
+                      </ div>
 
                     )}
                   <header className="trail_info_header">
@@ -210,7 +238,7 @@ export function Trail() {
                   primary: '#a90f64',
                   secondary: '#fff'
                 }} trigger='loop' delay={3000} />
-                <p>"Na casa de um rico não há lugar para se cuspir, a não ser em sua cara." <br /> <strong> <a href='https://pt.wikipedia.org/wiki/Diógenes_de_Sinope' target={'_blank'} >- Diógenes de Sínope <Lordicon size={40} icon='share' trigger='loop' delay={3000} /></a></strong></p>              
+                <p>"{generatedQuote.quote}" <br /> <strong> <a href={generatedQuote.wikipedia} target={'_blank'} >- {generatedQuote.philosopher} <Lordicon size={40} icon='share' trigger='loop' delay={3000} /></a></strong></p>              
               </S.Quotes>
 
               <SeparatorLine />
@@ -261,7 +289,6 @@ export function Trail() {
                 <S.FloatRight>
                   <div className="image_container">
                     <img 
-                        
                         src={
                           trailInfo?.avatar_url ||
                           DEFAULT_TRAIL_IMAGE} 
@@ -279,13 +306,13 @@ export function Trail() {
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  />Atualmente {trailInfo?._count.users} aluno faz esta trilha, <span>que tal se juntar a ele?</span>
+                    }}  />Atualmente {trailInfo?._count.users} aluno faz esta trilha {!userHasTrail && (<>, <span>que tal se juntar a ele?</span></>)}
                     </p>
                   ) : (
                     <p>
                       <HiOutlineArrowNarrowRight style={{
                       marginRight: 10
-                    }}  /> Atualmente {trailInfo?._count.users} alunos fazem esta trilha, <span>que tal se juntar a eles?</span>
+                    }}  />Atualmente {trailInfo?._count.users} alunos fazem esta trilha {!userHasTrail && (<>, <span>que tal se juntar a eles?</span></>)}
                     </p>
                   )}
                   <SeparatorLine />

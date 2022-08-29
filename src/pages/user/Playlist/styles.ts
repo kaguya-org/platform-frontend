@@ -128,7 +128,7 @@ export const LessonInfo = styled.section`
   justify-content: space-between;
   flex-direction: column;
 
-  padding: 32px;
+  padding: 32px 8px;
 
   border-radius: 4px;
 `;
