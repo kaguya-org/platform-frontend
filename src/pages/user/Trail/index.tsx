@@ -48,7 +48,32 @@ export function Trail() {
       quote: 'O homem só pode ser homem mediante a educação.',
       philosopher: 'Immanuel Kant',
       wikipedia: 'https://pt.wikipedia.org/wiki/Immanuel_Kant'
-    }
+    },
+    {
+      quote: 'Ser é ser percebido.',
+      philosopher: 'George Berkley',
+      wikipedia: 'https://pt.wikipedia.org/wiki/George_Berkeley'
+    },
+    {
+      quote: 'A vida não é um problema a ser resolvido, mas uma realidade a ser experimentada.',
+      philosopher: 'Soren Kierkegaard',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Søren_Kierkegaard'
+    },
+    {
+      quote: 'É necessário que, ao menos uma vez na vida, você duvide, tanto quanto possível, de todas as coisas.',
+      philosopher: 'René Descartes',
+      wikipedia: 'https://pt.wikipedia.org/wiki/René_Descartes'
+    },
+    {
+      quote: 'Conhece-te a ti mesmo e conhecerás o universo e os deuses.',
+      philosopher: 'Sócrates',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Sócrates'
+    },
+    {
+      quote: 'Existe apenas um bem, o saber, e apenas um mal, a ignorância.',
+      philosopher: 'Sócrates',
+      wikipedia: 'https://pt.wikipedia.org/wiki/Sócrates'
+    },
   ];
 
   const generatedQuote = useMemo(() => {
