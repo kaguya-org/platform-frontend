@@ -34,6 +34,7 @@ export type LordiconIcons =
   | 'edit'
   | 'bin'
   | 'flatArrow'
+  | 'camera'
 
 export type LordiconTrigger =
   | 'hover'
@@ -109,7 +110,8 @@ export const Lordicon: React.FC<LordiconProps> = ({
     privacyPolicy: 'yyecauzv',
     edit: 'wloilxuq',
     bin: 'gsqxdxog',
-    flatArrow: 'iifryyua'
+    flatArrow: 'iifryyua',
+    camera: 'vixtkkbk'
   }
 
   const lordiconIcon = `${lordiconIcons[icon]}.json`

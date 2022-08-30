@@ -8,7 +8,7 @@ import {
 import AVATAR_DEFAULT from '../../assets/images/default_avatar.png';
 
 export type UserPhotoProps = {
-  imageUri: string | null | undefined;
+  imageUri?: string | null;
   size: number;
   css?: {
     container?: React.CSSProperties;

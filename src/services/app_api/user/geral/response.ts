@@ -8,7 +8,7 @@ type Role = {
 
 export type User = {
   id: string;
-  name: string | null;
+  name?: string | null;
   email: string;
   avatar: string | null;
   avatar_url: string | null;
