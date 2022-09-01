@@ -64,7 +64,6 @@ export const GlobalStyle = createGlobalStyle`
     min-width: 280px;
     position: relative;
     font-size: 62.5%;
-    overflow-x: hidden;
 
     background: ${BACKGROUND.PRIMARY};
 
