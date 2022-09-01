@@ -1,4 +1,3 @@
-import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -6,8 +5,8 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(to right bottom, ${COLORS.SECONDARY}, ${COLORS.TERNARY});
-  padding: 0.4rem;
+  border: 2px solid #a90f64;
+  padding: 2px;
   border-radius: 50%;
 
   width: min-content;
@@ -18,8 +17,6 @@ type AvatarImageProps ={
 }
 
 export const AvatarImage = styled.img<AvatarImageProps>`
-  border: 0.4rem solid var(--third-background);
-
   width: ${props => `${props.size}rem`};
   height: ${props => `${props.size}rem`};
 

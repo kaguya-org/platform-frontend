@@ -5,7 +5,7 @@ import {
   AvatarImage
 } from './styles';
 
-import AVATAR_DEFAULT from '../../assets/images/default_avatar.png';
+import AVATAR_DEFAULT from '../../assets/images/default_avatar.gif';
 
 export type UserPhotoProps = {
   imageUri?: string | null;
@@ -30,7 +30,7 @@ export function UserPhoto({
       <AvatarImage
         size={size} 
         src={imageUri || AVATAR_DEFAULT} 
-        style={css?.container}
+        style={css?.avatar}
       />
     </Container>
   );

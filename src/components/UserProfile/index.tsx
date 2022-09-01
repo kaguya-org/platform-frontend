@@ -28,13 +28,8 @@ export function UserProfile({
         )}
 
         <UserPhoto
-          imageUri={user?.avatar} 
+          imageUri={user?.avatar_url} 
           size={3.6}
-          css={{
-            container: {
-              padding: '0.2rem',
-            }
-          }}
         />
       </S.Content>
     </S.Container>
