@@ -2,7 +2,7 @@ import { SeparatorLine } from '@/components/SeparatorLine';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/useToast';
 import { FormHandles } from '@unform/core';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -12,10 +12,9 @@ import * as Yup from 'yup';
 
 import {
   Button,
-  ContainerPage, Header,
+  Header,
   Input
 } from '../../components';
-
 
 import { useAuth, useBoolean } from '../../hooks';
 
@@ -24,6 +23,7 @@ import { UserType } from '../../services/api';
 import { getValidationErrors } from '../../utils/getValidationErrors';
 
 import {
+  Container,
   Content,
   FormContainer,
   FormTag
@@ -39,8 +39,6 @@ export function Register() {
 
   const registerFormRef = useRef<FormHandles>(null);
 
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
   async function registerUserSubmit(data: UserType.RegisterUserParams) {
     try {
       loading.changeToTrue();
@@ -49,12 +47,10 @@ export function Register() {
         email: Yup.string().email('E-mail inválido').required('Email obrigatório'),
         password: Yup.string().required('Senha obrigatória').min(8, 'Minimo de 8 digitos'),
         username: Yup.string().required('Username obrigatório').min(2, 'Minimo de 2 caracteres'),
-        // terms: Yup.boolean().isTrue('Aceite os termos')
       });
 
       const customData = {
         ...data,
-        // terms: termsAccepted,
       }
 
       const dataToRegister = {
@@ -90,17 +86,8 @@ export function Register() {
     }
   }
 
-  function termsChange(event: React.FormEvent<HTMLInputElement>) {
-    setTermsAccepted(event.currentTarget.checked);
-  }
-
   return (
-    <ContainerPage 
-      containerStyle={{
-        alignItems: 'center',
-        height: '100vh'
-      }}
-    >
+    <Container>
       <Header />
       <Content>
         <FormContainer>
@@ -175,6 +162,6 @@ export function Register() {
           </section>
         </FormContainer>
       </Content>
-    </ContainerPage>
+    </Container>
   );
 }

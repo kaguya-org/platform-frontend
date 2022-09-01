@@ -9,7 +9,11 @@ export const Container = styled.div`
 export const Content = styled.main`
   width: 100%;
   height: calc(100% - 82px);
-  margin: 100px auto 0;
+  margin-top: 128px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   nav.login_register_navigation {
     width: 100%;

@@ -1,11 +1,14 @@
 import { Form } from '@unform/web';
 import styled from 'styled-components';
-import { BACKGROUND, COLORS, FONTS_COLORS, SHADOW_COLORS } from '../../theme';
+import { BACKGROUND, COLORS, SHADOW_COLORS } from '../../theme';
+
+export const Container = styled.div`
+`;
 
 export const Content = styled.main`
   width: 100%;
-  height: calc(100% - 61px);
-  margin-top: 61px;
+  height: calc(100% - 82px);
+  margin-top: 128px;
 
   display: flex;
   align-items: center;
@@ -53,7 +56,8 @@ export const Content = styled.main`
 export const FormContainer = styled.div`
   width: 100%;
   max-width: 46.0rem;
-  margin: 0 max(16px, min(64px, 2vw));
+  height: 650px;
+  margin: 0 auto;
   border-radius: 0.8rem;
   background: ${BACKGROUND.SECONDARY};
 `
