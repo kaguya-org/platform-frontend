@@ -15,9 +15,6 @@ import Lordicon from '../ReactLordicon';
 export function Navbar(): JSX.Element {
   const { signOut } = useAuth();
 
-
-
-
   return (
     <S.Container>
       <S.Content>
@@ -39,29 +36,25 @@ export function Navbar(): JSX.Element {
         {/* </S.LinksContainer> */}
         
         <S.ViewProfile>
-         
-
-            <div className="triangule" />
-            <PopoverContainer 
-              triggerContent={ 
-                <UserProfile />
-              }
-              content={(
-                <S.SubMenuProfileContent>
-                  <S.SubMenuProfileLinkItem to={'/profile'}>
-                    <RiUser3Fill />
-                    <span>Meu perfil</span>
-                  </S.SubMenuProfileLinkItem>
-                  <S.SubMenuProfileButtonItem onClick={signOut}>
-                    <FiLogOut />
-                    <span>Sair da conta</span>
-                  </S.SubMenuProfileButtonItem>
-                </S.SubMenuProfileContent>
-              )} 
-            />
-              
+          <div className="triangule" />
+          <PopoverContainer 
+            triggerContent={ 
+              <UserProfile />
+            }
+            content={(
+              <S.SubMenuProfileContent>
+                <S.SubMenuProfileLinkItem to={'/profile'}>
+                  <RiUser3Fill />
+                  <span>Meu perfil</span>
+                </S.SubMenuProfileLinkItem>
+                <S.SubMenuProfileButtonItem onClick={signOut}>
+                  <FiLogOut />
+                  <span>Sair da conta</span>
+                </S.SubMenuProfileButtonItem>
+              </S.SubMenuProfileContent>
+            )} 
+          />
         </S.ViewProfile>
-
       </S.Content>
     </S.Container>
   );
