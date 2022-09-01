@@ -61,19 +61,16 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, html, #root {
-    min-width: 280px;
     position: relative;
     font-size: 62.5%;
 
-    background: ${BACKGROUND.PRIMARY};
-
-    height: 100vh;
-  }
-  body, html {
-    display: flex;
     width: 100%;
-    justify-content: center;
+    max-width: 1470px;
+    margin: 0 auto;
+    
+    background: ${BACKGROUND.PRIMARY};
   }
+
   #root {
     width: 100%;
     max-width: 1470px;

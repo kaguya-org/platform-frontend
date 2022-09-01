@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { Form } from '@unform/web';
 import { BACKGROUND, COLORS, FONTS_COLORS, SHADOW_COLORS } from '../../theme';
 
-export const Content = styled.main`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const Container = styled.div`
+`;
 
+export const Content = styled.main`
   width: 100%;
-  height: calc(100% - 61px);
-  margin-top: 61px;
+  height: calc(100% - 82px);
+  margin: 100px auto 0;
 
   nav.login_register_navigation {
     width: 100%;
@@ -52,11 +51,10 @@ export const FormContainer = styled.div`
   width: 100%;
   max-width: 46.0rem;
   height: 650px;
-  margin: 0 max(16px, min(64px, 2vw));
+  margin: 0 auto;
   border-radius: 0.8rem;
   background: ${BACKGROUND.SECONDARY};
 `
-
 
 export const FormTag = styled(Form)`
   > div {

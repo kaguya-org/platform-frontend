@@ -18,6 +18,7 @@ import { useBoolean } from '../../hooks/useBoolean';
 import { UserType } from '../../services/api';
 import { getValidationErrors } from '../../utils/getValidationErrors';
 import {
+  Container,
   Content,
   FormContainer,
   FormTag
@@ -74,12 +75,7 @@ export function Login() {
   };
 
   return (
-    <ContainerPage 
-      containerStyle={{
-        alignItems: 'center',
-        height: '100vh'
-      }}
-    >
+    <Container>
       <Header />
       <Content>
         <FormContainer>
@@ -146,6 +142,6 @@ export function Login() {
           </section>
         </FormContainer>
       </Content>
-    </ContainerPage>
+    </Container>
   );
 }
