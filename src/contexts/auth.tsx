@@ -13,7 +13,7 @@ type AuthContextData = {
   signIn(credentials: UserType.LoginParams): Promise<UserType.LoginResponse | undefined>;
   register(credentials: UserType.RegisterUserParams): Promise<UserType.RegisterUserResponse | undefined>;
   signOut(): void;
-  setUser: (user: UserType.User) => void;
+  setUser: (user: (user: UserType.User | null) => UserType.User | UserType.User | null) => void;
 }
 
 type AuthProviderProps = {
