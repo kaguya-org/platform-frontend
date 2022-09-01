@@ -14,6 +14,7 @@ import {
   Register,
   User,
 } from '@/pages';
+import { Profile } from '../user/Profile';
 
 export function Routers() {
   const { tokenIsValid } = useAuth();
@@ -30,6 +31,7 @@ export function Routers() {
       {/* Users private */}
       <Route element={<PrivateRoute />}>
         <Route element={<User.Dashboard />} path="/dashboard" />
+        <Route element={<Profile />} path="/profile" />
         <Route element={<User.Trail />} path="/trail/:trail_slug" />
         <Route element={<User.Playlist />} path="/trail/:trail_slug/playlist/:playlist_slug">
           <Route element={<User.Playlist />} path="block/:block_slug/lesson/:lesson_slug" />
